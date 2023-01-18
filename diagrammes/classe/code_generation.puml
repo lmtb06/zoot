@@ -1,0 +1,14 @@
+@startuml
+
+interface Generator {
+    + String ecrireEntier(string entier)
+    + String enteteProgramme()
+    + String finProgramme()
+}
+
+class MipsGenerator implements Generator {
+    + String ecrireEntier(string entier)
+    + String enteteProgramme()
+    + String finProgramme()
+}
+@enduml
