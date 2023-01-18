@@ -1,0 +1,11 @@
+# Ecrire
+li $v0, 8
+move $a0, $v0
+li $v0, 1
+syscall
+# Ecrire
+li $v0, 9
+move $a0, $v0
+li $v0, 1
+syscall
+
