@@ -1,0 +1,43 @@
+@startuml
+
+package arbre {
+
+   package expressions {
+      abstract class Expression extends ArbreAbstrait {
+         # Expression(int n)
+         + abstract String getMipsEcriture(Ecrire e)
+      }
+
+      abstract class Constante extends Expression {
+         String cste
+         # Constante(String texte, int n)
+         void verfier()
+      }
+
+      class ConstanteEntiere extends Constante{
+         ConstanteEntiere(String texte, int n)
+         String toMIPS()
+         + String getMipsEcriture(Ecrire e)
+      }
+   }
+
+   package instructions {
+      abstract class Instruction extends ArbreAbstrait {
+         # Instruction(int n)
+      }
+
+      class Ecrire extends Instruction {
+         Ecrire(int n)
+         void verifier()
+         String toMIPS()
+         String getMips(ConstanteEntiere ce)
+      }
+
+      Ecrire --"1" Expression
+   }
+
+}
+
+
+
+@enduml
