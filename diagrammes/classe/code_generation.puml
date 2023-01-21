@@ -18,13 +18,13 @@ namespace zoot.code_generation {
         - MipsGenerator()
         + MipsGenerator getInstance()
         .. Opérations ALU ..
-        + chargementImmediat(String registre, string valeur)
-        + copieRegistreRegistre(String registreSource, String registreDestination)
+        + String chargementImmediat(String registre, String valeur)
+        + String copieRegistreRegistre(String registreSource, String registreDestination)
         .. Gestion de la pile ..
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..
-        + String afficherEntier(String entier)
+        + String afficherEntierRegistre(String registre)
         .. Gestion du programme ..
         + String enteteProgramme()
         + String finProgramme()
