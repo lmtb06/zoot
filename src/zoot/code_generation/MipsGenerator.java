@@ -10,7 +10,7 @@ public class MipsGenerator {
 
     }
 
-    public MipsGenerator getInstance() {
+    public static MipsGenerator getInstance() {
         if (singleton == null)
             singleton = new MipsGenerator();
 
@@ -63,7 +63,7 @@ public class MipsGenerator {
      * d’un entier
      */
     public String afficherEntierRegistre(String registre) {
-        return copieRegistreRegistre("$a0", registre)+
+        return copieRegistreRegistre(registre, "$a0")+
                 chargementImmediat("$v0", "1")+
                 "syscall\n";
     }
