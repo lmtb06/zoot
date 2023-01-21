@@ -71,7 +71,7 @@ class MipsGeneratorTest {
         MipsGenerator generator = MipsGenerator.getInstance();
         String attendu = "end :\n" +
                 "# fin du programme\n" +
-                "li $v0, 0\n" +
+                "li $v0, 10\n" +
                 "syscall\n";
         assertEquals(attendu, generator.finProgramme());
     }

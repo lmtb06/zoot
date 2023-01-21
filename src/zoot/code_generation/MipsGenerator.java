@@ -56,6 +56,17 @@ public class MipsGenerator {
     }
 
     /**
+     * Retourne le code MIPS pour afficher un caractère
+     * @param valeur le code ASCII du caractère
+     * @return le code MIPS pour afficher un caractère
+     */
+    public String afficherCaractere(String valeur) {
+        return chargementImmediat("$a0", valeur) +
+                chargementImmediat("$v0", "11")+
+                "syscall\n";
+    }
+
+    /**
      * Retourne le code MIPS pour afficher le contenu d’un registre sous la forme
      * d’un entier
      * @param registre Le registre
@@ -66,6 +77,10 @@ public class MipsGenerator {
         return copieRegistreRegistre(registre, "$a0")+
                 chargementImmediat("$v0", "1")+
                 "syscall\n";
+    }
+
+    public String afficherRetourLigne() {
+        return afficherCaractere("10");
     }
 
     /**
@@ -86,7 +101,7 @@ public class MipsGenerator {
     public String finProgramme() {
         return "end :\n" +
                 "# fin du programme\n" +
-                chargementImmediat("$v0", "0") +
+                chargementImmediat("$v0", "10") +
                 "syscall\n";
     }
 }

@@ -1,6 +1,7 @@
 package zoot.arbre;
 
 import zoot.arbre.instructions.Instruction;
+import zoot.code_generation.MipsGenerator;
 
 import java.util.ArrayList;
 
@@ -25,23 +26,19 @@ public class BlocDInstructions extends ArbreAbstrait {
 
     @Override
     public void verifier() {
-
+        // throw new UnsupportedOperationException("fonction verfier non définie ");
     }
     
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder();
-        sb.append(".text\n" +
-                "main :\n" +
-                "    # initialiser s7 avec sp (initialisation de la base des variables)\n" +
-                "    move $s7, $sp\n");
+        sb.append(MipsGenerator.getInstance().enteteProgramme());
+
         for (Instruction instruction : programme) {
             sb.append(instruction.toMIPS());
         }
-        sb.append("end :\n" +
-                "    # fin du programme\n" +
-                "    li $v0, 10      # retour au syst�me\n" +
-                "    syscall ");
+
+        sb.append(MipsGenerator.getInstance().finProgramme());
 
         return sb.toString();
     }

@@ -24,7 +24,9 @@ namespace zoot.code_generation {
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..
+        + String afficherCaractere(String valeur)
         + String afficherEntierRegistre(String registre)
+        + String afficherRetourLigne()
         .. Gestion du programme ..
         + String enteteProgramme()
         + String finProgramme()

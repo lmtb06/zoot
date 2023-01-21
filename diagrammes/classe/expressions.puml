@@ -17,7 +17,7 @@ namespace zoot.arbre.expressions {
 
     abstract class Expression {
         # Expression(int n)
-        + String getMIPSAffichage()
+        + abstract String getMIPSAffichage()
     }
     ' Relations entre les classes
     Constante -up-|> Expression
