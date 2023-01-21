@@ -1,0 +1,28 @@
+@startuml "Package expressions"
+namespace zoot.arbre.expressions {
+    ' Includes
+    ' Classes
+    abstract class Constante {
+        # String cste
+        # Constante(String texte, int n)
+        + void verifier()
+        + String toString()
+    }
+
+    class ConstanteEntiere {
+        + ConstanteEntiere(String texte, int n)
+        + String toMIPS()
+        + String getMIPSAffichage()
+    }
+
+    abstract class Expression {
+        # Expression(int n)
+        + String getMIPSAffichage()
+    }
+    ' Relations entre les classes
+    Constante -up-|> Expression
+    ConstanteEntiere -right-|> Constante
+    Expression -up-|> zoot.arbre.ArbreAbstrait
+    ConstanteEntiere .up.> zoot.code_generation.MipsGenerator
+}
+@enduml

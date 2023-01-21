@@ -1,43 +1,29 @@
-@startuml
+@startuml "Package arbre"
 
-package arbre {
+namespace zoot.arbre {
+    ' Includes
+    !include expressions.puml
+    !include instructions.puml
+    ' Classes
+    abstract class ArbreAbstrait {
+      # int noLigne
+      # ArbreAbstrait(int n)
+      + int getNoLigne()
+      + abstract void verifier()
+      + abstract String toMIPS()
+    }
 
-   package expressions {
-      abstract class Expression extends ArbreAbstrait {
-         # Expression(int n)
-         + abstract String getMipsEcriture(Ecrire e)
-      }
-
-      abstract class Constante extends Expression {
-         String cste
-         # Constante(String texte, int n)
-         void verfier()
-      }
-
-      class ConstanteEntiere extends Constante{
-         ConstanteEntiere(String texte, int n)
-         String toMIPS()
-         + String getMipsEcriture(Ecrire e)
-      }
-   }
-
-   package instructions {
-      abstract class Instruction extends ArbreAbstrait {
-         # Instruction(int n)
-      }
-
-      class Ecrire extends Instruction {
-         Ecrire(int n)
-         void verifier()
-         String toMIPS()
-         String getMips(ConstanteEntiere ce)
-      }
-
-      Ecrire --"1" Expression
-   }
-
+    class BlocDInstructions {
+      + BlocDInstructions(int n)
+      + void ajouter(Instruction i)
+      + void verifier()
+      + String toMIPS()
+      + String toString()
+    }
+    ' Relations entre les classes
+    BlocDInstructions -up-|> ArbreAbstrait
+    BlocDInstructions "1"--"*" zoot.arbre.instructions.Instruction
+    BlocDInstructions ..> zoot.code_generation.MipsGenerator
 }
-
-
 
 @enduml

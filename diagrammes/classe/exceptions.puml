@@ -1,0 +1,23 @@
+@startuml "Package exceptions"
+
+namespace zoot.exceptions {
+    ' Includes
+    ' Classes
+    abstract class AnalyseException {
+        # AnalyseException(String m)
+    }
+
+    class AnalyseLexicaleException {
+        + AnalyseLexicaleException(int ligne, int colonne, String m)
+    }
+
+    class AnalyseSyntaxiqueException {
+        + AnalyseSyntaxiqueException(String m)
+    }
+
+    ' Relations entre les classes
+    AnalyseException -up-|> RuntimeException
+    AnalyseLexicaleException -up-|> AnalyseException
+    AnalyseSyntaxiqueException -up-|> AnalyseException
+}
+@enduml

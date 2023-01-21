@@ -1,14 +1,38 @@
-@startuml
+@startuml "Package code_generation"
 
-interface Generator {
-    + String ecrireEntier(string entier)
-    + String enteteProgramme()
-    + String finProgramme()
-}
+namespace zoot.code_generation {
+    ' Includes
+    ' Classes
+    enum Registre {
+        .. Identifiants ..
+        POINTEUR_PILE
+        POINTEUR_DEBUT_ZONE_PILE
+        STOCKAGE_TEMPORAIRE
+        STOCKAGE_RESULTAT
+        .. Reste ..
+        + String valeur
+        - Registre(String valeur)
+    }
 
-class MipsGenerator implements Generator {
-    + String ecrireEntier(string entier)
-    + String enteteProgramme()
-    + String finProgramme()
+    class MipsGenerator {
+        - MipsGenerator()
+        + MipsGenerator getInstance()
+        .. Opérations ALU ..
+        + chargementImmediat(String registre, string valeur)
+        + copieRegistreRegistre(String registreSource, String registreDestination)
+        .. Gestion de la pile ..
+        + String reserverOctetsPile(int nbOctets)
+        + String libererOctetsPile(int nbOctets)
+        .. Gestion de l'affichage ..
+        + String afficherEntier(String entier)
+        .. Gestion du programme ..
+        + String enteteProgramme()
+        + String finProgramme()
+    }
+
+    ' Relations entre les classes
+    MipsGenerator -right-"1" MipsGenerator : statique
+    MipsGenerator .left.> Registre
+
 }
 @enduml

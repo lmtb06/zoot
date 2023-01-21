@@ -1,0 +1,8 @@
+@startuml "Package analyse"
+
+namespace zoot.analyse {
+    ' Includes
+    ' Classes
+    ' Relations entre les classes
+}
+@enduml
