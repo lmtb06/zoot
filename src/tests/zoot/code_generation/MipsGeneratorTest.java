@@ -75,4 +75,24 @@ class MipsGeneratorTest {
                 "syscall\n";
         assertEquals(attendu, generator.finProgramme());
     }
+
+    @Test
+    void afficherCaractere() {
+        // Afficher A : ASCII = 65
+        MipsGenerator generator = MipsGenerator.getInstance();
+        String attendu = "li $a0, 65\n" +
+                "li $v0, 11\n" +
+                "syscall\n";
+        assertEquals(attendu, generator.afficherCaractere("65"));
+    }
+
+    @Test
+    void afficherRetourLigne() {
+        // Afficher saut à la ligne (\n) : ASCII = 10
+        MipsGenerator generator = MipsGenerator.getInstance();
+        String attendu = "li $a0, 10\n" +
+                "li $v0, 11\n" +
+                "syscall\n";
+        assertEquals(attendu, generator.afficherRetourLigne());
+    }
 }

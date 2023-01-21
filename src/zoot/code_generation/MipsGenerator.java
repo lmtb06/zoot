@@ -79,6 +79,10 @@ public class MipsGenerator {
                 "syscall\n";
     }
 
+    /**
+     * Retourne le code MIPS pour faire un saut à la ligne
+     * @return Le code MIPS pour faire un saut à la ligne
+     */
     public String afficherRetourLigne() {
         return afficherCaractere("10");
     }

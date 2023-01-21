@@ -14,9 +14,13 @@ public class Ecrire extends Instruction {
 
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ");
+        throw new UnsupportedOperationException("fonction verifier non définie ");
     }
 
+    /**
+     * Retourne le code MIPS pour afficher le résultat de l’évaluation d’une expression et sauter à la ligne
+     * @return Le code MIPS pour afficher le résultat de l’evaluation d’une expression et sauter à la ligne
+     */
     @Override
     public String toMIPS() {
         return exp.getMIPSAffichage() +

@@ -16,7 +16,35 @@ class BlocDInstructionsTest {
         blocDInstructions.ajouter(new Ecrire(new ConstanteEntiere("0", 1), 1));
         blocDInstructions.ajouter(new Ecrire(new ConstanteEntiere("-42", 1), 1));
 
-        String attendu = "# Ecrire\nli $v0, 42\nmove $a0, $v0\nli $v0, 1\nsyscall\n# Ecrire\nli $v0, 0\nmove $a0, $v0\nli $v0, 1\nsyscall\n# Ecrire\nli $v0, -42\nmove $a0, $v0\nli $v0, 1\nsyscall\n";
+        String attendu = ".text\n" +
+                "main :\n" +
+                "# début du programme\n" +
+                "move $s7, $sp\n" +
+                "li $v0, 42\n" +
+                "move $a0, $v0\n" +
+                "li $v0, 1\n" +
+                "syscall\n" +
+                "li $a0, 10\n" +
+                "li $v0, 11\n" +
+                "syscall\n" +
+                "li $v0, 0\n" +
+                "move $a0, $v0\n" +
+                "li $v0, 1\n" +
+                "syscall\n" +
+                "li $a0, 10\n" +
+                "li $v0, 11\n" +
+                "syscall\n" +
+                "li $v0, -42\n" +
+                "move $a0, $v0\n" +
+                "li $v0, 1\n" +
+                "syscall\n" +
+                "li $a0, 10\n" +
+                "li $v0, 11\n" +
+                "syscall\n" +
+                "end :\n" +
+                "# fin du programme\n" +
+                "li $v0, 10\n" +
+                "syscall\n";
 
         assertEquals(attendu, blocDInstructions.toMIPS());
     }
@@ -25,7 +53,14 @@ class BlocDInstructionsTest {
     void toMIPS_vide() {
         BlocDInstructions blocDInstructions = new BlocDInstructions(0);
 
-        String attendu = "";
+        String attendu = ".text\n" +
+                "main :\n" +
+                "# début du programme\n" +
+                "move $s7, $sp\n" +
+                "end :\n" +
+                "# fin du programme\n" +
+                "li $v0, 10\n" +
+                "syscall\n";
 
         assertEquals(attendu, blocDInstructions.toMIPS());
     }
@@ -36,7 +71,21 @@ class BlocDInstructionsTest {
 
         blocDInstructions.ajouter(new Ecrire(new ConstanteEntiere("42", 1), 1));
 
-        String attendu = "# Ecrire\nli $v0, 42\nmove $a0, $v0\nli $v0, 1\nsyscall\n";
+        String attendu = ".text\n" +
+                "main :\n" +
+                "# début du programme\n" +
+                "move $s7, $sp\n" +
+                "li $v0, 42\n" +
+                "move $a0, $v0\n" +
+                "li $v0, 1\n" +
+                "syscall\n" +
+                "li $a0, 10\n" +
+                "li $v0, 11\n" +
+                "syscall\n" +
+                "end :\n" +
+                "# fin du programme\n" +
+                "li $v0, 10\n" +
+                "syscall\n";
 
         assertEquals(attendu, blocDInstructions.toMIPS());
     }
