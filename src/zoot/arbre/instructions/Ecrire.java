@@ -27,5 +27,4 @@ public class Ecrire extends Instruction {
         return exp.toMIPS()
                 + MipsGenerator.getInstance().afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
-
 }
