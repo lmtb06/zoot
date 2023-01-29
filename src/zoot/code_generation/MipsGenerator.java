@@ -76,7 +76,8 @@ public class MipsGenerator {
     public String afficherEntierRegistre(String registre) {
         return copieRegistreRegistre(registre, "$a0")+
                 chargementImmediat("$v0", "1")+
-                "syscall\n";
+                "syscall\n" +
+                afficherRetourLigne();
     }
 
     /**

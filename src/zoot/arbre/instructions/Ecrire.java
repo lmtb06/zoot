@@ -2,6 +2,7 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
 import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
 
 public class Ecrire extends Instruction {
 
@@ -14,7 +15,7 @@ public class Ecrire extends Instruction {
 
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verifier non définie ");
+        //throw new UnsupportedOperationException("fonction verfier non définie ");
     }
 
     /**
@@ -23,8 +24,8 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-        return exp.getMIPSAffichage() +
-                MipsGenerator.getInstance().afficherRetourLigne();
+        return exp.toMIPS()
+                + MipsGenerator.getInstance().afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 
 }

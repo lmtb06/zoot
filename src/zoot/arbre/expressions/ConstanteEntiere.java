@@ -10,14 +10,12 @@ public class ConstanteEntiere extends Constante {
     }
 
     @Override
-    public String toMIPS() {
-        return MipsGenerator.getInstance().chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
+    public void verifier() {
+
     }
 
     @Override
-    public String getMIPSAffichage() {
-        // évalue son code dans v0 avant de l’afficher
-        return toMIPS() +
-                MipsGenerator.getInstance().afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
+    public String toMIPS() {
+        return MipsGenerator.getInstance().chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
     }
 }

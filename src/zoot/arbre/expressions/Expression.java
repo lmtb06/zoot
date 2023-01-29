@@ -8,5 +8,5 @@ public abstract class Expression extends ArbreAbstrait {
         super(n) ;
     }
 
-    public abstract String getMIPSAffichage();
+    public abstract String toMIPS();
 }

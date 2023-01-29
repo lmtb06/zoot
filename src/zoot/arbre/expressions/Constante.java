@@ -8,10 +8,10 @@ public abstract class Constante extends Expression {
         super(n) ;
         cste = texte ;
     }
-    
+
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ");
+        //throw new UnsupportedOperationException("fonction verfier non définie ") ;
     }
 
     @Override
