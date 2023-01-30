@@ -23,7 +23,7 @@ namespace zoot.arbre {
     ' Relations entre les classes
     BlocDInstructions -up-|> ArbreAbstrait
     BlocDInstructions "1"--"*" zoot.arbre.instructions.Instruction
-    BlocDInstructions ..> zoot.code_generation.MipsGenerator
+    ArbreAbstrait --"1" zoot.code_generation.MipsGenerator
 }
 
 @enduml

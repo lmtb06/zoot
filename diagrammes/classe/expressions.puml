@@ -11,13 +11,12 @@ namespace zoot.arbre.expressions {
 
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
+        + void verifier()
         + String toMIPS()
-        + String getMIPSAffichage()
     }
 
     abstract class Expression {
         # Expression(int n)
-        + abstract String getMIPSAffichage()
     }
     ' Relations entre les classes
     Constante -up-|> Expression

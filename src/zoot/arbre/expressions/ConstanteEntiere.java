@@ -1,6 +1,5 @@
 package zoot.arbre.expressions;
 
-import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 
 public class ConstanteEntiere extends Constante {
@@ -11,11 +10,11 @@ public class ConstanteEntiere extends Constante {
 
     @Override
     public void verifier() {
-
+        //throw new UnsupportedOperationException("fonction verfier non définie ") ;
     }
 
     @Override
     public String toMIPS() {
-        return MipsGenerator.getInstance().chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
+        return mipsGenerator.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
     }
 }

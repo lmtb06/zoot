@@ -1,7 +1,6 @@
 package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
-import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 
 public class Ecrire extends Instruction {
@@ -25,6 +24,6 @@ public class Ecrire extends Instruction {
     @Override
     public String toMIPS() {
         return exp.toMIPS()
-                + MipsGenerator.getInstance().afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
+                + mipsGenerator.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 }

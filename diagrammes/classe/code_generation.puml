@@ -3,18 +3,18 @@
 namespace zoot.code_generation {
     ' Includes
     ' Classes
-    enum Registre {
+    enum Registre{
         .. Identifiants ..
         POINTEUR_PILE
         POINTEUR_DEBUT_ZONE_PILE
         STOCKAGE_TEMPORAIRE
         STOCKAGE_RESULTAT
-        .. Reste ..
+        .. Définition Objet ..
         + String valeur
         - Registre(String valeur)
     }
 
-    class MipsGenerator {
+    class MipsGenerator << (S,#FF7700) >> {
         - MipsGenerator()
         + MipsGenerator getInstance()
         .. Opérations ALU ..

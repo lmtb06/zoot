@@ -1,7 +1,6 @@
 package zoot.arbre;
 
 import zoot.arbre.instructions.Instruction;
-import zoot.code_generation.MipsGenerator;
 
 import java.util.ArrayList;
 
@@ -32,13 +31,13 @@ public class BlocDInstructions extends ArbreAbstrait {
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder();
-        sb.append(MipsGenerator.getInstance().enteteProgramme());
+        sb.append(mipsGenerator.enteteProgramme());
 
         for (Instruction instruction : programme) {
             sb.append(instruction.toMIPS());
         }
 
-        sb.append(MipsGenerator.getInstance().finProgramme());
+        sb.append(mipsGenerator.finProgramme());
 
         return sb.toString();
     }
