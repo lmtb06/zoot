@@ -1,6 +1,5 @@
 package zoot.arbre.expressions;
 
-import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 
 public class ConstanteEntiere extends Constante {
