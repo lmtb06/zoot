@@ -1,5 +1,8 @@
 package zoot.arbre.expressions;
 
+import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
+
 public class ConstanteEntiere extends Constante {
     
     public ConstanteEntiere(String texte, int n) {
@@ -13,10 +16,10 @@ public class ConstanteEntiere extends Constante {
 
     /**
      * Donne le code MIPS associé à ConstanteEntiere
-     * @return la constante
+     * @return la constante dans Registre.STOCKAGE_RESULTAT.valeur
      */
     @Override
     public String toMIPS() {
-        return cste;
+        return mipsGenerator.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
     }
 }

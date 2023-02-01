@@ -23,7 +23,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-        return mipsGenerator.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, exp.toMIPS())
+        return exp.toMIPS()
                 + mipsGenerator.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 }
