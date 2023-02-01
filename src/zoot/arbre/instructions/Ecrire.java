@@ -18,12 +18,12 @@ public class Ecrire extends Instruction {
     }
 
     /**
-     * Retourne le code MIPS pour afficher le résultat de l’évaluation d’une expression et sauter à la ligne
-     * @return Le code MIPS pour afficher le résultat de l’evaluation d’une expression et sauter à la ligne
+     * Génère le code MIPS pour afficher notre Expression exp et sauter à la ligne
+     * @return Génère le code MIPS pour afficher notre Expression exp et sauter à la ligne
      */
     @Override
     public String toMIPS() {
-        return exp.toMIPS()
+        return mipsGenerator.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, exp.toMIPS())
                 + mipsGenerator.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 }

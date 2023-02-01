@@ -2,7 +2,6 @@ package zoot.arbre.expressions;
 
 
 import org.junit.jupiter.api.Test;
-import zoot.code_generation.Registre;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +12,7 @@ class ConstanteEntiereTest {
     void toMIPS_positif() {
         ConstanteEntiere constanteEntiere = new ConstanteEntiere("42", 0);
 
-        assertEquals("li " + Registre.STOCKAGE_RESULTAT.valeur + ", 42\n", constanteEntiere.toMIPS());
+        assertEquals("42", constanteEntiere.toMIPS());
     }
 
     @Test
@@ -21,7 +20,7 @@ class ConstanteEntiereTest {
     {
         ConstanteEntiere constanteEntiere = new ConstanteEntiere("0", 0);
 
-        assertEquals("li " + Registre.STOCKAGE_RESULTAT.valeur + ", 0\n", constanteEntiere.toMIPS());
+        assertEquals("0", constanteEntiere.toMIPS());
     }
 
     @Test
@@ -29,6 +28,6 @@ class ConstanteEntiereTest {
     {
         ConstanteEntiere constanteEntiere = new ConstanteEntiere("-42", 0);
 
-        assertEquals("li " + Registre.STOCKAGE_RESULTAT.valeur + ", -42\n", constanteEntiere.toMIPS());
+        assertEquals("-42", constanteEntiere.toMIPS());
     }
 }

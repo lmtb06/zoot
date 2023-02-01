@@ -1,7 +1,5 @@
 package zoot.arbre.expressions;
 
-import zoot.code_generation.Registre;
-
 public class ConstanteEntiere extends Constante {
     
     public ConstanteEntiere(String texte, int n) {
@@ -13,8 +11,12 @@ public class ConstanteEntiere extends Constante {
         //throw new UnsupportedOperationException("fonction verfier non définie ") ;
     }
 
+    /**
+     * Donne le code MIPS associé à ConstanteEntiere
+     * @return la constante
+     */
     @Override
     public String toMIPS() {
-        return mipsGenerator.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
+        return cste;
     }
 }

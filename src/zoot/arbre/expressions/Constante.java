@@ -14,6 +14,10 @@ public abstract class Constante extends Expression {
         //throw new UnsupportedOperationException("fonction verfier non définie ") ;
     }
 
+    /**
+     * Donne Constante sous forme de String
+     * @return cste la constante
+     */
     @Override
     public String toString() {
         return cste;
