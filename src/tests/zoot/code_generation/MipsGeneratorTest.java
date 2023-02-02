@@ -95,4 +95,52 @@ class MipsGeneratorTest {
                 "syscall\n";
         assertEquals(attendu, generator.afficherRetourLigne());
     }
+
+    @Test
+    void chargementImmediat() {
+    }
+
+    @Test
+    void chargementAdresse() {
+    }
+
+    @Test
+    void testCopieRegistreRegistre() {
+    }
+
+    @Test
+    void sauvegarderRegistre() {
+    }
+
+    @Test
+    void testReserverOctetsPile() {
+    }
+
+    @Test
+    void testLibererOctetsPile() {
+    }
+
+    @Test
+    void testAfficherCaractere() {
+    }
+
+    @Test
+    void testAfficherEntierRegistre() {
+    }
+
+    @Test
+    void afficherBooleenRegistre() {
+    }
+
+    @Test
+    void testAfficherRetourLigne() {
+    }
+
+    @Test
+    void testEnteteProgramme() {
+    }
+
+    @Test
+    void testFinProgramme() {
+    }
 }
