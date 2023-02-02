@@ -1,5 +1,7 @@
 package zoot.code_generation;
 
+import zoot.arbre.expressions.Expression;
+
 /**
  * Singleton utilisé pour centraliser la gestion du code MIPS
  * Chaque fonction se chargera de mettre les sauts à la ligne, dernière ligne comprise
@@ -25,10 +27,21 @@ public class MipsGenerator {
      * Retourne le code MIPS pour le chargement immédiat de valeur dans registre
      * @param registre Le registre cible
      * @param valeur La valeur à charger
-     * @ return Le code MIPS pour le chargement immédiat
+     * @return Le code MIPS pour le chargement immédiat
      */
     public String chargementImmediat(String registre, String valeur) {
         return "li " + registre + ", " + valeur + "\n";
+    }
+
+    /**
+     * Retourne le code MIPS pour le chargement d'adresse d'un registre
+     * @param registre Le registre cible
+     * @param valeur la valeur à charger (registre ou string présent dans le .data)
+     * @return Le code MIPS pour le chargement par adresse
+     */
+    public String chargementAdresse(String registre, String valeur)
+    {
+        throw new UnsupportedOperationException("Non-implémenté");
     }
 
     /**
@@ -39,6 +52,17 @@ public class MipsGenerator {
      */
     public String copieRegistreRegistre(String registreSource, String registreDestination) {
         return "move " + registreDestination + ", " + registreSource + "\n";
+    }
+
+    /**
+     * Retourne le code MIPS associé à l'affectation de l'expression à la variable nommé nom
+     * @param nom le nom de la variable
+     * @param expression l'expression
+     * @return Le code MIPS associé à l'affection de l'expression à la variable nommé nom
+     */
+    public String affectation(String nom, Expression expression)
+    {
+        throw new UnsupportedOperationException("Non-implémenté");
     }
 
     /**
@@ -81,6 +105,17 @@ public class MipsGenerator {
         return copieRegistreRegistre(registre, "$a0")+
                 chargementImmediat("$v0", "1")+
                 "syscall\n";
+    }
+
+    /**
+     * Retourne le code MIPS pour afficher le contenu d’un registre sous la forme
+     * d’un booléeen
+     * @param registre Le registre
+     * @return Le code MIPS pour afficher le contenu d’un registre sous la forme
+     * d’un booléen
+     */
+    public String afficherBooleenRegistre(String registre) {
+        throw new UnsupportedOperationException("Non-implémenté");
     }
 
     /**
