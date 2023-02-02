@@ -55,7 +55,7 @@ public class MipsGenerator {
      */
     public String sauvegarderRegistre(String registreSource, String registreDestination)
     {
-        throw new UnsupportedOperationException("Non-implémenté");
+        return "sw " + registreSource + ", " + registreDestination + "\n";
     }
 
     /**
