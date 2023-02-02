@@ -3,28 +3,30 @@
 namespace zoot.code_generation {
     ' Includes
     ' Classes
-    enum Registre {
+    enum Registre{
         .. Identifiants ..
         POINTEUR_PILE
         POINTEUR_DEBUT_ZONE_PILE
         STOCKAGE_TEMPORAIRE
         STOCKAGE_RESULTAT
-        .. Reste ..
+        .. Définition Objet ..
         + String valeur
         - Registre(String valeur)
     }
 
-    class MipsGenerator {
+    class MipsGenerator << (S,#FF7700) >> {
         - MipsGenerator()
         + MipsGenerator getInstance()
         .. Opérations ALU ..
-        + chargementImmediat(String registre, string valeur)
-        + copieRegistreRegistre(String registreSource, String registreDestination)
+        + String chargementImmediat(String registre, String valeur)
+        + String copieRegistreRegistre(String registreSource, String registreDestination)
         .. Gestion de la pile ..
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..
-        + String afficherEntier(String entier)
+        + String afficherCaractere(String valeur)
+        + String afficherEntierRegistre(String registre)
+        + String afficherRetourLigne()
         .. Gestion du programme ..
         + String enteteProgramme()
         + String finProgramme()

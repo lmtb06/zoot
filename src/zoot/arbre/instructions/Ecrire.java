@@ -1,35 +1,45 @@
 package zoot.arbre.instructions;
 
-import zoot.arbre.expressions.ConstanteEntiere;
 import zoot.arbre.expressions.Expression;
+import zoot.code_generation.MipsGenerator;
 
+/**
+ * {@inheritDoc}
+ * Représente une instruction d'ecriture du résultat d'une expression.
+ */
 public class Ecrire extends Instruction {
 
+    /**
+     * L'expression dont il faut écrire le résultat.
+     */
     protected Expression exp ;
 
+    /**
+     *
+     * @param e L'expression dont il faut écrire le résultat.
+     * @param n La ligne du début de l'instruction dans le code zoot.
+     */
     public Ecrire (Expression e, int n) {
         super(n) ;
         exp = e ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ");
+        throw new UnsupportedOperationException("fonction verifier non définie ");
     }
 
+    /**
+     * {@inheritDoc}
+     * Fait un saut à la ligne une fois le résultat affiché.
+     */
     @Override
     public String toMIPS() {
-        return exp.getMipsEcriture(this) + "# Affichage saut\n" +
-                "li $a0,  10\n" +
-                "li $v0,    11          # code 11 syscall pour affichage caractère\n" +
-                "syscall";
+        return exp.getMIPSAffichage() +
+                MipsGenerator.getInstance().afficherRetourLigne();
     }
 
-    public String getMips(ConstanteEntiere ce){
-        return "# Ecrire\n" +
-                ce.toMIPS() +
-                "move $a0, $v0\n" +
-                "li $v0, 1\n" +
-                "syscall\n";
-    }
 }

@@ -1,13 +1,18 @@
 package zoot.arbre.expressions;
 
 import zoot.arbre.ArbreAbstrait;
-import zoot.arbre.instructions.Ecrire;
 
+/**
+ * Représente une expression dans l'arbre abstrait
+ */
 public abstract class Expression extends ArbreAbstrait {
-    
+
+    /**
+     * {@inheritDoc}
+     */
     protected Expression(int n) {
         super(n) ;
     }
 
-    public abstract String getMipsEcriture(Ecrire e);
+    public abstract String getMIPSAffichage();
 }

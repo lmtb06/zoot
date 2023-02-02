@@ -31,7 +31,7 @@ import zoot.exceptions.AnalyseLexicaleException;
   }
 %}
 
-csteE = [0-9]+
+csteE = -?[0-9]+
 finDeLigne = \r|\n
 espace = {finDeLigne}  | [ \t\f]
 
