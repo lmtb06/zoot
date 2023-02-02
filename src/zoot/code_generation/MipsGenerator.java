@@ -1,7 +1,5 @@
 package zoot.code_generation;
 
-import zoot.arbre.expressions.Expression;
-
 /**
  * Singleton utilisé pour centraliser la gestion du code MIPS
  * Chaque fonction se chargera de mettre les sauts à la ligne, dernière ligne comprise
@@ -41,7 +39,7 @@ public class MipsGenerator {
      */
     public String chargementAdresse(String registre, String valeur)
     {
-        throw new UnsupportedOperationException("Non-implémenté");
+        return "la " + registre + ", " + valeur + "\n";
     }
 
     /**
@@ -55,12 +53,13 @@ public class MipsGenerator {
     }
 
     /**
-     * Retourne le code MIPS associé à l'affectation de l'expression à la variable nommé nom
-     * @param nom le nom de la variable
-     * @param expression l'expression
-     * @return Le code MIPS associé à l'affection de l'expression à la variable nommé nom
+     * Retourner le code MIPS associé à la sauvegarder d'un registre dans un autre
+     * (Avec ou sans déplacement)
+     * @param registreSource le registre de départ
+     * @param registreDestination le registre de destination
+     * @return Le code MIPS associé à la sauvegarder d'un registre dans un autre
      */
-    public String affectation(String nom, Expression expression)
+    public String sauvegarderRegistre(String registreSource, String registreDestination)
     {
         throw new UnsupportedOperationException("Non-implémenté");
     }
@@ -115,7 +114,9 @@ public class MipsGenerator {
      * d’un booléen
      */
     public String afficherBooleenRegistre(String registre) {
-        throw new UnsupportedOperationException("Non-implémenté");
+        return copieRegistreRegistre(registre, "$a0")+
+                chargementImmediat("$v0", "4")+
+                "syscall\n";
     }
 
     /**
