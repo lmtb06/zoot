@@ -13,4 +13,6 @@ public abstract class Expression extends ArbreAbstrait {
     protected Expression(int n) {
         super(n) ;
     }
+
+    public abstract String getMIPSAffichage();
 }

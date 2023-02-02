@@ -1,5 +1,6 @@
 package zoot.arbre.expressions;
 
+import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 
 /**
@@ -20,16 +21,14 @@ public class ConstanteEntiere extends Constante {
      * {@inheritDoc}
      */
     @Override
-    public void verifier() {
-        //throw new UnsupportedOperationException("fonction verfier non définie ") ;
+    public String toMIPS() {
+        return MipsGenerator.getInstance().chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
     }
 
-    /**
-     * Donne le code MIPS associé à ConstanteEntiere
-     * @return la constante dans Registre.STOCKAGE_RESULTAT.valeur
-     */
     @Override
-    public String toMIPS() {
-        return mipsGenerator.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
+    public String getMIPSAffichage() {
+        // évalue son code dans v0 avant de l’afficher
+        return toMIPS() +
+                MipsGenerator.getInstance().afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 }

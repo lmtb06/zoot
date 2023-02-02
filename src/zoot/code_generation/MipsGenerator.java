@@ -5,13 +5,19 @@ package zoot.code_generation;
  * Chaque fonction se chargera de mettre les sauts à la ligne, dernière ligne comprise
  */
 public class MipsGenerator {
-    private static final MipsGenerator singleton = new MipsGenerator();
+    private static MipsGenerator singleton = null;
+    private MipsGenerator() {
+
+    }
 
     /**
      * Permet de récuperer l'instance du singleton
      * @return l'instance du singleton
      */
     public static MipsGenerator getInstance() {
+        if (singleton == null)
+            singleton = new MipsGenerator();
+
         return singleton;
     }
 
@@ -74,8 +80,7 @@ public class MipsGenerator {
     public String afficherEntierRegistre(String registre) {
         return copieRegistreRegistre(registre, "$a0")+
                 chargementImmediat("$v0", "1")+
-                "syscall\n" +
-                afficherRetourLigne();
+                "syscall\n";
     }
 
     /**

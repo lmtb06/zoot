@@ -51,10 +51,7 @@ class MipsGeneratorTest {
         MipsGenerator generator = MipsGenerator.getInstance();
         String attendu = "move $a0, $v0\n" +
                 "li $v0, 1\n" +
-                "syscall\n" + // affichage du contenu de $v0
-                "li $a0, 10\n" + // Retour à la ligne
-                "li $v0, 11\n" +
-                "syscall\n";
+                "syscall\n"; // affichage du contenu de $v0
         assertEquals(attendu, generator.afficherEntierRegistre("$v0"));
     }
 
