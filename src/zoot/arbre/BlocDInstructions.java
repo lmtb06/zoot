@@ -1,12 +1,13 @@
 package zoot.arbre;
 
 import zoot.arbre.instructions.Instruction;
+import zoot.code_generation.MipsGenerator;
 
 import java.util.ArrayList;
 
 /**
  * 21 novembre 2018
- *
+ * Représente un bloc d'instruction dans l'arbre abstrait.
  * @author brigitte wrobel-dautcourt
  */
 
@@ -14,45 +15,50 @@ public class BlocDInstructions extends ArbreAbstrait {
     
     protected ArrayList<Instruction> programme ;
 
+    /**
+     * Constructeur.
+     * @param n la ligne du début du bloc d'instruction dans le code zoot.
+     */
     public BlocDInstructions(int n) {
         super(n) ;
         programme = new ArrayList<>() ;
     }
 
     /**
-     * Ajoute une instruction au BlocDInstruction
-     * @param i une Instruction
+     * Ajoute une instruction au bloc d'instruction.
+     * @param i l'instruction à ajouter.
      */
     public void ajouter(Instruction i) {
         programme.add(i) ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void verifier() {
         // throw new UnsupportedOperationException("fonction verfier non définie ");
     }
 
     /**
-     * Génère le code MIPS de notre BlocDInstruction
-     * @return Le code MIPS associé à notre BlocDInstruction
+     * {@inheritDoc}
      */
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder();
-        sb.append(mipsGenerator.enteteProgramme());
+        sb.append(MipsGenerator.getInstance().enteteProgramme());
 
         for (Instruction instruction : programme) {
             sb.append(instruction.toMIPS());
         }
 
-        sb.append(mipsGenerator.finProgramme());
+        sb.append(MipsGenerator.getInstance().finProgramme());
 
         return sb.toString();
     }
 
     /**
-     * Retourne une String associé à BlocDInstruction
-     * @return la String associé programme
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
