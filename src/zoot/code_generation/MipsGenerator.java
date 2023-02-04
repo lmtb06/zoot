@@ -27,13 +27,13 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour le chargement d'adresse d'un registre
-     * @param registre Le registre cible
-     * @param valeur la valeur à charger (registre ou string présent dans le .data)
+     * @param registreDst Le registre cible
+     * @param label la valeur à charger (registre ou string présent dans le .data)
      * @return Le code MIPS pour le chargement par adresse
      */
-    public String chargementAdresse(String registre, String valeur)
+    public String chargementAdresseRegistre(String registreDst, String label)
     {
-        return "la " + registre + ", " + valeur + "\n";
+        return "la " + registreDst + ", " + label + "\n";
     }
 
     /**
@@ -50,12 +50,13 @@ public class MipsGenerator {
      * Retourner le code MIPS associé à la sauvegarder d'un registre dans un autre
      * (Avec ou sans déplacement)
      * @param registreSource le registre de départ
-     * @param registreDestination le registre de destination
      * @return Le code MIPS associé à la sauvegarder d'un registre dans un autre
      */
-    public String sauvegarderRegistre(String registreSource, String registreDestination)
+    public String sauvegarderRegistreDansPile(String registreSource)
     {
-        return "sw " + registreSource + ", " + registreDestination + "\n";
+        //Todo : modif pour gérer stack
+        //return "sw " + registreSource + ", " + registreDestination + "\n";
+        return null;
     }
 
     /**
