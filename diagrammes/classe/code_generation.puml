@@ -28,7 +28,7 @@ namespace zoot.code_generation {
         .. Gestion de l'affichage ..
         + String afficherCaractere(String valeur)
         + String afficherEntierRegistre(String registre)
-        + String afficherBooleenRegistre(String registre)
+        + String afficherChaineDeCaracteresRegistre(String registre)
         + String afficherRetourLigne()
         .. Gestion du programme ..
         + String enteteProgramme()

@@ -102,12 +102,12 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour afficher le contenu d’un registre sous la forme
-     * d’un booléeen
+     * d’une chaîne de caractères
      * @param registre Le registre
      * @return Le code MIPS pour afficher le contenu d’un registre sous la forme
-     * d’un booléen
+     * d’une chaine de caractères
      */
-    public String afficherBooleenRegistre(String registre) {
+    public String afficherChaineDeCaracteresRegistre(String registre) {
         return copieRegistreRegistre(registre, "$a0")+
                 chargementImmediat("$v0", "4")+
                 "syscall\n";

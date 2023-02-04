@@ -97,50 +97,23 @@ class MipsGeneratorTest {
     }
 
     @Test
-    void chargementImmediat() {
-    }
-
-    @Test
     void chargementAdresse() {
-    }
-
-    @Test
-    void testCopieRegistreRegistre() {
+        MipsGenerator generator = MipsGenerator.getInstance();
+        assertEquals("la $v0, $t8\n", generator.chargementAdresse("$v0", "$t8"));
     }
 
     @Test
     void sauvegarderRegistre() {
+        MipsGenerator generator = MipsGenerator.getInstance();
+        assertEquals("sw $t8, $v0\n", generator.sauvegarderRegistre("$t8", "$v0"));
     }
 
     @Test
-    void testReserverOctetsPile() {
-    }
-
-    @Test
-    void testLibererOctetsPile() {
-    }
-
-    @Test
-    void testAfficherCaractere() {
-    }
-
-    @Test
-    void testAfficherEntierRegistre() {
-    }
-
-    @Test
-    void afficherBooleenRegistre() {
-    }
-
-    @Test
-    void testAfficherRetourLigne() {
-    }
-
-    @Test
-    void testEnteteProgramme() {
-    }
-
-    @Test
-    void testFinProgramme() {
+    void afficherChaineDeCaracteresRegistre() {
+        MipsGenerator generator = MipsGenerator.getInstance();
+        String attendu = "move $a0, $v0\n" +
+                "li $v0, 4\n" +
+                "syscall\n";
+        assertEquals(attendu, generator.afficherChaineDeCaracteresRegistre("$v0"));
     }
 }
