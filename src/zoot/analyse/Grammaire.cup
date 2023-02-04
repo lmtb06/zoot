@@ -56,22 +56,39 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, POINTVIRGULE, ECRIRE ;
-terminal String    CSTENTIERE ;
+terminal Symbol    VARIABLES, DEBUT, FIN, ENTIER, BOOLEEN, POINTVIRGULE, ECRIRE, EGAL ;
+terminal String    CSTENTIERE, CSTBOOL, IDF ;
    
 /* Non terminals used in the grammar section.  */
 
 non terminal ArbreAbstrait PROG, LINST ;
 non terminal Instruction INST ;
 non terminal Expression EXP ;
+non terminal LDECL, DECL ;
 
 /* ----------------------------Grammar Section-------------------- */
  
 start with PROG ;
 
-PROG    ::=     DEBUT  LINST:li  FIN
+PROG    ::=     VARIABLES LDECL:ld DEBUT  LINST:li  FIN
                 {: RESULT = li ; :}
                 ;
+
+LDECL   ::=     DECL LDECL
+        |
+                DECL;
+
+DECL    ::=     ENTIER IDF:i POINTVIRGULE
+                {:
+                    // TODO ajout des entrees et symboles dans la TDS
+                    System.out.println("Entier : " + i);
+                :}
+        |
+                BOOLEEN IDF:i POINTVIRGULE
+                {:
+                    // TODO ajout des entrees et symboles dans la TDS
+                    System.out.println("Booléen : " + i);
+                :};
 
 LINST   ::=     LINST:li  INST:i
                 {: ((BlocDInstructions)li).ajouter(i) ;
@@ -85,8 +102,26 @@ LINST   ::=     LINST:li  INST:i
 
 INST    ::=     ECRIRE EXP:e POINTVIRGULE
                 {: RESULT = new Ecrire(e, eleft + 1) ; :}
+        |
+                IDF:i EGAL EXP:e POINTVIRGULE
+                {:
+                    // TODO Affectation
+                    RESULT = new Ecrire(e, eleft + 1) ;
+                :}
                 ;
     
 EXP    ::=     CSTENTIERE:c
                 {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
+        |
+               CSTBOOL:c
+                {:
+                    // TODO Constante Booléene
+                    RESULT = new ConstanteEntiere("-50", cleft + 1) ;
+                :}
+        |
+               IDF:i
+                {:
+                    // TODO Variable
+                    RESULT = new ConstanteEntiere("-40", ileft + 1) ;
+                :}
                 ;

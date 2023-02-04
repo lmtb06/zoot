@@ -31,21 +31,30 @@ import zoot.exceptions.AnalyseLexicaleException;
   }
 %}
 
+csteB = vrai|faux
 csteE = -?[0-9]+
+idf = [a-zA-Z][a-zA-Z0-9]*
 finDeLigne = \r|\n
 espace = {finDeLigne}  | [ \t\f]
 
 %%
 "//".*                                    { /* DO NOTHING */ }
 
+"variables"            { return symbol(CodesLexicaux.VARIABLES);}
 "debut"                { return symbol(CodesLexicaux.DEBUT); }
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
 
+"entier"               { return symbol(CodesLexicaux.ENTIER); }
+"booleen"              { return symbol(CodesLexicaux.BOOLEEN); }
+
 "ecrire"               { return symbol(CodesLexicaux.ECRIRE); }
+"="                    { return symbol(CodesLexicaux.EGAL); }
 
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 
+{csteB}      	       { return symbol(CodesLexicaux.CSTBOOL, yytext()); }
 {csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
+{idf}                  { return symbol(CodesLexicaux.IDF, yytext()); }
 
 {espace}               { }
 .                      { throw new AnalyseLexicaleException(yyline, yycolumn, yytext()) ; }
