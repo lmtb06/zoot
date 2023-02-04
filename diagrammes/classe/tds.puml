@@ -1,0 +1,53 @@
+@startuml "tds"
+
+namespace zoot.tds {
+    ' Includes
+    ' Classes
+
+    class TDS << (S,#FF7700) >> {
+      - HashMap<Entree, Symbole> tableDesSymboles
+      - TDS()
+      + TDS getInstance()
+      + void ajouter(Entree entree, Symbole symbole)
+      + Symbole identifier(Entree entree)
+      + int getTailleZoneVariables()
+    }
+
+    abstract class Entree {
+      # String identifiant
+      + Entree(String identifiant)
+      + String getIdentifiant()
+      # {abstract} boolean equals(Entree entreeAComparer)
+    }
+
+    class EntreeVariable {
+      + EntreeVariable()
+      + boolean equals(Entree entreeAComparer)
+    }
+
+    abstract class Symbole {
+      - Type type
+      + Symbole()
+      + Type getType()
+      # {abstract} boolean equals(Symbole symboleAComparer)
+    }
+
+    class SymboleVariable {
+      - int deplacement
+      + SymboleVariable()
+      + int getDeplacement()
+      + int setDeplacement()
+      + boolean equals(Symbole symboleAComparer)
+    }
+
+    enum Type {
+      Entier
+      Booleen
+    }
+
+    EntreeVariable -up-|> Entree
+    SymboleVariable -up-|> Symbole
+    Type "1"-- Symbole
+}
+
+@enduml
