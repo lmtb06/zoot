@@ -5,19 +5,13 @@ package zoot.code_generation;
  * Chaque fonction se chargera de mettre les sauts à la ligne, dernière ligne comprise
  */
 public class MipsGenerator {
-    private static MipsGenerator singleton = null;
-    private MipsGenerator() {
-
-    }
+    private static final MipsGenerator singleton = new MipsGenerator();
 
     /**
      * Permet de récuperer l'instance du singleton
      * @return l'instance du singleton
      */
     public static MipsGenerator getInstance() {
-        if (singleton == null)
-            singleton = new MipsGenerator();
-
         return singleton;
     }
 
@@ -25,10 +19,21 @@ public class MipsGenerator {
      * Retourne le code MIPS pour le chargement immédiat de valeur dans registre
      * @param registre Le registre cible
      * @param valeur La valeur à charger
-     * @ return Le code MIPS pour le chargement immédiat
+     * @return Le code MIPS pour le chargement immédiat
      */
     public String chargementImmediat(String registre, String valeur) {
         return "li " + registre + ", " + valeur + "\n";
+    }
+
+    /**
+     * Retourne le code MIPS pour le chargement d'adresse d'un registre
+     * @param registreDst Le registre cible
+     * @param label la valeur à charger (registre ou string présent dans le .data)
+     * @return Le code MIPS pour le chargement par adresse
+     */
+    public String chargementAdresseRegistre(String registreDst, String label)
+    {
+        return "la " + registreDst + ", " + label + "\n";
     }
 
     /**
@@ -39,6 +44,19 @@ public class MipsGenerator {
      */
     public String copieRegistreRegistre(String registreSource, String registreDestination) {
         return "move " + registreDestination + ", " + registreSource + "\n";
+    }
+
+    /**
+     * Retourner le code MIPS associé à la sauvegarder d'un registre dans un autre
+     * (Avec ou sans déplacement)
+     * @param registreSource le registre de départ
+     * @return Le code MIPS associé à la sauvegarder d'un registre dans un autre
+     */
+    public String sauvegarderRegistreDansPile(String registreSource)
+    {
+        //Todo : modif pour gérer stack
+        //return "sw " + registreSource + ", " + registreDestination + "\n";
+        return null;
     }
 
     /**
@@ -80,6 +98,19 @@ public class MipsGenerator {
     public String afficherEntierRegistre(String registre) {
         return copieRegistreRegistre(registre, "$a0")+
                 chargementImmediat("$v0", "1")+
+                "syscall\n";
+    }
+
+    /**
+     * Retourne le code MIPS pour afficher le contenu d’un registre sous la forme
+     * d’une chaîne de caractères
+     * @param registre Le registre
+     * @return Le code MIPS pour afficher le contenu d’un registre sous la forme
+     * d’une chaine de caractères
+     */
+    public String afficherChaineDeCaracteresRegistre(String registre) {
+        return copieRegistreRegistre(registre, "$a0")+
+                chargementImmediat("$v0", "4")+
                 "syscall\n";
     }
 
