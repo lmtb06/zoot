@@ -19,6 +19,10 @@ partition "Analyse syntaxique" {
         if (Une suite de tokens correspond à une règle de grammaire.cup ?) then (oui)
             if(C'est une déclaration de variable) then(oui)
                 :Ajouter l'entrée et le symbole correspondant dans la TDS;
+                if(l'entrée est déjà présente dans la TDS) then(oui)
+                    :Ajouter une exception AnalyseSemantiqueException au gestionnaire\nd'exceptions semantiques;
+                else(non)
+                endif
             elseif(C'est une instruction ?) then (oui)
                 :Créer l'arbre abstrait correspondant;
             endif
@@ -33,6 +37,10 @@ partition "Analyse syntaxique" {
 partition "Analyse sémantique" {
     :Appeler la fonction vérifier de l'arbre abstrait principale;
     ' TODO
+}
+
+partition "Génération du code" {
+    
 }
 
 stop

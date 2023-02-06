@@ -21,8 +21,8 @@ namespace zoot.code_generation {
         + String chargementImmediat(String registre, String valeur)
         + String chargementAdresseRegistre(String registre, String valeur)
         + String copieRegistreRegistre(String registreSource, String registreDestination)
-        + String sauvegarderRegistreDansPile(String registreSource)
         .. Gestion de la pile ..
+        + String sauvegarderRegistreDansPile(String registreSource)
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..

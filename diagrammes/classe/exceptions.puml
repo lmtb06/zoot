@@ -3,6 +3,14 @@
 namespace zoot.exceptions {
     ' Includes
     ' Classes
+    class GestionnaireExceptionsSemantiques << (S,#FF7700) >> {
+    - GestionnaireExceptionsSemantiques()
+    + GestionnaireExceptionsSemantiques getInstance()
+    + void ajouter(AnalyseSemantiqueException e)
+    + int getNbExceptions()
+    + String getMessagesExceptions()
+  }
+
     abstract class AnalyseException {
         # AnalyseException(String m)
     }
@@ -15,9 +23,15 @@ namespace zoot.exceptions {
         + AnalyseSyntaxiqueException(String m)
     }
 
+    class AnalyseSemantiqueException {
+        + AnalyseSemantiqueException(String m)
+    }
+
     ' Relations entre les classes
     AnalyseException -up-|> RuntimeException
     AnalyseLexicaleException -up-|> AnalyseException
     AnalyseSyntaxiqueException -up-|> AnalyseException
+    AnalyseSemantiqueException -up-|> AnalyseException
+    GestionnaireExceptionsSemantiques -down-"*" AnalyseSemantiqueException
 }
 @enduml

@@ -12,17 +12,29 @@ namespace zoot.arbre.expressions {
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
         + String toMIPS()
-        + String getMIPSAffichage()
+    }
+
+    class ConstanteBooleene {
+        + ConstanteBooleene(String texte, int n)
+        + String toMIPS()
+    }
+
+    class Idf {
+        + Idf(Entree e, int n)
+        + void verifier()
+        + String toMIPS()
     }
 
     abstract class Expression {
         # Expression(int n)
-        + abstract String getMIPSAffichage()
     }
     ' Relations entre les classes
+    Idf -right-|> Expression
+    Idf --"1" zoot.tds.SymboleVariable
+    Idf *-- zoot.tds.EntreeVariable
     Constante -up-|> Expression
-    ConstanteEntiere -right-|> Constante
+    ConstanteEntiere -up-|> Constante
+    ConstanteBooleene -right-|> Constante
     Expression -up-|> zoot.arbre.ArbreAbstrait
-    ConstanteEntiere .up.> zoot.code_generation.MipsGenerator
 }
 @enduml

@@ -9,14 +9,22 @@ namespace zoot.arbre.instructions {
         + String toMIPS()
     }
 
+    class Affectation {
+        + Affectation (Idf i, Expression e, int n)
+        + void verifier()
+        + String toMIPS()
+    }
+
     abstract class Instruction {
         # Instruction(int n)
     }
     ' Relations entre les classes
     Ecrire -up-|> Instruction
     Ecrire *-right- zoot.arbre.expressions.Expression
-    Ecrire ..> zoot.code_generation.MipsGenerator
     Instruction -up-|> zoot.arbre.ArbreAbstrait
+    Affectation -right-|> Instruction
+    Affectation *-- zoot.arbre.expressions.Idf
+    Affectation *-down- zoot.arbre.expressions.Expression
 }
 
 @enduml

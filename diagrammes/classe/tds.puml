@@ -1,53 +1,55 @@
 @startuml "tds"
 
 namespace zoot.tds {
-    ' Includes
-    ' Classes
+  ' Includes
 
-    class TDS << (S,#FF7700) >> {
-      - HashMap<Entree, Symbole> tableDesSymboles
-      - TDS()
-      + TDS getInstance()
-      + void ajouter(Entree entree, Symbole symbole)
-      + Symbole identifier(Entree entree)
-      + int getTailleZoneVariables()
-    }
+  ' Classes
+  class TDS << (S,#FF7700) >> {
+    - TDS()
+    + TDS getInstance()
+    + void ajouter(Entree entree, Symbole symbole)
+    + Symbole identifier(Entree entree)
+    + int getTailleZoneVariables()
+  }
 
-    abstract class Entree {
-      # String identifiant
-      + Entree(String identifiant)
-      + String getIdentifiant()
-      # {abstract} boolean equals(Entree entreeAComparer)
-    }
+  abstract class Entree {
+    # String identifiant
+    + Entree(String identifiant)
+    + String getIdentifiant()
+    + boolean equals(Object objetAComparer)
+  }
 
-    class EntreeVariable {
-      + EntreeVariable()
-      + boolean equals(Entree entreeAComparer)
-    }
+  class EntreeVariable {
+    + EntreeVariable(String identifiant)
+    + boolean equals(Object objetAComparer)
+  }
 
-    abstract class Symbole {
-      - Type type
-      + Symbole()
-      + Type getType()
-      # {abstract} boolean equals(Symbole symboleAComparer)
-    }
+  abstract class Symbole {
+    + Symbole(Type type)
+    + Type getType()
+  }
 
-    class SymboleVariable {
-      - int deplacement
-      + SymboleVariable()
-      + int getDeplacement()
-      + int setDeplacement()
-      + boolean equals(Symbole symboleAComparer)
-    }
+  class SymboleVariable {
+    - int deplacement
+    + SymboleVariable(Type type)
+    + int getDeplacement()
+    + int setDeplacement(int deplacement)
+    + boolean equals(Object objetAComparer)
+  }
 
-    enum Type {
-      Entier
-      Booleen
-    }
+  enum Type {
+    ENTIER
+    BOOLEEN
+  }
 
-    EntreeVariable -up-|> Entree
-    SymboleVariable -up-|> Symbole
-    Type "1"-- Symbole
+  ' Relations entre les classes
+  EntreeVariable --|> Entree
+  SymboleVariable --|> Symbole
+  Symbole *-- Type
+  TDS --"1" TDS : statique
+  TDS --"*" Entree
+  TDS --"*" Symbole
+  TDS ..> zoot.exceptions.GestionnaireExceptionsSemantiques
 }
 
 @enduml
