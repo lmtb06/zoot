@@ -1,0 +1,40 @@
+@startuml
+
+start
+partition "Analyse lexicale" {
+    while (Il reste du texte à analyser ?) is (oui)
+        :Analyser le texte suivant; 
+        if (Le texte correspond à une unité lexicale défini dans\nUnitesLexicales.jflex ?) then (oui)
+            :Génerer le token correspondant;
+        else (non)
+            :Déclencher une exception AnalyseLexicaleException;
+            end
+        endif
+    endwhile (non)
+}
+
+partition "Analyse syntaxique" {
+    while (Il reste des tokens à process ?) is (oui)
+        :Analyser le reste des tokens par le parser (LR);
+        if (Une suite de tokens correspond à une règle de grammaire.cup ?) then (oui)
+            if(C'est une déclaration de variable) then(oui)
+                :Ajouter l'entrée et le symbole correspondant dans la TDS;
+            elseif(C'est une instruction ?) then (oui)
+                :Créer l'arbre abstrait correspondant;
+            endif
+        else (non)
+            :Déclencher une exception AnalyseSyntaxiqueException;
+            end;
+        endif
+    endwhile (non)
+    :Retourner l'arbre abstrait générer;
+}
+
+partition "Analyse sémantique" {
+    :Appeler la fonction vérifier de l'arbre abstrait principale;
+    ' TODO
+}
+
+stop
+
+@enduml
