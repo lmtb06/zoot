@@ -2,6 +2,7 @@ package zoot.arbre;
 
 import zoot.arbre.instructions.Instruction;
 import zoot.code_generation.MipsGenerator;
+import zoot.tds.TDS;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class BlocDInstructions extends ArbreAbstrait {
     
     protected ArrayList<Instruction> programme ;
+    private int tailleZoneVariables;
 
     /**
      * Constructeur.
@@ -37,7 +39,11 @@ public class BlocDInstructions extends ArbreAbstrait {
      */
     @Override
     public void verifier() {
-        // throw new UnsupportedOperationException("fonction verfier non définie ");
+        for (Instruction i :
+                programme) {
+            i.verifier();
+        }
+        tailleZoneVariables = TDS.getInstance().getTailleZoneVariables();
     }
 
     /**
@@ -46,7 +52,7 @@ public class BlocDInstructions extends ArbreAbstrait {
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder();
-        sb.append(MipsGenerator.getInstance().enteteProgramme());
+        sb.append(MipsGenerator.getInstance().enteteProgramme(tailleZoneVariables));
 
         for (Instruction instruction : programme) {
             sb.append(instruction.toMIPS());

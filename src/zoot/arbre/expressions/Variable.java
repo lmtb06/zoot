@@ -41,4 +41,8 @@ public class Variable extends Identifiable {
     public void setDeplacement(int deplacement) {
         this.deplacement = deplacement;
     }
+
+    public int getDeplacement() {
+        return deplacement;
+    }
 }

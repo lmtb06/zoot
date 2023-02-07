@@ -34,8 +34,9 @@ namespace zoot.arbre.expressions {
         - int deplacement
         + Variable(EntreeVariable e, int n)
         + void setDeplacement(int deplacement)
-        + void verifier() '
-        + String toMIPS() '
+        + int getDeplacement()
+        + void verifier()
+        + String toMIPS()
     }
     ' Relations entre les classes
     Expression -up-|> zoot.arbre.ArbreAbstrait

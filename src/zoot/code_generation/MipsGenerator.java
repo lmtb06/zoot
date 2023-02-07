@@ -54,6 +54,10 @@ public class MipsGenerator {
         return "\n";
     }
 
+    public String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable) {
+        return "\n";
+    }
+
     /**
      * Retourne le code MIPS pour réserver des octets dans la pile
      * @param nbOctets Le nombre d’octets à réserver

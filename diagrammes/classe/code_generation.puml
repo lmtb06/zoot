@@ -24,7 +24,8 @@ namespace zoot.code_generation {
         .. Gestion de la pile ..
         ' + String sauvegarderRegistreDansPile(String registreSource) '
         + String sauvegarderRegistreRegistre(String registreSource, String registreDestination)
-        + String recuperVariableDepuisPile(String registreDestination, int deplacementVariable)
+        + String recupererVariableDepuisPile(String registreDestination, int deplacementVariable)
+        + String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable)
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..

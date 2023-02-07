@@ -6,13 +6,13 @@ namespace zoot.arbre.instructions {
     class Ecrire {
         + Ecrire (Expression e, int n)
         + void verifier()
-        + String toMIPS() '
+        + String toMIPS()
     }
 
     class Affectation {
         + Affectation (Variable v, Expression e, int n)
-        + void verifier() '
-        + String toMIPS() '
+        + void verifier()
+        + String toMIPS()
     }
 
     abstract class Instruction {

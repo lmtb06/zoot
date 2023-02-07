@@ -30,7 +30,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verifier non définie ");
+        exp.verifier();
     }
 
     /**
