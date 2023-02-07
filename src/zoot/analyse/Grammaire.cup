@@ -84,7 +84,12 @@ LDECL   ::=     DECL LDECL
 DECL    ::=     ENTIER IDF:i POINTVIRGULE
                 {:
                     SymboleVariable s = new SymboleVariable(Type.ENTIER);
-                    TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                    try{
+                        TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                    } catch (DoubleDeclarationException e) {
+                        GestionnaireExceptionsSemantiques.getInstance()
+                                            .ajouter(new LigneDecorator(ileft + 1, e));
+                    }
                     s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
                     TDS.getInstance().augmenterTailleZoneVariables(4);
                 :}
@@ -92,7 +97,12 @@ DECL    ::=     ENTIER IDF:i POINTVIRGULE
                 BOOLEEN IDF:i POINTVIRGULE
                 {:
                     SymboleVariable s = new SymboleVariable(Type.BOOLEEN);
-                    TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                    try{
+                            TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                        } catch (DoubleDeclarationException e) {
+                            GestionnaireExceptionsSemantiques.getInstance()
+                                                .ajouter(new LigneDecorator(ileft +1, e));
+                        }
                     s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
                     TDS.getInstance().augmenterTailleZoneVariables(4);
                 :};
@@ -112,8 +122,8 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
         |
                 IDF:i EGAL EXP:e POINTVIRGULE
                 {:
-                    // TODO Affectation
-                    RESULT = new Ecrire(e, eleft + 1) ;
+                    Variable v = new Variable(new EntreeVariable(i), ileft + 1);
+                    RESULT = new Affectation(v, e, ileft + 1) ;
                 :}
                 ;
     
