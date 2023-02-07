@@ -4,37 +4,36 @@ namespace zoot.arbre.expressions {
     ' Classes
     abstract class Expression {
         # Expression(int n)
-        + Type getType() '
+        + Type getType()
     }
 
     abstract class Constante {
         # String cste
         # Constante(String texte, int n)
-        + void verifier()
         + String toString()
     }
 
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
-        + Type getType() '
-        + String toMIPS()
+        + Type getType()
+        + String toMIPS() '
     }
 
     class ConstanteBooleene {
-        + ConstanteBooleene(String texte, int n) '
-        + Type getType() '
+        + ConstanteBooleene(String texte, int n)
+        + Type getType()
         + String toMIPS() '
 
     }
 
     abstract class Identifiable {
-        + Identifiable(Entree e, int n) '
+        + Identifiable(Entree e, int n)
     }
 
     class Variable {
         - int deplacement
-        + Variable(EntreeVariable e, int n) '
-        + void setDeplacement(int deplacement) '
+        + Variable(EntreeVariable e, int n)
+        + void setDeplacement(int deplacement)
         + void verifier() '
         + String toMIPS() '
     }
@@ -43,6 +42,7 @@ namespace zoot.arbre.expressions {
     Constante -up-|> Expression
     ConstanteEntiere -up-|> Constante
     ConstanteBooleene -right-|> Constante
+    Identifiable --"1" zoot.tds.Entree
     Identifiable -right-|> Expression
     Variable -up-|> Identifiable
     Variable --"1" zoot.tds.SymboleVariable

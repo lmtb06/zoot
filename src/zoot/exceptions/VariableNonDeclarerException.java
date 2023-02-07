@@ -1,9 +1,9 @@
 package zoot.exceptions;
 
-import zoot.tds.EntreeVariable;
+import zoot.tds.Entree;
 
 public class VariableNonDeclarerException extends AnalyseSemantiqueException{
-    public VariableNonDeclarerException(EntreeVariable v) {
-        super("La variable " + v + " n'est pas déclarée.");
+    public VariableNonDeclarerException(Entree v) {
+        super("L'entrée " + v + " n'est pas déclarée.");
     }
 }

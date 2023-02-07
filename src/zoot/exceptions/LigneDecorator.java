@@ -1,7 +1,7 @@
 package zoot.exceptions;
 
 public class LigneDecorator extends AnalyseSemantiqueDecorator{
-    private int ligne;
+    private final int ligne;
     public LigneDecorator(int ligne, AnalyseSemantiqueException e) {
         super(e);
         this.ligne = ligne;

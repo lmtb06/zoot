@@ -2,6 +2,7 @@ package zoot.arbre.expressions;
 
 import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
+import zoot.tds.Type;
 
 /**
  * Représente une constante entière dans l'arbre abstrait
@@ -26,9 +27,7 @@ public class ConstanteEntiere extends Constante {
     }
 
     @Override
-    public String getMIPSAffichage() {
-        // évalue son code dans v0 avant de l’afficher
-        return toMIPS() +
-                MipsGenerator.getInstance().afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur);
+    public Type getType() {
+        return Type.ENTIER;
     }
 }

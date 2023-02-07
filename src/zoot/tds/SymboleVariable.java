@@ -1,5 +1,7 @@
 package zoot.tds;
 
+import zoot.arbre.expressions.Variable;
+
 public class SymboleVariable extends Symbole {
     protected int deplacement = 1;
 

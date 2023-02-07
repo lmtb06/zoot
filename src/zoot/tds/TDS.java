@@ -1,5 +1,8 @@
 package zoot.tds;
 
+import zoot.exceptions.DoubleDeclarationException;
+import zoot.exceptions.VariableNonDeclarerException;
+
 import java.util.HashMap;
 
 public class TDS {
@@ -26,7 +29,7 @@ public class TDS {
     public void ajouter(Entree entree, Symbole symbole)
     {
         if(tableDesSymboles.containsKey(entree.getIdentifiant()))
-            throw new DoubleDeclarationException();
+            throw new DoubleDeclarationException(entree);
 
         tableDesSymboles.put(entree.getIdentifiant(), symbole);
     }
@@ -42,7 +45,7 @@ public class TDS {
         Symbole symboleAIdentifier = tableDesSymboles.get(entree.getIdentifiant());
 
         if(symboleAIdentifier == null)
-            throw new VariableNonDeclarerException();
+            throw new VariableNonDeclarerException(entree);
 
         return symboleAIdentifier;
     }

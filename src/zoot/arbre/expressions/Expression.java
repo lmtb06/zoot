@@ -1,6 +1,7 @@
 package zoot.arbre.expressions;
 
 import zoot.arbre.ArbreAbstrait;
+import zoot.tds.Type;
 
 /**
  * Représente une expression dans l'arbre abstrait
@@ -14,5 +15,5 @@ public abstract class Expression extends ArbreAbstrait {
         super(n) ;
     }
 
-    public abstract String getMIPSAffichage();
+    public abstract Type getType();
 }

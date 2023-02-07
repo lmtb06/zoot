@@ -23,9 +23,8 @@ public abstract class Constante extends Expression {
     /**
      * {@inheritDoc}
      */
-    @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ");
+        //IT DOES NOTHING
     }
 
     /**

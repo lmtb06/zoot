@@ -1,5 +1,7 @@
 package zoot.tds;
 
+import zoot.arbre.expressions.Identifiable;
+
 public abstract class Symbole {
     protected Type type;
 
@@ -8,7 +10,7 @@ public abstract class Symbole {
         this.type = type;
     }
 
-    protected Type getType() {
+    public Type getType() {
         return type;
     }
 
