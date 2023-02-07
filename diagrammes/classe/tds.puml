@@ -5,37 +5,35 @@ namespace zoot.tds {
 
   ' Classes
   class TDS << (S,#FF7700) >> {
-    + TDS getInstance() '
-    + void ajouter(Entree entree, Symbole symbole) '
-    + Symbole identifier(Entree entree) '
-    + int getTailleZoneVariables() '
-    + void augmenterTailleZoneVariables(int nbOctets) '
+    + TDS getInstance()
+    + void ajouter(Entree entree, Symbole symbole)
+    + Symbole identifier(Entree entree)
+    + int getTailleZoneVariables()
+    + void augmenterTailleZoneVariables(int nbOctets)
   }
 
   abstract class Entree {
-    # String identifiant '
-    + Entree(String identifiant) '
-    + String getIdentifiant() '
-    + boolean equals(Object objetAComparer) '
+    # String identifiant
+    + Entree(String identifiant)
+    + String getIdentifiant()
+    + boolean equals(Object objetAComparer)
   }
 
   class EntreeVariable {
-    + EntreeVariable(String identifiant) '
-    + boolean equals(Object objetAComparer) '
+    + EntreeVariable(String identifiant)
   }
 
   abstract class Symbole {
-    + Symbole(Type type) '
-    + Type getType() '
-    + void decorer(Identifiable i) '
+    + Symbole(Type type)
+    + Type getType()
+    + void decorer(Identifiable i)
   }
 
   class SymboleVariable {
     - int deplacement
-    + SymboleVariable(Type type) '
-    + void decorer(Variable v) '
-    + int setDeplacement(int deplacement) '
-    + boolean equals(Object objetAComparer) '
+    + SymboleVariable(Type type)
+    + void decorer(Variable v)
+    + int setDeplacement(int deplacement)
   }
 
   enum Type {

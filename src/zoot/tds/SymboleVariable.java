@@ -1,16 +1,22 @@
 package zoot.tds;
 
 public class SymboleVariable extends Symbole {
+    protected int deplacement = 1;
 
     public SymboleVariable(Type type)
     {
         super(type);
     }
 
-    @Override
-    public boolean equals(Object entreeAComparer)
-    {
-        return (this.getClass() == entreeAComparer.getClass()
-                && this.type == ((Symbole) entreeAComparer).getType());
+    protected void setDeplacement(int deplacement) {
+        this.deplacement = deplacement;
+    }
+
+    /**
+     * Décore une variable
+     * @param v la variable
+     */
+    public void decorer(Variable v) {
+        v.setDeplacement(deplacement);
     }
 }
