@@ -1,6 +1,8 @@
 package zoot.arbre.instructions;
 
+import zoot.arbre.expressions.ConstanteEntiere;
 import zoot.arbre.expressions.Expression;
+import zoot.arbre.expressions.Variable;
 import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 

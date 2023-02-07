@@ -71,16 +71,16 @@ class MipsGeneratorTest {
     @Test
     void finProgramme() {
         MipsGenerator generator = MipsGenerator.getInstance();
-        String attendu = "selection_label_booleen:\n" +
+        String attendu = "end :\n" +
+                "# fin du programme\n" +
+                "li $v0, 10\n" +
+                "syscall\n" +
+                "selection_label_booleen:\n" +
                 "beq $a0, 0, sinon_label_booleen\n" +
                 "la $v0, vrai\n" +
                 "sinon_label_booleen:\n" +
                 "la $v0, faux\n" +
-                "jr $ra\n" +
-                "end :\n" +
-                "# fin du programme\n" +
-                "li $v0, 10\n" +
-                "syscall\n";
+                "jr $ra\n";
         assertEquals(attendu, generator.finProgramme());
     }
 

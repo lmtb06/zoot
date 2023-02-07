@@ -5,62 +5,14 @@ faux: .asciiz "faux"
 main :
 # début du programme
 move $s7, $sp
-addi $sp, $sp, -8
+addi $sp, $sp, -4
 li $v0, 10
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
-syscall
-li $v0, -50
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
-syscall
-li $v0, -40
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
-syscall
-li $v0, -40
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
-syscall
-li $v0, -50
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
-syscall
-li $v0, -40
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
-syscall
-li $v0, -50
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
-syscall
-li $v0, -50
-move $a0, $v0
-li $v0, 1
-syscall
-li $a0, 10
-li $v0, 11
+
+sw $v0, 0($s7);
+end :
+
+# fin du programme
+li $v0, 10
 syscall
 selection_label_booleen:
 beq $a0, 0, sinon_label_booleen
@@ -68,8 +20,4 @@ la $v0, vrai
 sinon_label_booleen:
 la $v0, faux
 jr $ra
-end :
-# fin du programme
-li $v0, 10
-syscall
 

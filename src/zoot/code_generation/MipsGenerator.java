@@ -160,15 +160,15 @@ public class MipsGenerator {
      * @return Le code MIPS pour la fin du programme MIPS
      */
     public String finProgramme() {
-        return  "selection_label_booleen" + ":\n" +
+        return "end :\n" +
+                "# fin du programme\n" +
+                chargementImmediat("$v0", "10") +
+                "syscall\n" +
+                "selection_label_booleen" + ":\n" +
                 "beq $a0, 0, sinon_label_booleen" + "\n" +
                 chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "vrai") +
                 "sinon_label_booleen" + ":\n" +
                 chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "faux") +
-                "jr $ra\n" +
-                "end :\n" +
-                "# fin du programme\n" +
-                chargementImmediat("$v0", "10") +
-                "syscall\n";
+                "jr $ra\n";
     }
 }
