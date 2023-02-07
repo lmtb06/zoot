@@ -22,17 +22,19 @@ namespace zoot.code_generation {
         + String chargementAdresseRegistre(String registre, String valeur)
         + String copieRegistreRegistre(String registreSource, String registreDestination)
         .. Gestion de la pile ..
-        + String sauvegarderRegistreDansPile(String registreSource)
+        + String sauvegarderRegistreDansPile(String registreSource) '
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..
         + String afficherCaractere(String valeur)
         + String afficherEntierRegistre(String registre)
-        + String afficherChaineDeCaracteresRegistre(String registre)
+        + String afficherChaineDeCaracteresRegistre(String registre) '
         + String afficherRetourLigne()
+        + String afficherBooleen(String registre) '
         .. Gestion du programme ..
         + String enteteProgramme()
-        + String finProgramme()
+        + String enteteProgramme(int tailleZoneVariables) '
+        + String finProgramme() '
     }
 
     ' Relations entre les classes

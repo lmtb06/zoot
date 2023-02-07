@@ -5,36 +5,37 @@ namespace zoot.tds {
 
   ' Classes
   class TDS << (S,#FF7700) >> {
-    - TDS()
-    + TDS getInstance()
-    + void ajouter(Entree entree, Symbole symbole)
-    + Symbole identifier(Entree entree)
-    + int getTailleZoneVariables()
+    + TDS getInstance() '
+    + void ajouter(Entree entree, Symbole symbole) '
+    + Symbole identifier(Entree entree) '
+    + int getTailleZoneVariables() '
+    + void augmenterTailleZoneVariables(int nbOctets) '
   }
 
   abstract class Entree {
-    # String identifiant
-    + Entree(String identifiant)
-    + String getIdentifiant()
-    + boolean equals(Object objetAComparer)
+    # String identifiant '
+    + Entree(String identifiant) '
+    + String getIdentifiant() '
+    + boolean equals(Object objetAComparer) '
   }
 
   class EntreeVariable {
-    + EntreeVariable(String identifiant)
-    + boolean equals(Object objetAComparer)
+    + EntreeVariable(String identifiant) '
+    + boolean equals(Object objetAComparer) '
   }
 
   abstract class Symbole {
-    + Symbole(Type type)
-    + Type getType()
+    + Symbole(Type type) '
+    + Type getType() '
+    + void decorer(Identifiable i) '
   }
 
   class SymboleVariable {
     - int deplacement
-    + SymboleVariable(Type type)
-    + int getDeplacement()
-    + int setDeplacement(int deplacement)
-    + boolean equals(Object objetAComparer)
+    + SymboleVariable(Type type) '
+    + void decorer(Variable v) '
+    + int setDeplacement(int deplacement) '
+    + boolean equals(Object objetAComparer) '
   }
 
   enum Type {
@@ -43,13 +44,12 @@ namespace zoot.tds {
   }
 
   ' Relations entre les classes
-  EntreeVariable --|> Entree
-  SymboleVariable --|> Symbole
-  Symbole *-- Type
   TDS --"1" TDS : statique
   TDS --"*" Entree
   TDS --"*" Symbole
-  TDS ..> zoot.exceptions.GestionnaireExceptionsSemantiques
+  Symbole *-- Type
+  SymboleVariable -up-|> Symbole
+  EntreeVariable -up-|> Entree
 }
 
 @enduml

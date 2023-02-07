@@ -14,17 +14,17 @@ namespace zoot.arbre {
     }
 
     class BlocDInstructions {
+      - int tailleZoneVariables
       + BlocDInstructions(int n)
       + void ajouter(Instruction i)
       + void verifier()
-      + String toMIPS()
+      + String toMIPS() '
       + String toString()
     }
     ' Relations entre les classes
     BlocDInstructions -up-|> ArbreAbstrait
     BlocDInstructions --"*" zoot.arbre.instructions.Instruction
     ArbreAbstrait ..> zoot.code_generation.MipsGenerator
-    ArbreAbstrait ..> zoot.exceptions.GestionnaireExceptionsSemantiques
 }
 
 @enduml

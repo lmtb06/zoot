@@ -2,6 +2,11 @@
 namespace zoot.arbre.expressions {
     ' Includes
     ' Classes
+    abstract class Expression {
+        # Expression(int n)
+        + Type getType() '
+    }
+
     abstract class Constante {
         # String cste
         # Constante(String texte, int n)
@@ -11,30 +16,36 @@ namespace zoot.arbre.expressions {
 
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
+        + Type getType() '
         + String toMIPS()
     }
 
     class ConstanteBooleene {
-        + ConstanteBooleene(String texte, int n)
-        + String toMIPS()
+        + ConstanteBooleene(String texte, int n) '
+        + Type getType() '
+        + String toMIPS() '
+
     }
 
-    class Idf {
-        + Idf(Entree e, int n)
-        + void verifier()
-        + String toMIPS()
+    abstract class Identifiable {
+        + Identifiable(Entree e, int n) '
     }
 
-    abstract class Expression {
-        # Expression(int n)
+    class Variable {
+        - int deplacement
+        + Variable(EntreeVariable e, int n) '
+        + void setDeplacement(int deplacement) '
+        + void verifier() '
+        + String toMIPS() '
     }
     ' Relations entre les classes
-    Idf -right-|> Expression
-    Idf --"1" zoot.tds.SymboleVariable
-    Idf *-- zoot.tds.EntreeVariable
+    Expression -up-|> zoot.arbre.ArbreAbstrait
     Constante -up-|> Expression
     ConstanteEntiere -up-|> Constante
     ConstanteBooleene -right-|> Constante
-    Expression -up-|> zoot.arbre.ArbreAbstrait
+    Identifiable -right-|> Expression
+    Variable -up-|> Identifiable
+    Variable --"1" zoot.tds.SymboleVariable
+    Variable *-- zoot.tds.EntreeVariable
 }
 @enduml

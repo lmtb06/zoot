@@ -3,14 +3,6 @@
 namespace zoot.exceptions {
     ' Includes
     ' Classes
-    class GestionnaireExceptionsSemantiques << (S,#FF7700) >> {
-    - GestionnaireExceptionsSemantiques()
-    + GestionnaireExceptionsSemantiques getInstance()
-    + void ajouter(AnalyseSemantiqueException e)
-    + int getNbExceptions()
-    + String getMessagesExceptions()
-  }
-
     abstract class AnalyseException {
         # AnalyseException(String m)
     }
@@ -23,8 +15,36 @@ namespace zoot.exceptions {
         + AnalyseSyntaxiqueException(String m)
     }
 
-    class AnalyseSemantiqueException {
-        + AnalyseSemantiqueException(String m)
+    abstract class AnalyseSemantiqueException {
+        + AnalyseSemantiqueException(String m) '
+    }
+
+    class GestionnaireExceptionsSemantiques << (S,#FF7700) >> {
+        - GestionnaireExceptionsSemantiques() '
+        + GestionnaireExceptionsSemantiques getInstance() '
+        + void ajouter(AnalyseSemantiqueException e) '
+        + int getNbExceptions() '
+        + String getMessagesExceptions() '
+    }
+
+    class AnalyseSemantiqueDecorator {
+        AnalyseSemantiqueDecorator(AnalyseSemantiqueException e) '
+    }
+
+    class DoubleDeclarationException {
+        + DoubleDeclarationException(EntreeVariable v) '
+    }
+
+    class TypeIncompatibleException {
+        + TypeIncompatibleException(Type destination, Type source) '
+    }
+
+    class VariableNonDeclarerException {
+        + VariableNonDeclareException(EntreeVariable e) '
+    }
+
+    class LigneDecorator {
+        + LigneDecorator(int ligne, AnalyseSemantiqueException) '
     }
 
     ' Relations entre les classes
@@ -32,6 +52,12 @@ namespace zoot.exceptions {
     AnalyseLexicaleException -up-|> AnalyseException
     AnalyseSyntaxiqueException -up-|> AnalyseException
     AnalyseSemantiqueException -up-|> AnalyseException
+    AnalyseSemantiqueDecorator -up-|> AnalyseSemantiqueException
+    AnalyseSemantiqueDecorator *-- AnalyseSemantiqueException
+    DoubleDeclarationException -up-|> AnalyseSemantiqueException
+    TypeIncompatibleException -up-|> AnalyseSemantiqueException
+    VariableNonDeclareException -left-|> AnalyseSemantiqueException
+    LigneDecorator --|> AnalyseSemantiqueDecorator
     GestionnaireExceptionsSemantiques -down-"*" AnalyseSemantiqueException
 }
 @enduml
