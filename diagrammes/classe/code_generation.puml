@@ -23,6 +23,7 @@ namespace zoot.code_generation {
         + String copieRegistreRegistre(String registreSource, String registreDestination)
         .. Gestion de la pile ..
         + String sauvegarderRegistreDansPile(String registreSource) '
+        + String recuperVariableDepuisPile(String registreDestination, int deplacementVariable)
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..
@@ -30,7 +31,7 @@ namespace zoot.code_generation {
         + String afficherEntierRegistre(String registre)
         + String afficherChaineDeCaracteresRegistre(String registre) '
         + String afficherRetourLigne()
-        + String afficherBooleen(String registre) '
+        + String afficherBooleenRegistre(String registre)
         .. Gestion du programme ..
         + String enteteProgramme()
         + String enteteProgramme(int tailleZoneVariables) '

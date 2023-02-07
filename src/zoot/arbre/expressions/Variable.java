@@ -1,18 +1,17 @@
 package zoot.arbre.expressions;
 
+import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.VariableNonDeclarerException;
-import zoot.tds.Entree;
-import zoot.tds.SymboleVariable;
-import zoot.tds.TDS;
-import zoot.tds.Type;
+import zoot.tds.*;
 
 public class Variable extends Identifiable {
-    private int deplacement = 1;
+    private int deplacement = 0;
     private SymboleVariable symboleVariable;
 
-    public Variable(Entree e, int n) {
+    public Variable(EntreeVariable e, int n) {
         super(e, n);
     }
 
@@ -30,7 +29,8 @@ public class Variable extends Identifiable {
 
     @Override
     public String toMIPS() {
-        return null;
+        return MipsGenerator.getInstance()
+                .recupererVariableDepuisPile(Registre.STOCKAGE_RESULTAT.valeur, deplacement);
     }
 
     @Override

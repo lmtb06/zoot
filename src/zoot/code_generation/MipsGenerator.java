@@ -60,7 +60,11 @@ public class MipsGenerator {
     {
         //Todo : modif pour gérer stack
         //return "sw " + registreSource + ", " + registreDestination + "\n";
-        return null;
+        return "\n";
+    }
+
+    public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
+        return "\n";
     }
 
     /**
@@ -124,6 +128,10 @@ public class MipsGenerator {
      */
     public String afficherRetourLigne() {
         return afficherCaractere("10");
+    }
+
+    public String afficherBooleenRegistre(String registre) {
+        return "\n";
     }
 
     /**

@@ -16,13 +16,13 @@ namespace zoot.arbre.expressions {
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
         + Type getType()
-        + String toMIPS() '
+        + String toMIPS()
     }
 
     class ConstanteBooleene {
         + ConstanteBooleene(String texte, int n)
         + Type getType()
-        + String toMIPS() '
+        + String toMIPS()
 
     }
 

@@ -1,5 +1,7 @@
 package zoot.arbre.expressions;
 
+import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
 public class ConstanteBooleene extends Constante{
@@ -10,7 +12,17 @@ public class ConstanteBooleene extends Constante{
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        MipsGenerator mg = MipsGenerator.getInstance();
+        switch (cste) {
+            case "vrai" :
+                sb.append(mg.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, "1"));
+                break;
+            case "faux" :
+                sb.append(mg.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, "0"));
+                break;
+        }
+        return sb.toString();
     }
 
     @Override

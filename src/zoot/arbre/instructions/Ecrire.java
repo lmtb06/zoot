@@ -2,6 +2,7 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
 import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
 
 /**
  * {@inheritDoc}
@@ -38,8 +39,19 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-        return
-                MipsGenerator.getInstance().afficherRetourLigne();
+        StringBuilder sb = new StringBuilder();
+        MipsGenerator mg = MipsGenerator.getInstance();
+        sb.append(exp.toMIPS());
+        switch (exp.getType()) {
+            case ENTIER:
+                sb.append(mg.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur));
+                break;
+            case BOOLEEN:
+                sb.append(mg.afficherBooleenRegistre(Registre.STOCKAGE_RESULTAT.valeur));
+                break;
+        }
+        sb.append(mg.afficherRetourLigne());
+        return sb.toString();
     }
 
 }
