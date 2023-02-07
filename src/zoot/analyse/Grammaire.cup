@@ -122,13 +122,11 @@ EXP    ::=     CSTENTIERE:c
         |
                CSTBOOL:c
                 {:
-                    // TODO Constante Booléene
-                    RESULT = new ConstanteEntiere("-50", cleft + 1) ;
+                    RESULT = new ConstanteBooleene(c, cleft + 1) ;
                 :}
         |
                IDF:i
                 {:
-                    // TODO Variable
-                    RESULT = new ConstanteEntiere("-40", ileft + 1) ;
+                    RESULT = new Variable(new Entree(i), ileft + 1) ;
                 :}
                 ;
