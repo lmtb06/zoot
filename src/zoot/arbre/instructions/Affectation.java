@@ -29,6 +29,6 @@ public class Affectation extends Instruction {
     @Override
     public String toMIPS() {
         return expression.toMIPS() +
-                "sw $v0, " + variable.getDeplacement() + "($s7);\n";
+                "sw $v0, " + variable.getDeplacement() + "($s7)\n";
     }
 }

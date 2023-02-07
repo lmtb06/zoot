@@ -1,5 +1,14 @@
 variables
     entier a;
+    booleen b;
 debut
+// test
     a = 10;
+    b = vrai;
+    ecrire a;
+    ecrire b;
+    b = faux;
+    ecrire b;
+    ecrire faux;
+    ecrire vrai;
 fin
