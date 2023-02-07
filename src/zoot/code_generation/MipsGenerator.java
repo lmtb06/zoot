@@ -146,11 +146,32 @@ public class MipsGenerator {
     }
 
     /**
+     * Retourne le code MIPS pour l’entête du programme MIPS
+     * @param deplacementTotal a.k.a. le nombre d'octets à allouer dans la stack (-nbOctets !!!)
+     * @return le code MIPS pour l’entête du programme MIPS
+     */
+    public String enteteProgramme(int deplacementTotal) {
+        return ".text\n" +
+                ".data\n" +
+                "vrai: .asciiz \"vrai\"\n" +
+                "faux: .asciiz \"faux\"\n" +
+                "main :\n" +
+                "# début du programme\n" +
+                copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_PILE.valeur) +
+                reserverOctetsPile(-deplacementTotal);
+    }
+
+    /**
      * Retourne le code MIPS pour la fin du programme MIPS
      * @return Le code MIPS pour la fin du programme MIPS
      */
     public String finProgramme() {
-        return "end :\n" +
+        return  "selection_label_booleen_dans_a0:" +
+                "beq $v0, 0, sinon\n" +
+                "la $a0, vrai\n" +
+                "sinon:\n" +
+                "la $a0, faux\n" +
+                "end :\n" +
                 "# fin du programme\n" +
                 chargementImmediat("$v0", "10") +
                 "syscall\n";

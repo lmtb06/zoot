@@ -116,4 +116,25 @@ class MipsGeneratorTest {
                 "syscall\n";
         assertEquals(attendu, generator.afficherChaineDeCaracteresRegistre("$v0"));
     }
+
+    @Test
+    void afficherBooleenRegistre() {
+        //TODO
+    }
+
+    @Test
+    void getInstance() {
+    }
+
+    @Test
+    void chargementImmediat() {
+    }
+
+    @Test
+    void chargementAdresseRegistre() {
+    }
+
+    @Test
+    void testEnteteProgramme() {
+    }
 }
