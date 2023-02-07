@@ -58,18 +58,26 @@ class MipsGeneratorTest {
     @Test
     void enteteProgramme() {
         MipsGenerator generator = MipsGenerator.getInstance();
-        String attendu = ".text\n" +
+        String attendu = ".data\n" +
+                "vrai: .asciiz \"vrai\"\n" +
+                "faux: .asciiz \"faux\"\n" +
+                ".text\n" +
                 "main :\n" +
                 "# début du programme\n" +
-                "move " + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur +
-                ", " + Registre.POINTEUR_PILE.valeur + "\n";
-        assertEquals(attendu, generator.enteteProgramme());
+                "move $sp, $s7\n" +
+                "addi $sp, $sp, -7\n";
+        assertEquals(attendu, generator.enteteProgramme(-7));
     }
-
     @Test
     void finProgramme() {
         MipsGenerator generator = MipsGenerator.getInstance();
-        String attendu = "end :\n" +
+        String attendu = "selection_label_booleen:\n" +
+                "beq $a0, 0, sinon_label_booleen\n" +
+                "la $v0, vrai\n" +
+                "sinon_label_booleen:\n" +
+                "la $v0, faux\n" +
+                "jr $ra\n" +
+                "end :\n" +
                 "# fin du programme\n" +
                 "li $v0, 10\n" +
                 "syscall\n";
@@ -103,12 +111,6 @@ class MipsGeneratorTest {
     }
 
     @Test
-    void sauvegarderRegistreRegistre() {
-        MipsGenerator generator = MipsGenerator.getInstance();
-        //assertEquals("sw $t8, $v0\n", generator.sauvegarderRegistreDansPile("$t8", "$v0"));
-    }
-
-    @Test
     void afficherChaineDeCaracteresRegistre() {
         MipsGenerator generator = MipsGenerator.getInstance();
         String attendu = "move $a0, $v0\n" +
@@ -119,11 +121,19 @@ class MipsGeneratorTest {
 
     @Test
     void afficherBooleenRegistre() {
-        //TODO
+        MipsGenerator generator = MipsGenerator.getInstance();
+        String attendu = "move $v0, $v0\n" +
+                "jal selection_label_booleen\n" +
+                "move $a0, $v0\n" +
+                "li $v0, 4\n" +
+                "syscall\n";
+        assertEquals(attendu, generator.afficherBooleenRegistre(Registre.STOCKAGE_RESULTAT.valeur));
     }
 
     @Test
     void recupererVariableDepuisPile() {
-        //TODO
+        MipsGenerator generator = MipsGenerator.getInstance();
+        String attendu = "sw $v0, -7($s7)\n";
+        assertEquals(attendu, generator.recupererVariableDepuisPile(Registre.STOCKAGE_RESULTAT.valeur, -7));
     }
 }

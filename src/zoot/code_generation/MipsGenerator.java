@@ -51,7 +51,8 @@ public class MipsGenerator {
     }
 
     public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
-        return "\n";
+        return "sw " + registreDestination + ", "
+                + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
     }
 
     public String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable) {
@@ -123,7 +124,7 @@ public class MipsGenerator {
 
     public String afficherBooleenRegistre(String registre) {
         return copieRegistreRegistre(registre, "$v0") +
-                "jal selection_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + "\n" +
+                "jal selection_label_booleen\n" +
                 afficherChaineDeCaracteresRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 
@@ -144,13 +145,13 @@ public class MipsGenerator {
      * @return le code MIPS pour l’entête du programme MIPS
      */
     public String enteteProgramme(int deplacementTotal) {
-        return ".text\n" +
-                ".data\n" +
+        return ".data\n" +
                 "vrai: .asciiz \"vrai\"\n" +
                 "faux: .asciiz \"faux\"\n" +
+                ".text\n" +
                 "main :\n" +
                 "# début du programme\n" +
-                copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_PILE.valeur) +
+                copieRegistreRegistre(Registre.POINTEUR_DEBUT_ZONE_PILE.valeur, Registre.POINTEUR_PILE.valeur) +
                 reserverOctetsPile(-deplacementTotal);
     }
 
@@ -159,10 +160,10 @@ public class MipsGenerator {
      * @return Le code MIPS pour la fin du programme MIPS
      */
     public String finProgramme() {
-        return  "selection_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + ":\n" +
-                "beq $a0, 0, sinon_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + "\n" +
+        return  "selection_label_booleen" + ":\n" +
+                "beq $a0, 0, sinon_label_booleen" + "\n" +
                 chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "vrai") +
-                "sinon_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + ":\n" +
+                "sinon_label_booleen" + ":\n" +
                 chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "faux") +
                 "jr $ra\n" +
                 "end :\n" +

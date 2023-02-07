@@ -41,6 +41,12 @@ class BlocDInstructionsTest {
                 "li $a0, 10\n" +
                 "li $v0, 11\n" +
                 "syscall\n" +
+                "selection_label_booleen:\n" +
+                "beq $a0, 0, sinon_label_booleen\n" +
+                "la $v0, vrai\n" +
+                "sinon_label_booleen:\n" +
+                "la $v0, faux\n" +
+                "jr $ra\n" +
                 "end :\n" +
                 "# fin du programme\n" +
                 "li $v0, 10\n" +
@@ -57,6 +63,12 @@ class BlocDInstructionsTest {
                 "main :\n" +
                 "# début du programme\n" +
                 "move $s7, $sp\n" +
+                "selection_label_booleen:\n" +
+                "beq $a0, 0, sinon_label_booleen\n" +
+                "la $v0, vrai\n" +
+                "sinon_label_booleen:\n" +
+                "la $v0, faux\n" +
+                "jr $ra\n" +
                 "end :\n" +
                 "# fin du programme\n" +
                 "li $v0, 10\n" +
@@ -82,6 +94,12 @@ class BlocDInstructionsTest {
                 "li $a0, 10\n" +
                 "li $v0, 11\n" +
                 "syscall\n" +
+                "selection_label_booleen:\n" +
+                "beq $a0, 0, sinon_label_booleen\n" +
+                "la $v0, vrai\n" +
+                "sinon_label_booleen:\n" +
+                "la $v0, faux\n" +
+                "jr $ra\n" +
                 "end :\n" +
                 "# fin du programme\n" +
                 "li $v0, 10\n" +
