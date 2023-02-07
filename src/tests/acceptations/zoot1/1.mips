@@ -10,32 +10,26 @@ li $v0, 10
 sw $v0, 0($s7)
 li $v0, 1
 sw $v0, -4($s7)
-
 lw $v0, 0($s7)
 move $a0, $v0
 li $v0, 1
 syscall
-
 li $a0, 10
 li $v0, 11
 syscall
-
 lw $v0, -4($s7)
-move $v0, $v0
+move $v0, $a0
 jal selection_label_booleen
 move $a0, $v0
 li $v0, 4
 syscall
-
 li $a0, 10
 li $v0, 11
 syscall
-
 li $v0, 0
 sw $v0, -4($s7)
-
 lw $v0, -4($s7)
-move $v0, $v0
+move $v0, $a0
 jal selection_label_booleen
 move $a0, $v0
 li $v0, 4
@@ -43,9 +37,8 @@ syscall
 li $a0, 10
 li $v0, 11
 syscall
-
 li $v0, 0
-move $v0, $v0
+move $v0, $a0
 jal selection_label_booleen
 move $a0, $v0
 li $v0, 4
@@ -53,9 +46,8 @@ syscall
 li $a0, 10
 li $v0, 11
 syscall
-
 li $v0, 1
-move $v0, $v0
+move $v0, $a0
 jal selection_label_booleen
 move $a0, $v0
 li $v0, 4
