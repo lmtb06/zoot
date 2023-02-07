@@ -123,7 +123,7 @@ public class MipsGenerator {
     }
 
     public String afficherBooleenRegistre(String registre) {
-        return copieRegistreRegistre("$v0", "$a0") +
+        return copieRegistreRegistre("$a0", registre) +
                 "jal selection_label_booleen\n" +
                 afficherChaineDeCaracteresRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
