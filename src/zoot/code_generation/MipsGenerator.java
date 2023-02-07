@@ -167,8 +167,10 @@ public class MipsGenerator {
                 "selection_label_booleen" + ":\n" +
                 "beq $a0, 0, sinon_label_booleen" + "\n" +
                 chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "vrai") +
+                "j finsi_selection_label_booleen" +
                 "sinon_label_booleen" + ":\n" +
                 chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "faux") +
+                "finsi_selection_label_booleen:" +
                 "jr $ra\n";
     }
 }
