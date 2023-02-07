@@ -127,6 +127,6 @@ EXP    ::=     CSTENTIERE:c
         |
                IDF:i
                 {:
-                    RESULT = new Variable(new Entree(i), ileft + 1) ;
+                    RESULT = new Variable(new EntreeVariable(i), ileft + 1) ;
                 :}
                 ;

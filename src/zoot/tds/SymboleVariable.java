@@ -10,7 +10,7 @@ public class SymboleVariable extends Symbole {
         super(type);
     }
 
-    protected void setDeplacement(int deplacement) {
+    public void setDeplacement(int deplacement) {
         this.deplacement = deplacement;
     }
 

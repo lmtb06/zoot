@@ -38,7 +38,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-        return exp.getMIPSAffichage() +
+        return
                 MipsGenerator.getInstance().afficherRetourLigne();
     }
 
