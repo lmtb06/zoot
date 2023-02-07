@@ -40,7 +40,7 @@ namespace zoot.exceptions {
     }
 
     class VariableNonDeclarerException {
-        + VariableNonDeclareException(EntreeVariable e) '
+        + VariableNonDeclarerException(EntreeVariable e) '
     }
 
     class LigneDecorator {
@@ -56,7 +56,7 @@ namespace zoot.exceptions {
     AnalyseSemantiqueDecorator *-- AnalyseSemantiqueException
     DoubleDeclarationException -up-|> AnalyseSemantiqueException
     TypeIncompatibleException -up-|> AnalyseSemantiqueException
-    VariableNonDeclareException -left-|> AnalyseSemantiqueException
+    VariableNonDeclarerException -left-|> AnalyseSemantiqueException
     LigneDecorator --|> AnalyseSemantiqueDecorator
     GestionnaireExceptionsSemantiques -down-"*" AnalyseSemantiqueException
 }
