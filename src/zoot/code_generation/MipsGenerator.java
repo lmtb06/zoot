@@ -7,6 +7,10 @@ package zoot.code_generation;
 public class MipsGenerator {
     private static final MipsGenerator singleton = new MipsGenerator();
 
+    private MipsGenerator() {
+
+    }
+
     /**
      * Permet de récuperer l'instance du singleton
      * @return l'instance du singleton

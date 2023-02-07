@@ -16,35 +16,40 @@ namespace zoot.exceptions {
     }
 
     abstract class AnalyseSemantiqueException {
-        + AnalyseSemantiqueException(String m) '
+        + AnalyseSemantiqueException(String m)
     }
 
     class GestionnaireExceptionsSemantiques << (S,#FF7700) >> {
-        - GestionnaireExceptionsSemantiques() '
-        + GestionnaireExceptionsSemantiques getInstance() '
-        + void ajouter(AnalyseSemantiqueException e) '
-        + int getNbExceptions() '
-        + String getMessagesExceptions() '
+        - GestionnaireExceptionsSemantiques()
+        + GestionnaireExceptionsSemantiques getInstance()
+        + void ajouter(AnalyseSemantiqueException e)
+        + int getNbExceptions()
+        + String getMessagesExceptions()
     }
 
     class AnalyseSemantiqueDecorator {
-        AnalyseSemantiqueDecorator(AnalyseSemantiqueException e) '
+        AnalyseSemantiqueDecorator(AnalyseSemantiqueException e)
+        + String getMessage()
+        + String getLocalizedMessage()
     }
 
     class DoubleDeclarationException {
-        + DoubleDeclarationException(EntreeVariable v) '
+        + DoubleDeclarationException(EntreeVariable v)
     }
 
     class TypeIncompatibleException {
-        + TypeIncompatibleException(Type destination, Type source) '
+        + TypeIncompatibleException(Type destination, Type source)
     }
 
     class VariableNonDeclarerException {
-        + VariableNonDeclarerException(EntreeVariable e) '
+        + VariableNonDeclarerException(EntreeVariable e)
     }
 
     class LigneDecorator {
-        + LigneDecorator(int ligne, AnalyseSemantiqueException) '
+        - int ligne
+        + LigneDecorator(int ligne, AnalyseSemantiqueException)
+        + String getMessage()
+        + String getLocalizedMessage()
     }
 
     ' Relations entre les classes
