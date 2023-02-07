@@ -33,7 +33,7 @@ namespace zoot.code_generation {
         + String afficherBooleen(String registre) '
         .. Gestion du programme ..
         + String enteteProgramme()
-        + String enteteProgramme(int tailleZoneVariables) '
+        + String enteteProgramme(int deplacementTotal)
         + String finProgramme() '
     }
 
