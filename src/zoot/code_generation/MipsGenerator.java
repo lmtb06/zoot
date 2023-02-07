@@ -51,7 +51,7 @@ public class MipsGenerator {
     }
 
     public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
-        return "sw " + registreDestination + ", "
+        return "lw " + registreDestination + ", "
                 + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
     }
 
