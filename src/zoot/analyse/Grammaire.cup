@@ -1,10 +1,13 @@
 package zoot.analyse ;
 
 import java.util.*;
+import zoot.analyse.* ;
 import zoot.arbre.* ;
 import zoot.arbre.expressions.* ;
 import zoot.arbre.instructions.* ;
-import zoot.exceptions.AnalyseSyntaxiqueException;
+import zoot.code_generation.* ;
+import zoot.exceptions.*;
+import zoot.tds.*;
 
 import java_cup.runtime.*;
 
@@ -80,14 +83,18 @@ LDECL   ::=     DECL LDECL
 
 DECL    ::=     ENTIER IDF:i POINTVIRGULE
                 {:
-                    // TODO ajout des entrees et symboles dans la TDS
-                    System.out.println("Entier : " + i);
+                    SymboleVariable s = new SymboleVariable(Type.ENTIER);
+                    TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
+                    TDS.getInstance().augmenterTailleZoneVariables(4);
                 :}
         |
                 BOOLEEN IDF:i POINTVIRGULE
                 {:
-                    // TODO ajout des entrees et symboles dans la TDS
-                    System.out.println("Booléen : " + i);
+                    SymboleVariable s = new SymboleVariable(Type.BOOLEEN);
+                    TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
+                    TDS.getInstance().augmenterTailleZoneVariables(4);
                 :};
 
 LINST   ::=     LINST:li  INST:i

@@ -12,6 +12,11 @@ public abstract class Entree {
         return identifiant;
     }
 
+    /**
+     * Vérifie si deux entrées sont égales
+     * @param entreeAComparer l'entrée à comparer avec this.entree
+     * @return true si les deux objets sont de mêmes classes et les identifiants sont égaux, faux sinon
+     */
     @Override
     public boolean equals(Object entreeAComparer)
     {

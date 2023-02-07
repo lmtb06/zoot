@@ -2,7 +2,6 @@ package zoot.tds;
 
 public abstract class Symbole {
     protected Type type;
-    protected int deplacement = 1;
 
     public Symbole(Type type)
     {
@@ -13,19 +12,11 @@ public abstract class Symbole {
         return type;
     }
 
-    protected int getDeplacement()
-    {
-        return deplacement;
-    }
-
-    protected void setDeplacement(int deplacement) {
-        this.deplacement = deplacement;
-    }
-
-    @Override
-    public boolean equals(Object entreeAComparer)
-    {
-        return (this.getClass() == entreeAComparer.getClass()
-                && type == ((Symbole) entreeAComparer).getType());
+    /**
+     * Décore un identifiable, ici il ne fait rien, il est à redéfinir si besoin
+     * @param i un Identifiable
+     */
+    public void decorer(Identifiable i) {
+        //IT DOES NOTHING
     }
 }
