@@ -103,7 +103,7 @@ class MipsGeneratorTest {
     }
 
     @Test
-    void sauvegarderRegistreDansPile() {
+    void sauvegarderRegistreRegistre() {
         MipsGenerator generator = MipsGenerator.getInstance();
         //assertEquals("sw $t8, $v0\n", generator.sauvegarderRegistreDansPile("$t8", "$v0"));
     }
@@ -123,18 +123,7 @@ class MipsGeneratorTest {
     }
 
     @Test
-    void getInstance() {
-    }
-
-    @Test
-    void chargementImmediat() {
-    }
-
-    @Test
-    void chargementAdresseRegistre() {
-    }
-
-    @Test
-    void testEnteteProgramme() {
+    void recupererVariableDepuisPile() {
+        //TODO
     }
 }

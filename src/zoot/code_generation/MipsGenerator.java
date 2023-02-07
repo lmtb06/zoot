@@ -50,19 +50,6 @@ public class MipsGenerator {
         return "move " + registreDestination + ", " + registreSource + "\n";
     }
 
-    /**
-     * Retourner le code MIPS associé à la sauvegarder d'un registre dans un autre
-     * (Avec ou sans déplacement)
-     * @param registreSource le registre de départ
-     * @return Le code MIPS associé à la sauvegarder d'un registre dans un autre
-     */
-    public String sauvegarderRegistreDansPile(String registreSource)
-    {
-        //Todo : modif pour gérer stack
-        //return "sw " + registreSource + ", " + registreDestination + "\n";
-        return "\n";
-    }
-
     public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
         return "\n";
     }
@@ -131,7 +118,9 @@ public class MipsGenerator {
     }
 
     public String afficherBooleenRegistre(String registre) {
-        return "\n";
+        return copieRegistreRegistre(registre, "$v0") +
+                "jal selection_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + "\n" +
+                afficherChaineDeCaracteresRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 
     /**
@@ -166,11 +155,12 @@ public class MipsGenerator {
      * @return Le code MIPS pour la fin du programme MIPS
      */
     public String finProgramme() {
-        return  "selection_label_booleen_dans_a0:" +
-                "beq $v0, 0, sinon\n" +
-                "la $a0, vrai\n" +
-                "sinon:\n" +
-                "la $a0, faux\n" +
+        return  "selection_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + ":\n" +
+                "beq $a0, 0, sinon_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + "\n" +
+                chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "vrai") +
+                "sinon_label_booleen_dans_" + Registre.STOCKAGE_RESULTAT.valeur + ":\n" +
+                chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "faux") +
+                "jr $ra\n" +
                 "end :\n" +
                 "# fin du programme\n" +
                 chargementImmediat("$v0", "10") +
