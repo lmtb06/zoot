@@ -18,13 +18,15 @@ public class Variable extends Identifiable {
     @Override
     public void verifier() {
         try {
-            TDS.getInstance().identifier(entree);
+            symboleVariable = (SymboleVariable) TDS.getInstance().identifier(entree);
         }
         catch (VariableNonDeclarerException variableNonDeclarerException)
         {
             GestionnaireExceptionsSemantiques.getInstance()
                     .ajouter(new LigneDecorator(this.noLigne, variableNonDeclarerException));
         }
+
+        symboleVariable.decorer(this);
     }
 
     @Override
