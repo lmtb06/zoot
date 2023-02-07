@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class GestionnaireExceptionsSemantiques {
     private static final GestionnaireExceptionsSemantiques singleton = new GestionnaireExceptionsSemantiques();
-    private ArrayList<AnalyseSemantiqueException> exceptions = new ArrayList<>();
+    private final ArrayList<AnalyseSemantiqueException> exceptions = new ArrayList<>();
 
     private GestionnaireExceptionsSemantiques() {
 
