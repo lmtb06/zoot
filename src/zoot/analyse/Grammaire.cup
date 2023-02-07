@@ -98,11 +98,11 @@ DECL    ::=     ENTIER IDF:i POINTVIRGULE
                 {:
                     SymboleVariable s = new SymboleVariable(Type.BOOLEEN);
                     try{
-                            TDS.getInstance().ajouter(new EntreeVariable(i), s);
-                        } catch (DoubleDeclarationException e) {
-                            GestionnaireExceptionsSemantiques.getInstance()
-                                                .ajouter(new LigneDecorator(ileft +1, e));
-                        }
+                        TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                    } catch (DoubleDeclarationException e) {
+                        GestionnaireExceptionsSemantiques.getInstance()
+                            .ajouter(new LigneDecorator(ileft +1, e));
+                    }
                     s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
                     TDS.getInstance().augmenterTailleZoneVariables(4);
                 :};

@@ -46,8 +46,8 @@ public class MipsGenerator {
      * @param registreDestination La destination
      * @return Le code MIPS pour copier le contenu d’un registre vers un autre
      */
-    public String copieRegistreRegistre(String registreSource, String registreDestination) {
-        return "move " + registreDestination + ", " + registreSource + "\n";
+    public String copieRegistreRegistre(String registreDestination, String registreSource) {
+        return "move " + registreSource + ", " + registreDestination + "\n";
     }
 
     public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
@@ -151,7 +151,7 @@ public class MipsGenerator {
                 ".text\n" +
                 "main :\n" +
                 "# début du programme\n" +
-                copieRegistreRegistre(Registre.POINTEUR_DEBUT_ZONE_PILE.valeur, Registre.POINTEUR_PILE.valeur) +
+                copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_PILE.valeur) +
                 reserverOctetsPile(-deplacementTotal);
     }
 

@@ -16,10 +16,14 @@ class BlocDInstructionsTest {
         blocDInstructions.ajouter(new Ecrire(new ConstanteEntiere("0", 1), 1));
         blocDInstructions.ajouter(new Ecrire(new ConstanteEntiere("-42", 1), 1));
 
-        String attendu = ".text\n" +
+        String attendu = ".data\n" +
+                "vrai: .asciiz \"vrai\"\n" +
+                "faux: .asciiz \"faux\"\n" +
+                ".text\n" +
                 "main :\n" +
                 "# début du programme\n" +
                 "move $s7, $sp\n" +
+                "addi $sp, $sp, 0\n" +
                 "li $v0, 42\n" +
                 "move $a0, $v0\n" +
                 "li $v0, 1\n" +
@@ -59,10 +63,14 @@ class BlocDInstructionsTest {
     void toMIPS_vide() {
         BlocDInstructions blocDInstructions = new BlocDInstructions(0);
 
-        String attendu = ".text\n" +
+        String attendu = ".data\n" +
+                "vrai: .asciiz \"vrai\"\n" +
+                "faux: .asciiz \"faux\"\n" +
+                ".text\n" +
                 "main :\n" +
                 "# début du programme\n" +
                 "move $s7, $sp\n" +
+                "addi $sp, $sp, 0\n" +
                 "selection_label_booleen:\n" +
                 "beq $a0, 0, sinon_label_booleen\n" +
                 "la $v0, vrai\n" +
@@ -83,10 +91,14 @@ class BlocDInstructionsTest {
 
         blocDInstructions.ajouter(new Ecrire(new ConstanteEntiere("42", 1), 1));
 
-        String attendu = ".text\n" +
+        String attendu = ".data\n" +
+                "vrai: .asciiz \"vrai\"\n" +
+                "faux: .asciiz \"faux\"\n" +
+                ".text\n" +
                 "main :\n" +
                 "# début du programme\n" +
                 "move $s7, $sp\n" +
+                "addi $sp, $sp, 0\n" +
                 "li $v0, 42\n" +
                 "move $a0, $v0\n" +
                 "li $v0, 1\n" +

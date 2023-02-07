@@ -1,7 +1,11 @@
+.data
+vrai: .asciiz "vrai"
+faux: .asciiz "faux"
 .text
 main :
 # début du programme
 move $s7, $sp
+addi $sp, $sp, -8
 li $v0, 10
 move $a0, $v0
 li $v0, 1
@@ -58,6 +62,12 @@ syscall
 li $a0, 10
 li $v0, 11
 syscall
+selection_label_booleen:
+beq $a0, 0, sinon_label_booleen
+la $v0, vrai
+sinon_label_booleen:
+la $v0, faux
+jr $ra
 end :
 # fin du programme
 li $v0, 10

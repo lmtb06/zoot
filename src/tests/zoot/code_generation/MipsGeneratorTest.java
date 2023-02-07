@@ -64,7 +64,7 @@ class MipsGeneratorTest {
                 ".text\n" +
                 "main :\n" +
                 "# début du programme\n" +
-                "move $sp, $s7\n" +
+                "move $s7, $sp\n" +
                 "addi $sp, $sp, -7\n";
         assertEquals(attendu, generator.enteteProgramme(-7));
     }
