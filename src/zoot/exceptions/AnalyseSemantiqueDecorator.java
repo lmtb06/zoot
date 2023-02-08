@@ -2,6 +2,7 @@ package zoot.exceptions;
 
 public class AnalyseSemantiqueDecorator extends AnalyseSemantiqueException {
     protected AnalyseSemantiqueException exception;
+
     public AnalyseSemantiqueDecorator(AnalyseSemantiqueException e) {
         super("");
         this.exception = e;

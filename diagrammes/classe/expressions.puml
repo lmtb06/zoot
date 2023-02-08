@@ -28,6 +28,7 @@ namespace zoot.arbre.expressions {
 
     abstract class Identifiable {
         + Identifiable(Entree e, int n)
+        ' TODO dans zoot2 + void setSymbole(Symbole s) la décoration se fera ici
     }
 
     class Variable {
@@ -43,10 +44,9 @@ namespace zoot.arbre.expressions {
     Constante -up-|> Expression
     ConstanteEntiere -up-|> Constante
     ConstanteBooleene -right-|> Constante
-    Identifiable --"1" zoot.tds.Entree
-    Identifiable -right-|> Expression
+    Identifiable *-up- zoot.tds.Entree
+    Identifiable *-up- zoot.tds.Symbole
+    Identifiable -left-|> Expression
     Variable -up-|> Identifiable
-    Variable --"1" zoot.tds.SymboleVariable
-    Variable *-- zoot.tds.EntreeVariable
 }
 @enduml

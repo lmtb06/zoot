@@ -2,13 +2,16 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Variable;
+import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
+import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.TypeIncompatibleException;
-import zoot.exceptions.VariableNonDeclarerException;
 
 public class Affectation extends Instruction {
     private final Variable variable;
     private final Expression expression;
+
     public Affectation(Variable v, Expression e, int n) {
         super(n);
         this.variable = v;
@@ -17,25 +20,19 @@ public class Affectation extends Instruction {
 
     @Override
     public void verifier() {
-        try{
-            variable.instancier();
-            variable.verifier();
-            expression.verifier();
-            if (variable.getType() != expression.getType())
-                GestionnaireExceptionsSemantiques.getInstance()
-                        .ajouter(new TypeIncompatibleException(variable.getType(),
-                                expression.getType()));
-        }
-        catch (VariableNonDeclarerException variableNonDeclarerException)
-        {
+        variable.verifier();
+        expression.verifier();
+        if (variable.getType() != expression.getType())
             GestionnaireExceptionsSemantiques.getInstance()
-                    .ajouter(variableNonDeclarerException);
-        }
+                    .ajouter(new LigneDecorator(noLigne,
+                            new TypeIncompatibleException(variable.getType(),
+                                    expression.getType())));
     }
 
     @Override
     public String toMIPS() {
         return expression.toMIPS() +
-                "sw $v0, " + variable.getDeplacement() + "($s7)\n";
+                MipsGenerator.getInstance()
+                        .sauvegarderVariableDepuisRegistre(Registre.STOCKAGE_RESULTAT.valeur, variable.getDeplacement());
     }
 }

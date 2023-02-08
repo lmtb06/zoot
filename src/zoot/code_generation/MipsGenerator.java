@@ -13,6 +13,7 @@ public class MipsGenerator {
 
     /**
      * Permet de récuperer l'instance du singleton
+     *
      * @return l'instance du singleton
      */
     public static MipsGenerator getInstance() {
@@ -21,8 +22,9 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour le chargement immédiat de valeur dans registre
+     *
      * @param registre Le registre cible
-     * @param valeur La valeur à charger
+     * @param valeur   La valeur à charger
      * @return Le code MIPS pour le chargement immédiat
      */
     public String chargementImmediat(String registre, String valeur) {
@@ -31,23 +33,24 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour le chargement d'adresse d'un registre
+     *
      * @param registreDst Le registre cible
-     * @param label la valeur à charger (registre ou string présent dans le .data)
+     * @param label       la valeur à charger (registre ou string présent dans le .data)
      * @return Le code MIPS pour le chargement par adresse
      */
-    public String chargementAdresseRegistre(String registreDst, String label)
-    {
+    public String chargementAdresseRegistre(String registreDst, String label) {
         return "la " + registreDst + ", " + label + "\n";
     }
 
     /**
      * Retourne le code MIPS pour copier le contenu d’un registre vers un autre
-     * @param registreSource Le registre à copier
+     *
+     * @param registreSource      Le registre à copier
      * @param registreDestination La destination
      * @return Le code MIPS pour copier le contenu d’un registre vers un autre
      */
-    public String copieRegistreRegistre(String registreDestination, String registreSource) {
-        return "move " + registreSource + ", " + registreDestination + "\n";
+    public String copieRegistreRegistre(String registreSource, String registreDestination) {
+        return "move " + registreDestination + ", " + registreSource + "\n";
     }
 
     public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
@@ -56,11 +59,13 @@ public class MipsGenerator {
     }
 
     public String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable) {
-        return "\n";
+        return "sw " + registreSource + ", "
+                + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
     }
 
     /**
      * Retourne le code MIPS pour réserver des octets dans la pile
+     *
      * @param nbOctets Le nombre d’octets à réserver
      * @return Le code MIPS pour réserver des octets dans la pile
      */
@@ -70,6 +75,7 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour libérer des octets de la pile
+     *
      * @param nbOctets Le nombre d’octets à libérer
      * @return Le code MIPS pour libérer des octets dans la pile
      */
@@ -79,43 +85,47 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour afficher un caractère
+     *
      * @param valeur le code ASCII du caractère
      * @return le code MIPS pour afficher un caractère
      */
     public String afficherCaractere(String valeur) {
         return chargementImmediat("$a0", valeur) +
-                chargementImmediat("$v0", "11")+
+                chargementImmediat("$v0", "11") +
                 "syscall\n";
     }
 
     /**
      * Retourne le code MIPS pour afficher le contenu d’un registre sous la forme
      * d’un entier
+     *
      * @param registre Le registre
      * @return Le code MIPS pour afficher le contenu d’un registre sous la forme
      * d’un entier
      */
     public String afficherEntierRegistre(String registre) {
-        return copieRegistreRegistre(registre, "$a0")+
-                chargementImmediat("$v0", "1")+
+        return copieRegistreRegistre(registre, "$a0") +
+                chargementImmediat("$v0", "1") +
                 "syscall\n";
     }
 
     /**
      * Retourne le code MIPS pour afficher le contenu d’un registre sous la forme
      * d’une chaîne de caractères
+     *
      * @param registre Le registre
      * @return Le code MIPS pour afficher le contenu d’un registre sous la forme
      * d’une chaine de caractères
      */
     public String afficherChaineDeCaracteresRegistre(String registre) {
-        return copieRegistreRegistre(registre, "$a0")+
-                chargementImmediat("$v0", "4")+
+        return copieRegistreRegistre(registre, "$a0") +
+                chargementImmediat("$v0", "4") +
                 "syscall\n";
     }
 
     /**
      * Retourne le code MIPS pour faire un saut à la ligne
+     *
      * @return Le code MIPS pour faire un saut à la ligne
      */
     public String afficherRetourLigne() {
@@ -130,6 +140,7 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour l’entête du programme MIPS
+     *
      * @return le code MIPS pour l’entête du programme MIPS
      */
     public String enteteProgramme() {
@@ -141,7 +152,8 @@ public class MipsGenerator {
 
     /**
      * Retourne le code MIPS pour l’entête du programme MIPS
-     * @param deplacementTotal a.k.a. le nombre d'octets à allouer dans la stack (-nbOctets !!!)
+     *
+     * @param deplacementTotal a.k.a. le nombre d'octets à allouer dans la stack
      * @return le code MIPS pour l’entête du programme MIPS
      */
     public String enteteProgramme(int deplacementTotal) {
@@ -152,11 +164,12 @@ public class MipsGenerator {
                 "main :\n" +
                 "# début du programme\n" +
                 copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_PILE.valeur) +
-                reserverOctetsPile(-deplacementTotal);
+                reserverOctetsPile(deplacementTotal);
     }
 
     /**
      * Retourne le code MIPS pour la fin du programme MIPS
+     *
      * @return Le code MIPS pour la fin du programme MIPS
      */
     public String finProgramme() {
@@ -164,11 +177,15 @@ public class MipsGenerator {
                 "# fin du programme\n" +
                 chargementImmediat("$v0", "10") +
                 "syscall\n" +
-                "selection_label_booleen" + ":\n" +
-                chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "faux") +
-                "beq $a0, 0, fsi_label_booleen" + "\n" +
+                "# fonctions utilitaires zoot\n" +
+                "selection_label_booleen:\n" +
+                chargementImmediat(Registre.STOCKAGE_TEMPORAIRE.valeur, "0") +
+                "beq $a0," + Registre.STOCKAGE_TEMPORAIRE.valeur + ", sinon_label_booleen\n" +
                 chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "vrai") +
-                "fsi_label_booleen" + ":\n" +
+                "j fin_label_booleen\n" +
+                "sinon_label_booleen:\n" +
+                chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "faux") +
+                "fin_label_booleen:\n" +
                 "jr $ra\n";
     }
 }

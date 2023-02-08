@@ -1,14 +1,12 @@
 package zoot.tds;
 
-import zoot.arbre.expressions.Identifiable;
+import zoot.arbre.expressions.Variable;
 
 public abstract class Symbole {
     protected Type type;
 
-    protected boolean estInit = false;
 
-    public Symbole(Type type)
-    {
+    public Symbole(Type type) {
         this.type = type;
     }
 
@@ -16,21 +14,13 @@ public abstract class Symbole {
         return type;
     }
 
-    public boolean estInstancie()
-    {
-        return estInit;
-    }
-
-    public void instancier()
-    {
-        estInit = true;
-    }
 
     /**
      * Décore un identifiable, ici il ne fait rien, il est à redéfinir si besoin
+     *
      * @param i un Identifiable
      */
-    public void decorer(Identifiable i) {
+    public void decorer(Variable i) {
         //IT DOES NOTHING
     }
 }

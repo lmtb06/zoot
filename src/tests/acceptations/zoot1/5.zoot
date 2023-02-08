@@ -1,7 +1,11 @@
 variables
     entier a;
+    // Double déclaration de variable
+    entier a;
 debut
     ecrire a;
     // Non déclaration de variable
     ecrire b;
+    // Type incompatible
+    a = vrai;
 fin

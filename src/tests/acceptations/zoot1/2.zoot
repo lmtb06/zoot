@@ -1,5 +1,9 @@
 variables
     entier a;
+    // Double déclaration de variable
+    entier a;
+    // Double déclaration
+    entier a;
 debut
     ecrire a;
 fin

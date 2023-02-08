@@ -5,6 +5,7 @@ namespace zoot.tds {
 
   ' Classes
   class TDS << (S,#FF7700) >> {
+    - int tailleZoneVariables
     + TDS getInstance()
     + void ajouter(Entree entree, Symbole symbole)
     + Symbole identifier(Entree entree)
