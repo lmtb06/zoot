@@ -4,6 +4,7 @@ import zoot.analyse.AnalyseurLexical;
 import zoot.analyse.AnalyseurSyntaxique;
 import zoot.arbre.ArbreAbstrait;
 import zoot.exceptions.AnalyseException;
+import zoot.exceptions.GestionnaireExceptionsSemantiques;
 
 import java.io.*;
 import java.util.logging.Level;
@@ -17,6 +18,8 @@ public class Zoot {
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
 
             arbre.verifier() ;
+            if(GestionnaireExceptionsSemantiques.getInstance().getNbExceptions() > 0)
+                throw new RuntimeException(GestionnaireExceptionsSemantiques.getInstance().getMessagesExceptions());
             System.out.println("COMPILATION OK") ;
 
             String nomSortie = nomFichier.replaceAll("[.]zoot", ".mips") ;

@@ -15,18 +15,24 @@ public class Variable extends Identifiable {
         super(e, n);
     }
 
+    public void instancier()
+    {
+        symboleVariable = (SymboleVariable) TDS.getInstance().identifier(entree);
+        symboleVariable.instancier();
+    }
+
     @Override
     public void verifier() {
         try {
             symboleVariable = (SymboleVariable) TDS.getInstance().identifier(entree);
+            if(!symboleVariable.estInstancie()) throw new VariableNonDeclarerException(entree);
+            symboleVariable.decorer(this);
         }
         catch (VariableNonDeclarerException variableNonDeclarerException)
         {
             GestionnaireExceptionsSemantiques.getInstance()
                     .ajouter(new LigneDecorator(this.noLigne, variableNonDeclarerException));
         }
-
-        symboleVariable.decorer(this);
     }
 
     @Override

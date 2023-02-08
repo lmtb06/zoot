@@ -2,14 +2,13 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Variable;
-import zoot.code_generation.MipsGenerator;
-import zoot.code_generation.Registre;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.TypeIncompatibleException;
+import zoot.exceptions.VariableNonDeclarerException;
 
 public class Affectation extends Instruction {
-    private Variable variable;
-    private Expression expression;
+    private final Variable variable;
+    private final Expression expression;
     public Affectation(Variable v, Expression e, int n) {
         super(n);
         this.variable = v;
@@ -18,12 +17,20 @@ public class Affectation extends Instruction {
 
     @Override
     public void verifier() {
-        variable.verifier();
-        expression.verifier();
-        if (variable.getType() != expression.getType())
+        try{
+            variable.instancier();
+            variable.verifier();
+            expression.verifier();
+            if (variable.getType() != expression.getType())
+                GestionnaireExceptionsSemantiques.getInstance()
+                        .ajouter(new TypeIncompatibleException(variable.getType(),
+                                expression.getType()));
+        }
+        catch (VariableNonDeclarerException variableNonDeclarerException)
+        {
             GestionnaireExceptionsSemantiques.getInstance()
-                    .ajouter(new TypeIncompatibleException(variable.getType(),
-                            expression.getType()));
+                    .ajouter(variableNonDeclarerException);
+        }
     }
 
     @Override

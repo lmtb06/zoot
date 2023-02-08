@@ -1,0 +1,7 @@
+// Doit retourner une erreur semantique à la ligne 3
+variables
+  booleen a;
+  entier a;
+debut
+	ecrire a;
+fin

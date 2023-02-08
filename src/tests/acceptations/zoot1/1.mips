@@ -60,9 +60,9 @@ end :
 li $v0, 10
 syscall
 selection_label_booleen:
-beq $a0, 0, sinon_label_booleen
-la $v0, vrai
-sinon_label_booleen:
 la $v0, faux
+beq $a0, 0, fsi_label_booleen
+la $v0, vrai
+fsi_label_booleen:
 jr $ra
 

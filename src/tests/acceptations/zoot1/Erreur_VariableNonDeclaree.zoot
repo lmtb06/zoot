@@ -1,0 +1,17 @@
+//Erreur la variable t n'a pas été déclarée
+
+variables
+
+booleen b;
+entier ps;
+
+debut
+    
+    b = vrai;
+    ps = 24;
+    
+    ecrire b;
+    
+    ecrire t;
+
+fin

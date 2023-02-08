@@ -5,6 +5,8 @@ import zoot.arbre.expressions.Identifiable;
 public abstract class Symbole {
     protected Type type;
 
+    protected boolean estInit = false;
+
     public Symbole(Type type)
     {
         this.type = type;
@@ -12,6 +14,16 @@ public abstract class Symbole {
 
     public Type getType() {
         return type;
+    }
+
+    public boolean estInstancie()
+    {
+        return estInit;
+    }
+
+    public void instancier()
+    {
+        estInit = true;
     }
 
     /**

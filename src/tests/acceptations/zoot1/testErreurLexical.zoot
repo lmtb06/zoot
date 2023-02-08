@@ -1,0 +1,7 @@
+// Doit afficher :
+// Erreur lexical à la ligne 6
+variables
+	entier a;
+debut
+	ecrire 🥸 ;
+fin
