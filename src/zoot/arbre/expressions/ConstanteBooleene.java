@@ -4,7 +4,7 @@ import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
-public class ConstanteBooleene extends Constante{
+public class ConstanteBooleene extends Constante {
 
     public ConstanteBooleene(String texte, int n) {
         super(texte, n);
@@ -15,10 +15,10 @@ public class ConstanteBooleene extends Constante{
         StringBuilder sb = new StringBuilder();
         MipsGenerator mg = MipsGenerator.getInstance();
         switch (cste) {
-            case "vrai" :
+            case "vrai":
                 sb.append(mg.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, "1"));
                 break;
-            case "faux" :
+            case "faux":
                 sb.append(mg.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, "0"));
                 break;
         }

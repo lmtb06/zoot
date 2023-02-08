@@ -1,0 +1,7 @@
+variables
+    entier a;
+debut
+    ecrire a;
+    // Type incompatible
+    a = vrai;
+fin

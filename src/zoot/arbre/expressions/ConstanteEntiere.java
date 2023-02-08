@@ -11,11 +11,12 @@ public class ConstanteEntiere extends Constante {
 
     /**
      * Constructeur.
+     *
      * @param texte la valeur de la constante entière.
-     * @param n le numéro de ligne de la déclaration dans le code zoot.
+     * @param n     le numéro de ligne de la déclaration dans le code zoot.
      */
     public ConstanteEntiere(String texte, int n) {
-        super(texte, n) ;
+        super(texte, n);
     }
 
     /**

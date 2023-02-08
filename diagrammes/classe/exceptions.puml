@@ -15,7 +15,7 @@ namespace zoot.exceptions {
         + AnalyseSyntaxiqueException(String m)
     }
 
-    abstract class AnalyseSemantiqueException {
+    class AnalyseSemantiqueException {
         + AnalyseSemantiqueException(String m)
     }
 

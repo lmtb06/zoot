@@ -9,29 +9,32 @@ import java.util.ArrayList;
 /**
  * 21 novembre 2018
  * Représente un bloc d'instruction dans l'arbre abstrait.
+ *
  * @author brigitte wrobel-dautcourt
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
-    
-    protected ArrayList<Instruction> programme ;
+
+    protected ArrayList<Instruction> programme;
     private int tailleZoneVariables;
 
     /**
      * Constructeur.
+     *
      * @param n la ligne du début du bloc d'instruction dans le code zoot.
      */
     public BlocDInstructions(int n) {
-        super(n) ;
-        programme = new ArrayList<>() ;
+        super(n);
+        programme = new ArrayList<>();
     }
 
     /**
      * Ajoute une instruction au bloc d'instruction.
+     *
      * @param i l'instruction à ajouter.
      */
     public void ajouter(Instruction i) {
-        programme.add(i) ;
+        programme.add(i);
     }
 
     /**
@@ -68,7 +71,7 @@ public class BlocDInstructions extends ArbreAbstrait {
      */
     @Override
     public String toString() {
-        return programme.toString() ;
+        return programme.toString();
     }
 
 }

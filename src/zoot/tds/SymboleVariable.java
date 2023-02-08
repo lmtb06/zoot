@@ -3,10 +3,9 @@ package zoot.tds;
 import zoot.arbre.expressions.Variable;
 
 public class SymboleVariable extends Symbole {
-    protected int deplacement = 1;
+    protected int deplacement = 0;
 
-    public SymboleVariable(Type type)
-    {
+    public SymboleVariable(Type type) {
         super(type);
     }
 
@@ -16,8 +15,10 @@ public class SymboleVariable extends Symbole {
 
     /**
      * Décore une variable
+     *
      * @param v la variable
      */
+    @Override
     public void decorer(Variable v) {
         v.setDeplacement(deplacement);
     }

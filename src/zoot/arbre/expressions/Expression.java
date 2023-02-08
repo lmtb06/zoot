@@ -12,7 +12,7 @@ public abstract class Expression extends ArbreAbstrait {
      * {@inheritDoc}
      */
     protected Expression(int n) {
-        super(n) ;
+        super(n);
     }
 
     public abstract Type getType();

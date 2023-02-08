@@ -9,6 +9,7 @@ public class GestionnaireExceptionsSemantiques {
     private GestionnaireExceptionsSemantiques() {
 
     }
+
     public static GestionnaireExceptionsSemantiques getInstance() {
         return singleton;
     }

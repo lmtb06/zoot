@@ -4,6 +4,9 @@ variables
 debut
 // test
     a = 10;
+    a = 20;
+    a = 15;
+    a = 10;
     b = vrai;
     ecrire a;
     ecrire b;
