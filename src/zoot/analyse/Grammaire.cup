@@ -59,9 +59,9 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    VARIABLES, DEBUT, FIN, ENTIER, BOOLEEN, POINTVIRGULE, ECRIRE, EGAL ;
+terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, ENTIER, BOOLEEN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE, PARENTHESEFERMEE ;
 terminal String    CSTENTIERE, CSTBOOL, IDF ;
-   
+
 /* Non terminals used in the grammar section.  */
 
 non terminal ArbreAbstrait PROG, LINST ;
@@ -70,7 +70,7 @@ non terminal Expression EXP ;
 non terminal LDECL, DECL ;
 
 /* ----------------------------Grammar Section-------------------- */
- 
+
 start with PROG ;
 
 PROG    ::=     VARIABLES LDECL:ld DEBUT  LINST:li  FIN
@@ -86,25 +86,25 @@ DECL    ::=     ENTIER IDF:i POINTVIRGULE
                     SymboleVariable s = new SymboleVariable(Type.ENTIER);
                     try{
                         TDS.getInstance().ajouter(new EntreeVariable(i), s);
-                        s.setDeplacement(-(TDS.getInstance().getTailleZoneVariables()));
-                        TDS.getInstance().augmenterTailleZoneVariables(4);
                     } catch (DoubleDeclarationException e) {
                         GestionnaireExceptionsSemantiques.getInstance()
                                             .ajouter(new LigneDecorator(ileft + 1, e));
                     }
+                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
+                    TDS.getInstance().augmenterTailleZoneVariables(4);
                 :}
         |
                 BOOLEEN IDF:i POINTVIRGULE
                 {:
                     SymboleVariable s = new SymboleVariable(Type.BOOLEEN);
                     try{
-                            TDS.getInstance().ajouter(new EntreeVariable(i), s);
-                            s.setDeplacement(-(TDS.getInstance().getTailleZoneVariables()));
-                            TDS.getInstance().augmenterTailleZoneVariables(4);
-                        } catch (DoubleDeclarationException e) {
-                            GestionnaireExceptionsSemantiques.getInstance()
-                                                .ajouter(new LigneDecorator(ileft +1, e));
-                        }
+                        TDS.getInstance().ajouter(new EntreeVariable(i), s);
+                    } catch (DoubleDeclarationException e) {
+                        GestionnaireExceptionsSemantiques.getInstance()
+                            .ajouter(new LigneDecorator(ileft +1, e));
+                    }
+                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
+                    TDS.getInstance().augmenterTailleZoneVariables(4);
                 :};
 
 LINST   ::=     LINST:li  INST:i

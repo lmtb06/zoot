@@ -41,6 +41,7 @@ espace = {finDeLigne}  | [ \t\f]
 "//".*                                    { /* DO NOTHING */ }
 
 "variables"            { return symbol(CodesLexicaux.VARIABLES);}
+"fonctions"            { return symbol(CodesLexicaux.FONCTIONS);}
 "debut"                { return symbol(CodesLexicaux.DEBUT); }
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
 
@@ -52,10 +53,12 @@ espace = {finDeLigne}  | [ \t\f]
 
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 
+"("                    { return symbol(CodesLexicaux.PARENTHESEOUVERTE); }
+")"                    { return symbol(CodesLexicaux.PARENTHESEFERMEE); }
+
 {csteB}      	       { return symbol(CodesLexicaux.CSTBOOL, yytext()); }
 {csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
 {idf}                  { return symbol(CodesLexicaux.IDF, yytext()); }
 
 {espace}               { }
 .                      { throw new AnalyseLexicaleException(yyline, yycolumn, yytext()) ; }
-
