@@ -65,17 +65,67 @@ terminal String    TYPE, CSTENTIERE, CSTBOOL, IDF ;
 
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST ;
-non terminal Instruction INST ;
+non terminal ArbreAbstrait PROG, LINST, LFONC, FONC, LINSTF;
+non terminal Instruction INST, INSTF, RETOURNEI ;
 non terminal Expression EXP ;
-non terminal LDECL, DECL ;
+non terminal LDECL, DECL, PARAMETRES ;
 
 /* ----------------------------Grammar Section-------------------- */
 
 start with PROG ;
 
-PROG    ::=     VARIABLES LDECL:ld DEBUT  LINST:li  FIN
-                {: RESULT = li ; :}
+PROG    ::=     VARIABLES LDECL:ld FONCTIONS LFONC:lf DEBUT  LINST:li  FIN
+                {:
+                    // TODO Ajout des fonctions une fois les bonnes classes implémentées
+                    RESULT = li ;
+                :}
+                ;
+
+LFONC   ::=     LFONC:lf FONC:f
+                {: /* Ajout de la fonction f à lf */
+                    RESULT = f; // TODO mettre le bon retour
+                 :}
+        |
+                FONC:f
+                {: /* Création de lf */
+                    RESULT = f; // TODO mettre le bon retour
+                :}
+                ;
+
+FONC    ::=     TYPE:t IDF:i PARAMETRES DEBUT LINSTF:li  FIN
+                {:
+                    RESULT = li ; // TODO Mettre le bon retour
+                :}
+                ;
+
+
+
+PARAMETRES ::=  PARENTHESEOUVERTE PARENTHESEFERMEE
+                ;
+
+LINSTF  ::=     LINSTF:li  INSTF:i
+                {:
+                    ((BlocDInstructions)li).ajouter(i) ;
+                    RESULT = li ;
+                :}
+        |
+                INSTF:i
+                {:
+                    BlocDInstructions b = new BlocDInstructions(ileft + 1) ;
+                    b.ajouter(i) ;
+                    RESULT = b ;
+                :}
+                 ;
+
+INSTF   ::=     INST
+        |
+                RETOURNEI
+                ;
+
+RETOURNEI   ::= RETOURNE EXP:e POINTVIRGULE
+                {:
+                    RESULT = new Ecrire(e, eleft + 1) ; // TODO Mettre la bonne classe
+                :}
                 ;
 
 LDECL   ::=     DECL LDECL
