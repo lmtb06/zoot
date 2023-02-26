@@ -33,6 +33,7 @@ import zoot.exceptions.AnalyseLexicaleException;
 
 csteB = vrai|faux
 csteE = -?[0-9]+
+type = entier|booleen
 idf = [a-zA-Z][a-zA-Z0-9]*
 finDeLigne = \r|\n
 espace = {finDeLigne}  | [ \t\f]
@@ -45,9 +46,6 @@ espace = {finDeLigne}  | [ \t\f]
 "debut"                { return symbol(CodesLexicaux.DEBUT); }
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
 
-"entier"               { return symbol(CodesLexicaux.ENTIER); }
-"booleen"              { return symbol(CodesLexicaux.BOOLEEN); }
-
 "ecrire"               { return symbol(CodesLexicaux.ECRIRE); }
 "retourne"             { return symbol(CodesLexicaux.RETOURNE); }
 
@@ -58,6 +56,7 @@ espace = {finDeLigne}  | [ \t\f]
 
 {csteB}      	       { return symbol(CodesLexicaux.CSTBOOL, yytext()); }
 {csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
+{type}                 { return symbol(CodesLexicaux.TYPE, yytext()); }
 {idf}                  { return symbol(CodesLexicaux.IDF, yytext()); }
 
 {espace}               { }

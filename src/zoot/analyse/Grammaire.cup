@@ -59,9 +59,9 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, ENTIER, BOOLEEN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE,
+terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE,
 PARENTHESEFERMEE, RETOURNE ;
-terminal String    CSTENTIERE, CSTBOOL, IDF ;
+terminal String    TYPE, CSTENTIERE, CSTBOOL, IDF ;
 
 /* Non terminals used in the grammar section.  */
 
@@ -82,27 +82,25 @@ LDECL   ::=     DECL LDECL
         |
                 DECL;
 
-DECL    ::=     ENTIER IDF:i POINTVIRGULE
+DECL    ::=     TYPE:t IDF:i POINTVIRGULE
                 {:
-                    SymboleVariable s = new SymboleVariable(Type.ENTIER);
+                    Type typeSymbole = Type.ENTIER;
+                    switch (t) {
+                        case "entier" :
+                            typeSymbole = Type.ENTIER;
+                            break;
+                        case "booleen" :
+                            typeSymbole = Type.BOOLEEN;
+                            break;
+                    }
+
+
+                    SymboleVariable s = new SymboleVariable(typeSymbole);
                     try{
                         TDS.getInstance().ajouter(new EntreeVariable(i), s);
                     } catch (DoubleDeclarationException e) {
                         GestionnaireExceptionsSemantiques.getInstance()
                                             .ajouter(new LigneDecorator(ileft + 1, e));
-                    }
-                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
-                    TDS.getInstance().augmenterTailleZoneVariables(4);
-                :}
-        |
-                BOOLEEN IDF:i POINTVIRGULE
-                {:
-                    SymboleVariable s = new SymboleVariable(Type.BOOLEEN);
-                    try{
-                        TDS.getInstance().ajouter(new EntreeVariable(i), s);
-                    } catch (DoubleDeclarationException e) {
-                        GestionnaireExceptionsSemantiques.getInstance()
-                            .ajouter(new LigneDecorator(ileft +1, e));
                     }
                     s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
                     TDS.getInstance().augmenterTailleZoneVariables(4);
