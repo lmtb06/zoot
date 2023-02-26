@@ -59,7 +59,8 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, ENTIER, BOOLEEN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE, PARENTHESEFERMEE ;
+terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, ENTIER, BOOLEEN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE,
+PARENTHESEFERMEE, RETOURNE ;
 terminal String    CSTENTIERE, CSTBOOL, IDF ;
 
 /* Non terminals used in the grammar section.  */

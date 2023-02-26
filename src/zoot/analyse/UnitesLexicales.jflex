@@ -49,10 +49,10 @@ espace = {finDeLigne}  | [ \t\f]
 "booleen"              { return symbol(CodesLexicaux.BOOLEEN); }
 
 "ecrire"               { return symbol(CodesLexicaux.ECRIRE); }
+"retourne"             { return symbol(CodesLexicaux.RETOURNE); }
+
 "="                    { return symbol(CodesLexicaux.EGAL); }
-
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
-
 "("                    { return symbol(CodesLexicaux.PARENTHESEOUVERTE); }
 ")"                    { return symbol(CodesLexicaux.PARENTHESEFERMEE); }
 
