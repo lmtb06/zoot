@@ -2,6 +2,8 @@ package zoot.tds;
 
 import zoot.exceptions.DoubleDeclarationException;
 import zoot.exceptions.VariableNonDeclarerException;
+import zoot.tds.entrees.Entree;
+import zoot.tds.symboles.Symbole;
 
 import java.util.HashMap;
 

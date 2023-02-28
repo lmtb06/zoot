@@ -1,6 +1,6 @@
 package zoot.exceptions;
 
-import zoot.tds.Entree;
+import zoot.tds.entrees.Entree;
 
 public class DoubleDeclarationException extends AnalyseSemantiqueException {
     public DoubleDeclarationException(Entree v) {

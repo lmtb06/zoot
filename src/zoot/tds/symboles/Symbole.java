@@ -1,6 +1,7 @@
-package zoot.tds;
+package zoot.tds.symboles;
 
 import zoot.arbre.expressions.Variable;
+import zoot.tds.Type;
 
 public abstract class Symbole {
     protected Type type;
@@ -18,9 +19,9 @@ public abstract class Symbole {
     /**
      * Décore un identifiable, ici il ne fait rien, il est à redéfinir si besoin
      *
-     * @param i un Identifiable
+     * @param v un Identifiable
      */
-    public void decorer(Variable i) {
+    public void decorer(Variable v) {
         //IT DOES NOTHING
     }
 }

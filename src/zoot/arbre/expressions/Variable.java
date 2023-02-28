@@ -5,7 +5,7 @@ import zoot.code_generation.Registre;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.VariableNonDeclarerException;
-import zoot.tds.EntreeVariable;
+import zoot.tds.entrees.EntreeVariable;
 import zoot.tds.TDS;
 import zoot.tds.Type;
 
