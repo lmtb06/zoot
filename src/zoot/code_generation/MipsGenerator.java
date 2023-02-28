@@ -81,13 +81,19 @@ public class MipsGenerator {
     }
 
     public String executerFonction(AppelFonction a) {
-        // TODO
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(reserverOctetsPile(4)); // Resultat
+        // sb.append(reserverOctetsPile(a.getTailleZoneParametres())); // Params
+        sb.append(reserverOctetsPile(4)); // adresse retour
+        sb.append(reserverOctetsPile(a.getTailleDisplay())); // Display
+        sb.append("");
+        return sb.toString();
     }
 
     public String getDefinitionFonction(Fonction f) {
-        // TODO
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        return sb.toString();
     }
 
     /**

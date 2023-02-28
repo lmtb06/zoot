@@ -19,7 +19,8 @@ public enum Registre {
     /**
      * Registre où sont stockés les résultats après une opération
      */
-    STOCKAGE_RESULTAT("$v0");
+    STOCKAGE_RESULTAT("$v0"),
+    POINTEUR_DEBUT_ZONE_PROGRAMME("$s3");
 
     public final String valeur;
 
