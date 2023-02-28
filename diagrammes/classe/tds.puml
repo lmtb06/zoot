@@ -22,13 +22,14 @@ namespace zoot.tds {
     + int getNiveauImbricationCourant()'
     + void entreeBloc()'
     + void sortieBloc()'
-    + allerEtatSuivant()'
+    + void allerEtatSuivant()'
   }
 
   class EspaceDeNom {
     - int tailleZoneVariables'
     - int noSousEspaceDeNomCourant'
     - int niveauImbrication'
+    + EspaceDeNom()
     + void ajouter(Entree entree, Symbole symbole)'
     + Symbole identifier(Entree entree)'
     + int getTailleZoneVariables()'
@@ -45,31 +46,32 @@ namespace zoot.tds {
   namespace etats {
     abstract EtatAnalyse {
       # EtatAnalyse(TDS tds)
-      ~ void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
-      ~ Symbole identifier(Entree entree) throws IllegalStateException'
-      ~ int getTailleZoneVariables()'
-      ~ void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
-      ~ int getTailleDisplay() throws IllegalStateException'
-      ~ int getNiveauImbricationCourant()'
-      ~ void entreeBloc()'
-      ~ void sortieBloc()'
-      ~ allerEtatSuivant()'
+      + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
+      + Symbole identifier(Entree entree) throws IllegalStateException'
+      + int getTailleZoneVariables()'
+      + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
+      + int getTailleDisplay() throws IllegalStateException'
+      + int getNiveauImbricationCourant()'
+      + void entreeBloc()'
+      + void sortieBloc()'
+      + void allerEtatSuivant()'
     }
 
     class EtatEnCoursAnalyseSyntaxique {
-      ~ EtatEnCoursAnalyseSyntaxique(TDS tds)'
-      ~ void ajouter(Entree entree, Symbole symbole)'
-      ~ void augmenterTailleZoneVariables(int nbOctets)'
-      ~ void entreeBloc()'
-      ~ void sortieBloc()'
+      + EtatEnCoursAnalyseSyntaxique(TDS tds)'
+      + void ajouter(Entree entree, Symbole symbole)'
+      + void augmenterTailleZoneVariables(int nbOctets)'
+      + void entreeBloc()'
+      + void sortieBloc()'
+      + void allerEtatSuivant()'
     }
 
     class EtatEnCoursAnalyseSemantique {
-      ~ EtatEnCoursAnalyseSemantique(TDS tds)'
-      ~ Symbole identifier(Entree entree)'
-      ~ int getTailleDisplay()'
-      ~ void entreeBloc()'
-      ~ void sortieBloc()'
+      + EtatEnCoursAnalyseSemantique(TDS tds)'
+      + Symbole identifier(Entree entree)'
+      + int getTailleDisplay()'
+      + void entreeBloc()'
+      + void sortieBloc()'
     }
   }
 
@@ -124,7 +126,7 @@ namespace zoot.tds {
   ' Relations entre les classes
   TDS --"1" TDS : statique
   TDS --"1" EspaceDeNom : EspaceDeNomCourant
-  TDS -left-"1" EtatAnalyse : etatCourant
+  TDS "1"-left-"1" EtatAnalyse : etatCourant
   EspaceDeNom --"*" Entree
   EspaceDeNom --"*" Symbole
   Symbole *-left- Type
