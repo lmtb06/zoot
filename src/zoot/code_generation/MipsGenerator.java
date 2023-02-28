@@ -1,6 +1,9 @@
 package zoot.code_generation;
 
+import zoot.arbre.Fonction;
 import zoot.arbre.Programme;
+import zoot.arbre.expressions.AppelFonction;
+import zoot.arbre.expressions.Variable;
 
 /**
  * Singleton utilisé pour centraliser la gestion du code MIPS
@@ -33,7 +36,6 @@ public class MipsGenerator {
         return "li " + registre + ", " + valeur + "\n";
     }
 
-    //TODO Supprimer
     /**
      * Retourne le code MIPS pour le chargement d'adresse d'un registre
      *
@@ -66,6 +68,26 @@ public class MipsGenerator {
     public String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable) {
         return "sw " + registreSource + ", "
                 + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
+    }
+
+    public String chargerContenuVariableDansRegistre(Variable variableSource, String registreDestination) {
+        // TODO
+        return "";
+    }
+
+    public String sauvegarderContenuRegistreDansVariable(String registreSource, Variable variableDestination) {
+        // TODO
+        return "";
+    }
+
+    public String executerFonction(AppelFonction a) {
+        // TODO
+        return "";
+    }
+
+    public String getDefinitionFonction(Fonction f) {
+        // TODO
+        return "";
     }
 
     /**
