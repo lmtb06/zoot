@@ -1,24 +1,24 @@
 package zoot.arbre.expressions;
 
+import zoot.tds.TDS;
 import zoot.tds.Type;
-import zoot.tds.entrees.Entree;
+import zoot.tds.entrees.EntreeFonction;
 import zoot.tds.symboles.Symbole;
-
-import java.util.Collection;
 
 public class AppelFonction extends Identifiable{
     private int niveauImbrication;
     private int tailleDisplay;
+    private int tailleZoneParametres;
     private String etiquette;
 
-    //TODO Remplacer Entree par EntreeFonction
-    public AppelFonction(Entree e, int n) {
+    public AppelFonction(EntreeFonction e, int n) {
         super(e, n);
+        tailleZoneParametres = e.getTypeParametres().size();
     }
 
     @Override
     public void verifier() {
-        //TODO
+        TDS.getInstance().identifier(entree);
     }
 
     @Override
@@ -55,8 +55,8 @@ public class AppelFonction extends Identifiable{
         return tailleDisplay;
     }
 
-    public void getTailleZoneParametres()
+    public int getTailleZoneParametres()
     {
-        //TODO
+        return tailleZoneParametres;
     }
 }

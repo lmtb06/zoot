@@ -6,23 +6,21 @@ import zoot.arbre.instructions.Retourne;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.TypeIncompatibleException;
-import zoot.tds.entrees.Entree;
-import zoot.tds.symboles.Symbole;
+import zoot.tds.entrees.EntreeFonction;
+import zoot.tds.symboles.SymboleFonction;
 
 import java.util.ArrayList;
 
 public class Fonction extends ArbreAbstrait implements ConteneurDInstructions{
-    private Entree entreeFonction; //TODO Entree devient EntreeFonction
-    private Symbole symboleFonction; //TODO Symbole devient SymboleFonction
+    private EntreeFonction entreeFonction;
+    private SymboleFonction symboleFonction;
     private int tailleZoneVariables;
     private String etiquette;
 
     private BlocDInstructions instructions;
     private ArrayList<Retourne> retourneArrayList;
 
-    //TODO Entree devient EntreeFonction
-    //TODO Symbole devient SymboleFonction
-    public Fonction(Entree e, Symbole s, int n) {
+    public Fonction(EntreeFonction e, SymboleFonction s, int n) {
         super(n);
 
         this.entreeFonction = e;
