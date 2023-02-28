@@ -36,6 +36,7 @@ namespace zoot.arbre.instructions {
     Affectation -right-|> Instruction
     Affectation *-- zoot.arbre.expressions.Variable
     Affectation *-down- zoot.arbre.expressions.Expression
+    Retourne --|> Instruction
 }
 
 @enduml
