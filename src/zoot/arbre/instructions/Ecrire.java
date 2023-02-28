@@ -1,5 +1,6 @@
 package zoot.arbre.instructions;
 
+import zoot.arbre.ConteneurDInstructions;
 import zoot.arbre.expressions.Expression;
 import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
@@ -39,6 +40,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
+        //TODO
         StringBuilder sb = new StringBuilder();
         MipsGenerator mg = MipsGenerator.getInstance();
         sb.append(exp.toMIPS());
@@ -54,4 +56,7 @@ public class Ecrire extends Instruction {
         return sb.toString();
     }
 
+    public void sAjouter(ConteneurDInstructions c) {
+        c.ajouter(this);
+    }
 }

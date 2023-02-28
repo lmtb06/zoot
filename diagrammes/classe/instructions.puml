@@ -6,27 +6,27 @@ namespace zoot.arbre.instructions {
     class Ecrire {
         + Ecrire (Expression e, int n)
         + void verifier()
-        + String toMIPS()
-        + sAjouter(ConteneurDInstructions c)'
+        + String toMIPS()'
+        + sAjouter(ConteneurDInstructions c)
     }
 
     class Affectation {
         + Affectation (Variable v, Expression e, int n)
         + void verifier()
-        + String toMIPS()
-        + sAjouter(ConteneurDInstructions c)'
+        + String toMIPS()'
+        + sAjouter(ConteneurDInstructions c)
     }
 
     class Retourne {
         + Retourne(Expression e, int n)
         + void verifier()
-        + String toMIPS()
-        + sAjouter(ConteneurDInstructions c)'
+        + String toMIPS()'
+        + sAjouter(ConteneurDInstructions c)
     }
 
     abstract class Instruction {
         # Instruction(int n)
-        + sAjouter(ConteneurDInstructions c)'
+        + abstract sAjouter(ConteneurDInstructions c)
     }
     
     ' Relations entre les classes
@@ -36,6 +36,7 @@ namespace zoot.arbre.instructions {
     Affectation -right-|> Instruction
     Affectation *-- zoot.arbre.expressions.Variable
     Affectation *-down- zoot.arbre.expressions.Expression
+    Retourne *-- zoot.arbre.expressions.Expression
     Retourne --|> Instruction
 }
 

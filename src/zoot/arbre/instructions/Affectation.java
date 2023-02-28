@@ -1,5 +1,6 @@
 package zoot.arbre.instructions;
 
+import zoot.arbre.ConteneurDInstructions;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Variable;
 import zoot.code_generation.MipsGenerator;
@@ -31,8 +32,13 @@ public class Affectation extends Instruction {
 
     @Override
     public String toMIPS() {
+        //TODO
         return expression.toMIPS() +
                 MipsGenerator.getInstance()
                         .sauvegarderVariableDepuisRegistre(Registre.STOCKAGE_RESULTAT.valeur, variable.getDeplacement());
+    }
+
+    public void sAjouter(ConteneurDInstructions c) {
+        c.ajouter(this);
     }
 }
