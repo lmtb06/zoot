@@ -11,4 +11,6 @@ public abstract class Identifiable extends Expression {
         super(n);
         this.entree = e;
     }
+
+    public abstract void setSymbole(Symbole s);
 }

@@ -16,31 +16,31 @@ namespace zoot.arbre.expressions {
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
         + Type getType()
-        + String toMIPS()
+        + String toMIPS()'
     }
 
     class ConstanteBooleene {
         + ConstanteBooleene(String texte, int n)
         + Type getType()
-        + String toMIPS()
+        + String toMIPS()'
 
     }
 
     abstract class Identifiable {
         + Identifiable(Entree e, int n)
-        + abstract void setSymbole(Symbole s) '
+        + abstract void setSymbole(Symbole s)
     }
 
     class Variable {
         - int deplacement
-        - int niveauImbrication'
+        - int niveauImbrication
         + Variable(EntreeVariable e, int n)
         + void setDeplacement(int deplacement)
         + int getDeplacement()
         + void setNiveauImbrication(int niveauImbrication)
         + int getNiveauImbrication()
         + void verifier()
-        + String toMIPS()
+        + String toMIPS()'
     }
 
     class AppelFonction {
@@ -54,7 +54,7 @@ namespace zoot.arbre.expressions {
         + int getTailleDisplay()
         + int getTailleZoneParametres()
         + void verifier()
-        + String toMIPS()
+        + String toMIPS()'
     }
     ' Relations entre les classes
     Expression -up-|> zoot.arbre.ArbreAbstrait

@@ -1,5 +1,7 @@
 package zoot.code_generation;
 
+import zoot.arbre.Programme;
+
 /**
  * Singleton utilisé pour centraliser la gestion du code MIPS
  * Chaque fonction se chargera de mettre les sauts à la ligne, dernière ligne comprise
@@ -31,15 +33,16 @@ public class MipsGenerator {
         return "li " + registre + ", " + valeur + "\n";
     }
 
+    //TODO Supprimer
     /**
      * Retourne le code MIPS pour le chargement d'adresse d'un registre
      *
      * @param registreDst Le registre cible
-     * @param label       la valeur à charger (registre ou string présent dans le .data)
+     * @param valeur       la valeur à charger (registre ou string présent dans le .data)
      * @return Le code MIPS pour le chargement par adresse
      */
-    public String chargementAdresseRegistre(String registreDst, String label) {
-        return "la " + registreDst + ", " + label + "\n";
+    public String chargementAdresseRegistre(String registreDst, String valeur) {
+        return "la " + registreDst + ", " + valeur + "\n";
     }
 
     /**
@@ -53,11 +56,13 @@ public class MipsGenerator {
         return "move " + registreDestination + ", " + registreSource + "\n";
     }
 
+    //TODO Supprimer
     public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
         return "lw " + registreDestination + ", "
                 + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
     }
 
+    //TODO Supprimer
     public String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable) {
         return "sw " + registreSource + ", "
                 + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
@@ -138,18 +143,7 @@ public class MipsGenerator {
                 afficherChaineDeCaracteresRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 
-    /**
-     * Retourne le code MIPS pour l’entête du programme MIPS
-     *
-     * @return le code MIPS pour l’entête du programme MIPS
-     */
-    public String enteteProgramme() {
-        return ".text\n" +
-                "main :\n" +
-                "# début du programme\n" +
-                copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_PILE.valeur);
-    }
-
+    //TODO Supprimer
     /**
      * Retourne le code MIPS pour l’entête du programme MIPS
      *
@@ -165,6 +159,16 @@ public class MipsGenerator {
                 "# début du programme\n" +
                 copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_PILE.valeur) +
                 reserverOctetsPile(deplacementTotal);
+    }
+
+    public String getEnteteProgramme(Programme p) {
+        //TODO
+        return null;
+    }
+
+    public String getFinProgramme(Programme p) {
+        //TODO
+        return null;
     }
 
     /**

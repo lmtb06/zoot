@@ -14,21 +14,23 @@ namespace zoot.arbre {
   }
 
   class Programme {
-    + Programme(BlocDeFonctions bf, BlocDInstructions b, int n)'
-    + void verifier()'
+    + Programme(BlocDeFonctions bf, BlocDInstructions b, int n)
+    + void verifier()
     + string toMIPS()'
   }
 
   interface ConteneurDInstructions {
-    + ajouter(Ecrire e)'
-    + ajouter(Affectation a)'
-    + ajouter(Retourne e)'
+    + ajouter(Ecrire e)
+    + ajouter(Affectation a)
+    + ajouter(Retourne e)
   }
 
   class BlocDInstructions {
     - int tailleZoneVariables
     + BlocDInstructions(int n)
-    + void ajouter(Instruction i)'
+    + ajouter(Ecrire e)
+    + ajouter(Affectation a)
+    + ajouter(Retourne r)
     + void verifier()
     + String toMIPS() '
     + String toString()
@@ -38,16 +40,17 @@ namespace zoot.arbre {
     - int tailleZoneVariables
     - String etiquette
     + Fonction(EntreeFonction e, SymboleFonction s)'
-    + ajouter(Instruction i)'
-    + ajouter(Retourne r)'
-    + void verifier()'
+    + ajouter(Ecrire e)
+    + ajouter(Affectation a)
+    + ajouter(Retourne r)
+    + void verifier()
     + String toMIPS() '
   }
 
   class BlocDeFonctions {
-    + BlocDeFonctions(int n)'
-    + void ajouter(Fonction f)'
-    + void verifier()'
+    + BlocDeFonctions(int n)
+    + void ajouter(Fonction f)
+    + void verifier()
     + String toMIPS()'
   }
   ' Relations entre les classes
@@ -57,6 +60,8 @@ namespace zoot.arbre {
 
   Fonction -up-|> ArbreAbstrait
   Fonction .up.|> ConteneurDInstructions
+  Fonction *-- zoot.tds.entrees.EntreeFonction
+  Fonction *-- zoot.tds.symboles.SymboleFonction
   Fonction *-- BlocDInstructions
   Fonction --"*" zoot.arbre.instructions.Retourne : retournes
 

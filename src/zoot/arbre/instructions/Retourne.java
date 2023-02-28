@@ -2,6 +2,7 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.ConteneurDInstructions;
 import zoot.arbre.expressions.Expression;
+import zoot.tds.Type;
 
 public class Retourne extends Instruction {
 
@@ -13,6 +14,10 @@ public class Retourne extends Instruction {
         this.exp = e;
     }
 
+    public Type getType()
+    {
+        return exp.getType();
+    }
 
     @Override
     public void verifier() {

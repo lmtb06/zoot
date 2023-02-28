@@ -21,6 +21,7 @@ namespace zoot.arbre.instructions {
         + Retourne(Expression e, int n)
         + void verifier()
         + String toMIPS()'
+        + Type getType()
         + sAjouter(ConteneurDInstructions c)
     }
 
