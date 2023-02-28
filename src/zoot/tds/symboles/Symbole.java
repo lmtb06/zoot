@@ -17,9 +17,9 @@ public abstract class Symbole {
 
 
     /**
-     * Décore un identifiable, ici il ne fait rien, il est à redéfinir si besoin
+     * Décore une variable, ici il ne fait rien, il est à redéfinir si besoin
      *
-     * @param v un Identifiable
+     * @param v un variable
      */
     public void decorer(Variable v) {
         //IT DOES NOTHING
