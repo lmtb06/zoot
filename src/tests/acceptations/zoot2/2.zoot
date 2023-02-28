@@ -1,0 +1,15 @@
+variables
+    entier a;
+    booleen b;
+fonctions
+    entier doNothing()
+    debut
+        ecrire 10;
+        retourne 10;
+    fin
+debut
+    a = 10;
+    ecrire 10;
+    ecrire b;
+    b = vrai;
+fin
