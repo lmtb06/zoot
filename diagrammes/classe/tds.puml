@@ -5,50 +5,140 @@ namespace zoot.tds {
 
   ' Classes
   class TDS << (S,#FF7700) >> {
-    - int tailleZoneVariables
+    - int niveauImbricationMax
     + TDS getInstance()
+    -- Gestion du singleton --
+    + EspaceDeNom getEspaceDeNomCourant()
+    + void setEspaceDeNomCourant(EspaceDeNom e)
+    + void setEtatAnalyse(EtatAnalyse e)
+    + void setNiveauImbricationMax(int niveau)
+    + int getNiveauImbricationMax()
+    -- Actions délégués à EtatAnalyse --
+    + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException
+    + Symbole identifier(Entree entree) throws IllegalStateException
+    + int getTailleZoneVariables()
+    + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException
+    + int getTailleDisplay() throws IllegalStateException
+    + int getNiveauImbricationCourant()
+    + void entreeBloc()
+    + void sortieBloc()
+    + void allerEtatSuivant()
+  }
+
+  class EspaceDeNom {
+    - int tailleZoneVariables
+    - int noSousEspaceDeNomCourant
+    - int niveauImbrication
+    + EspaceDeNom(int niveauImbrication)
     + void ajouter(Entree entree, Symbole symbole)
     + Symbole identifier(Entree entree)
     + int getTailleZoneVariables()
     + void augmenterTailleZoneVariables(int nbOctets)
+    + void setEspaceDeNomParent(EspaceDeNom e)
+    + void ajouterSousEspaceDeNom(EspaceDeNom n)
+    + EspaceDeNom getEspaceDeNomParent()
+    + EspaceDeNom getProchainSousEspaceDeNom()
+    + void resetParcoursSousEspaceDeNom()
+    + int getNiveauImbricationMax()
+    + int getNiveauImbrication()
   }
 
-  abstract class Entree {
-    # String identifiant
-    + Entree(String identifiant)
-    + String getIdentifiant()
-    + boolean equals(Object objetAComparer)
+  namespace etats {
+    abstract EtatAnalyse {
+      # EtatAnalyse(TDS tds)
+      + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
+      + Symbole identifier(Entree entree) throws IllegalStateException'
+      + int getTailleZoneVariables()'
+      + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
+      + int getTailleDisplay() throws IllegalStateException'
+      + int getNiveauImbricationCourant()'
+      + void entreeBloc()'
+      + void sortieBloc()'
+      + void allerEtatSuivant()'
+    }
+
+    class EtatEnCoursAnalyseSyntaxique {
+      + EtatEnCoursAnalyseSyntaxique(TDS tds)'
+      + void ajouter(Entree entree, Symbole symbole)'
+      + void augmenterTailleZoneVariables(int nbOctets)'
+      + void entreeBloc()'
+      + void sortieBloc()'
+      + void allerEtatSuivant()'
+    }
+
+    class EtatEnCoursAnalyseSemantique {
+      + EtatEnCoursAnalyseSemantique(TDS tds)'
+      + Symbole identifier(Entree entree)'
+      + int getTailleDisplay()'
+      + void entreeBloc()'
+      + void sortieBloc()'
+    }
   }
 
-  class EntreeVariable {
-    + EntreeVariable(String identifiant)
+
+  namespace entrees {
+    abstract class Entree {
+      # String identifiant
+      + Entree(String identifiant)
+      + String getIdentifiant()
+      + boolean equals(Object objetAComparer)
+    }
+
+    class EntreeVariable {
+      + EntreeVariable(String identifiant)
+      + boolean equals(Object objetAComparer)
+    }
+
+    class EntreeFonction {
+      + EntreeFonction(String identifiant, Collection<Type> typeParametres)
+      + boolean equals(Object objetAComparer)
+      + String getEtiquette()
+      + Collection<Type> getTypeParametres()
+    }
   }
 
-  abstract class Symbole {
-    + Symbole(Type type)
-    + Type getType()
-    + void decorer(Identifiable i)
-  }
+  namespace symboles {
+    abstract class Symbole {
+      + Symbole(Type type)
+      + Type getType()
+      + void decorer(Variable v)
+      + void decorer(AppelFonction a)
+    }
 
-  class SymboleVariable {
-    - int deplacement
-    + SymboleVariable(Type type)
-    + void decorer(Variable v)
-    + int setDeplacement(int deplacement)
-  }
+    class SymboleVariable {
+      - int deplacement
+      + SymboleVariable(Type type)
+      + void decorer(Variable v)
+      + void setDeplacement(int deplacement)
+    }
 
-  enum Type {
-    ENTIER
-    BOOLEEN
+    class SymboleFonction {
+      + SymboleFonction(Type type)
+      + void decorer(AppelFonction a)
+    }
+
+    enum Type {
+      ENTIER
+      BOOLEEN
+    }
   }
 
   ' Relations entre les classes
   TDS --"1" TDS : statique
-  TDS --"*" Entree
-  TDS --"*" Symbole
-  Symbole *-- Type
+  TDS --"1" EspaceDeNom : espaceDeNomCourant
+  TDS "1"-left-"1" EtatAnalyse : etatCourant
+  EspaceDeNom --"*" Entree
+  EspaceDeNom --"*" Symbole
+  Symbole *-left- Type
   SymboleVariable -up-|> Symbole
   EntreeVariable -up-|> Entree
+  SymboleFonction -up-|> Symbole
+  EntreeFonction -up-|> Entree
+  EntreeFonction --"*" Type : typeParametres
+  EtatEnCoursAnalyseSemantique -up-|> EtatAnalyse
+  EtatEnCoursAnalyseSyntaxique -up-|> EtatAnalyse
+  EspaceDeNom --"1" EspaceDeNom : parent
+  EspaceDeNom --"*" EspaceDeNom : enfants
 }
 
 @enduml

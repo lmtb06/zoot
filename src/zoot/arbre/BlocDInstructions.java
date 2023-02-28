@@ -1,6 +1,9 @@
 package zoot.arbre;
 
+import zoot.arbre.instructions.Affectation;
+import zoot.arbre.instructions.Ecrire;
 import zoot.arbre.instructions.Instruction;
+import zoot.arbre.instructions.Retourne;
 import zoot.code_generation.MipsGenerator;
 import zoot.tds.TDS;
 
@@ -13,7 +16,7 @@ import java.util.ArrayList;
  * @author brigitte wrobel-dautcourt
  */
 
-public class BlocDInstructions extends ArbreAbstrait {
+public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstructions {
 
     protected ArrayList<Instruction> programme;
     private int tailleZoneVariables;
@@ -74,4 +77,18 @@ public class BlocDInstructions extends ArbreAbstrait {
         return programme.toString();
     }
 
+    @Override
+    public void ajouter(Ecrire e) {
+        programme.add(e);
+    }
+
+    @Override
+    public void ajouter(Affectation a) {
+        programme.add(a);
+    }
+
+    @Override
+    public void ajouter(Retourne e) {
+        programme.add(e);
+    }
 }

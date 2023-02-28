@@ -5,12 +5,14 @@ import zoot.code_generation.Registre;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.VariableNonDeclarerException;
-import zoot.tds.EntreeVariable;
+import zoot.tds.entrees.EntreeVariable;
 import zoot.tds.TDS;
 import zoot.tds.Type;
+import zoot.tds.symboles.Symbole;
 
 public class Variable extends Identifiable {
     private int deplacement = 0;
+    private int niveauImbrication;
 
     public Variable(EntreeVariable e, int n) {
         super(e, n);
@@ -29,6 +31,7 @@ public class Variable extends Identifiable {
 
     @Override
     public String toMIPS() {
+        //TODO
         return MipsGenerator.getInstance()
                 .recupererVariableDepuisPile(Registre.STOCKAGE_RESULTAT.valeur, deplacement);
     }
@@ -45,4 +48,18 @@ public class Variable extends Identifiable {
     public void setDeplacement(int deplacement) {
         this.deplacement = deplacement;
     }
+
+    @Override
+    public void setSymbole(Symbole s) {
+        this.symbole = s;
+    }
+
+    public void setNiveauImbrication(int niveauImbrication) {
+        this.niveauImbrication = niveauImbrication;
+    }
+    public int getNiveauImbrication() {
+        return niveauImbrication;
+    }
+
+
 }

@@ -8,6 +8,8 @@ import zoot.arbre.instructions.* ;
 import zoot.code_generation.* ;
 import zoot.exceptions.*;
 import zoot.tds.*;
+import zoot.tds.entrees.*;
+import zoot.tds.symboles.*;
 
 import java_cup.runtime.*;
 
@@ -59,52 +61,101 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    VARIABLES, DEBUT, FIN, ENTIER, BOOLEEN, POINTVIRGULE, ECRIRE, EGAL ;
-terminal String    CSTENTIERE, CSTBOOL, IDF ;
-   
+terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE,
+PARENTHESEFERMEE, RETOURNE ;
+terminal String    TYPE, CSTENTIERE, CSTBOOL, IDF ;
+
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST ;
-non terminal Instruction INST ;
+non terminal ArbreAbstrait PROG, LINST, LFONC, FONC, LINSTF;
+non terminal Instruction INST, INSTF, RETOURNEI ;
 non terminal Expression EXP ;
-non terminal LDECL, DECL ;
+non terminal LDECL, DECL, PARAMETRES ;
 
 /* ----------------------------Grammar Section-------------------- */
- 
+
 start with PROG ;
 
-PROG    ::=     VARIABLES LDECL:ld DEBUT  LINST:li  FIN
-                {: RESULT = li ; :}
+PROG    ::=     VARIABLES LDECL:ld FONCTIONS LFONC:lf DEBUT  LINST:li  FIN
+                {:
+                    // TODO Ajout des fonctions une fois les bonnes classes implémentées
+                    RESULT = li ;
+                :}
+                ;
+
+LFONC   ::=     LFONC:lf FONC:f
+                {: /* Ajout de la fonction f à lf */
+                    RESULT = f; // TODO mettre le bon retour
+                 :}
+        |
+                FONC:f
+                {: /* Création de lf */
+                    RESULT = f; // TODO mettre le bon retour
+                :}
+                ;
+
+FONC    ::=     TYPE:t IDF:i PARAMETRES DEBUT LINSTF:li  FIN
+                {:
+                    RESULT = li ; // TODO Mettre le bon retour
+                :}
+                ;
+
+
+
+PARAMETRES ::=  PARENTHESEOUVERTE PARENTHESEFERMEE
+                ;
+
+LINSTF  ::=     LINSTF:li  INSTF:i
+                {:
+                    ((BlocDInstructions)li).ajouter(i) ;
+                    RESULT = li ;
+                :}
+        |
+                INSTF:i
+                {:
+                    BlocDInstructions b = new BlocDInstructions(ileft + 1) ;
+                    b.ajouter(i) ;
+                    RESULT = b ;
+                :}
+                 ;
+
+INSTF   ::=     INST
+        |
+                RETOURNEI
+                ;
+
+RETOURNEI   ::= RETOURNE EXP:e POINTVIRGULE
+                {:
+                    RESULT = new Ecrire(e, eleft + 1) ; // TODO Mettre la bonne classe
+                :}
                 ;
 
 LDECL   ::=     DECL LDECL
         |
                 DECL;
 
-DECL    ::=     ENTIER IDF:i POINTVIRGULE
+DECL    ::=     TYPE:t IDF:i POINTVIRGULE
                 {:
-                    SymboleVariable s = new SymboleVariable(Type.ENTIER);
+                    Type typeSymbole = Type.ENTIER;
+                    switch (t) {
+                        case "entier" :
+                            typeSymbole = Type.ENTIER;
+                            break;
+                        case "booleen" :
+                            typeSymbole = Type.BOOLEEN;
+                            break;
+                    }
+
+
+                    SymboleVariable s = new SymboleVariable(typeSymbole);
                     try{
                         TDS.getInstance().ajouter(new EntreeVariable(i), s);
-                        s.setDeplacement(-(TDS.getInstance().getTailleZoneVariables()));
-                        TDS.getInstance().augmenterTailleZoneVariables(4);
                     } catch (DoubleDeclarationException e) {
                         GestionnaireExceptionsSemantiques.getInstance()
                                             .ajouter(new LigneDecorator(ileft + 1, e));
                     }
-                :}
-        |
-                BOOLEEN IDF:i POINTVIRGULE
-                {:
-                    SymboleVariable s = new SymboleVariable(Type.BOOLEEN);
-                    try{
-                            TDS.getInstance().ajouter(new EntreeVariable(i), s);
-                            s.setDeplacement(-(TDS.getInstance().getTailleZoneVariables()));
-                            TDS.getInstance().augmenterTailleZoneVariables(4);
-                        } catch (DoubleDeclarationException e) {
-                            GestionnaireExceptionsSemantiques.getInstance()
-                                                .ajouter(new LigneDecorator(ileft +1, e));
-                        }
+                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
+                    TDS.getInstance().augmenterTailleZoneVariables(4);
                 :};
 
 LINST   ::=     LINST:li  INST:i

@@ -16,37 +16,56 @@ namespace zoot.arbre.expressions {
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
         + Type getType()
-        + String toMIPS()
+        + String toMIPS()'
     }
 
     class ConstanteBooleene {
         + ConstanteBooleene(String texte, int n)
         + Type getType()
-        + String toMIPS()
+        + String toMIPS()'
 
     }
 
     abstract class Identifiable {
         + Identifiable(Entree e, int n)
-        ' TODO dans zoot2 + void setSymbole(Symbole s) la décoration se fera ici
+        + abstract void setSymbole(Symbole s)
     }
 
     class Variable {
         - int deplacement
+        - int niveauImbrication
         + Variable(EntreeVariable e, int n)
         + void setDeplacement(int deplacement)
         + int getDeplacement()
+        + void setNiveauImbrication(int niveauImbrication)
+        + int getNiveauImbrication()
         + void verifier()
-        + String toMIPS()
+        + String toMIPS()'
+    }
+
+    class AppelFonction {
+        - int niveauImbrication
+        - int tailleDisplay
+        - int tailleZoneParametres
+        - String etiquette
+        + AppelFonction(EntreeFonction e, int n)
+        + void setNiveauImbrication(int niveauImbrication)
+        + int getNiveauImbrication()
+        + void setTailleDisplay(int tailleDisplay)
+        + int getTailleDisplay()
+        + int getTailleZoneParametres()
+        + void verifier()
+        + String toMIPS()'
     }
     ' Relations entre les classes
     Expression -up-|> zoot.arbre.ArbreAbstrait
     Constante -up-|> Expression
     ConstanteEntiere -up-|> Constante
     ConstanteBooleene -right-|> Constante
-    Identifiable *-up- zoot.tds.Entree
-    Identifiable *-up- zoot.tds.Symbole
+    Identifiable *-up- zoot.tds.entrees.Entree
+    Identifiable *-up- zoot.tds.symboles.Symbole
     Identifiable -left-|> Expression
     Variable -up-|> Identifiable
+    AppelFonction -left-|> Identifiable
 }
 @enduml

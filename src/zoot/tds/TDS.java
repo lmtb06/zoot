@@ -2,21 +2,45 @@ package zoot.tds;
 
 import zoot.exceptions.DoubleDeclarationException;
 import zoot.exceptions.VariableNonDeclarerException;
-
-import java.util.HashMap;
+import zoot.tds.entrees.Entree;
+import zoot.tds.etats.EtatAnalyse;
+import zoot.tds.etats.EtatEnCoursAnalyseSyntaxique;
+import zoot.tds.symboles.Symbole;
 
 public class TDS {
     private final static TDS instance = new TDS();
-    private final HashMap<String, Symbole> tableDesSymboles;
-    private int tailleZoneVariables;
+    private int niveauImbricationMax;
+    private EspaceDeNom espaceDeNomCourant;
+    private EtatAnalyse etatCourant;
 
     private TDS() {
-        tableDesSymboles = new HashMap<>();
-        tailleZoneVariables = 0;
+        niveauImbricationMax = 0;
+        espaceDeNomCourant = new EspaceDeNom(0);
+        etatCourant = new EtatEnCoursAnalyseSyntaxique(this);
     }
 
     public static TDS getInstance() {
         return instance;
+    }
+
+    public EspaceDeNom getEspaceDeNomCourant() {
+        return espaceDeNomCourant;
+    }
+
+    public void setEspaceDeNomCourant(EspaceDeNom e) {
+        espaceDeNomCourant = e;
+    }
+
+    public void setEtatAnalyse(EtatAnalyse e) {
+        etatCourant = e;
+    }
+
+    public void setNiveauImbricationMax(int niveau) {
+        niveauImbricationMax = niveau;
+    }
+
+    public int getNiveauImbricationMax() {
+        return niveauImbricationMax;
     }
 
     /**
@@ -27,10 +51,7 @@ public class TDS {
      * @throws DoubleDeclarationException si l'entrée existe déjà dans la TDS
      */
     public void ajouter(Entree entree, Symbole symbole) {
-        if (tableDesSymboles.containsKey(entree.getIdentifiant()))
-            throw new DoubleDeclarationException(entree);
-
-        tableDesSymboles.put(entree.getIdentifiant(), symbole);
+        etatCourant.ajouter(entree, symbole);
     }
 
     /**
@@ -40,13 +61,8 @@ public class TDS {
      * @return le symbole associé à l'entrée
      * @throws VariableNonDeclarerException si l'entrée n'existe pas dans la TDS
      */
-    public Symbole identifier(Entree entree) {
-        Symbole symboleAIdentifier = tableDesSymboles.get(entree.getIdentifiant());
-
-        if (symboleAIdentifier == null)
-            throw new VariableNonDeclarerException(entree);
-
-        return symboleAIdentifier;
+    public Symbole identifier(Entree entree) throws IllegalStateException {
+        return espaceDeNomCourant.identifier(entree);
     }
 
     /**
@@ -55,7 +71,7 @@ public class TDS {
      * @return deplacement, la taille de la zone des variables
      */
     public int getTailleZoneVariables() {
-        return tailleZoneVariables;
+        return espaceDeNomCourant.getTailleZoneVariables();
     }
 
     /**
@@ -63,7 +79,27 @@ public class TDS {
      *
      * @param nbOctets le nombre d'octets à allouer
      */
-    public void augmenterTailleZoneVariables(int nbOctets) {
-        tailleZoneVariables += nbOctets;
+    public void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException {
+        etatCourant.augmenterTailleZoneVariables(nbOctets);
+    }
+
+    public int getTailleDisplay() throws IllegalStateException {
+        return etatCourant.getTailleDisplay();
+    }
+
+    public int getNiveauImbricationCourant() {
+        return etatCourant.getNiveauImbricationCourant();
+    }
+
+    public void entreeBloc() {
+        etatCourant.entreeBloc();
+    }
+
+    public void sortieBloc() {
+        etatCourant.sortieBloc();
+    }
+
+    public void allerEtatSuivant() {
+        etatCourant.allerEtatSuivant();
     }
 }

@@ -1,7 +1,7 @@
 package zoot.arbre.expressions;
 
-import zoot.tds.Entree;
-import zoot.tds.Symbole;
+import zoot.tds.entrees.Entree;
+import zoot.tds.symboles.Symbole;
 
 public abstract class Identifiable extends Expression {
     protected Entree entree;
@@ -11,4 +11,6 @@ public abstract class Identifiable extends Expression {
         super(n);
         this.entree = e;
     }
+
+    public abstract void setSymbole(Symbole s);
 }

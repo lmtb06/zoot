@@ -1,6 +1,7 @@
-package zoot.tds;
+package zoot.tds.symboles;
 
 import zoot.arbre.expressions.Variable;
+import zoot.tds.Type;
 
 public class SymboleVariable extends Symbole {
     protected int deplacement = 0;

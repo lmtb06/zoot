@@ -21,11 +21,13 @@ namespace zoot.code_generation {
         + String chargementImmediat(String registre, String valeur)
         + String chargementAdresseRegistre(String registre, String valeur)
         + String copieRegistreRegistre(String registreSource, String registreDestination)
+        .. Gestion des variables ..
+        + String chargerContenuVariableDansRegistre(Variable variableSource, String registreDestination)
+        + String sauvegarderContenuRegistreDansVariable(String registreSource, Variable variableDestination)
+        .. Gestion des fonctions ..
+        + String executerFonction(AppelFonction a)
+        + String getDefinitionFonction(Fonction f)
         .. Gestion de la pile ..
-        ' + String sauvegarderRegistreDansPile(String registreSource) '
-        + String sauvegarderRegistreRegistre(String registreSource, String registreDestination)
-        + String recupererVariableDepuisPile(String registreDestination, int deplacementVariable)
-        + String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable)
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
         .. Gestion de l'affichage ..
@@ -35,9 +37,8 @@ namespace zoot.code_generation {
         + String afficherRetourLigne()
         + String afficherBooleenRegistre(String registre)
         .. Gestion du programme ..
-        + String enteteProgramme()
-        + String enteteProgramme(int deplacementTotal)
-        + String finProgramme()
+        + String getEnteteProgramme(Programme p)
+        + String getFinProgramme(Programme p)
     }
 
     ' Relations entre les classes
