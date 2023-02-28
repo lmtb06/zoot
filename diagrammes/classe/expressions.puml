@@ -47,7 +47,7 @@ namespace zoot.arbre.expressions {
         - int niveauImbrication
         - int tailleDisplay
         - String etiquette
-        + AppelFonction(Collection<Expression> parametres, int n)
+        + AppelFonction(EntreeFonction e, int n)
         + void setNiveauImbrication(int niveauImbrication)
         + int getNiveauImbrication()
         + void setTailleDisplay(int tailleDisplay)

@@ -88,9 +88,10 @@ namespace zoot.tds {
     }
 
     class EntreeFonction {
-      + EntreeVariable(String identifiant, Collection<Type> typeParametres)'
+      + EntreeFonction(String identifiant, Collection<Type> typeParametres)'
       + boolean equals(Object objetAComparer)'
       + String getEtiquette()
+      + Collection<Type> getTypeParametres()
     }
   }
 
