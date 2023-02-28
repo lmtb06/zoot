@@ -8,6 +8,8 @@ import zoot.arbre.instructions.* ;
 import zoot.code_generation.* ;
 import zoot.exceptions.*;
 import zoot.tds.*;
+import zoot.tds.entrees.*;
+import zoot.tds.symboles.*;
 
 import java_cup.runtime.*;
 
