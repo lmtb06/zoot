@@ -1,10 +1,9 @@
 package zoot.tds.etats;
 
+import zoot.tds.EspaceDeNom;
 import zoot.tds.TDS;
-import zoot.tds.Type;
 import zoot.tds.entrees.Entree;
 import zoot.tds.symboles.Symbole;
-import zoot.tds.symboles.SymboleFonction;
 
 public class EtatEnCoursAnalyseSemantique extends EtatAnalyse {
     public EtatEnCoursAnalyseSemantique(TDS tds) {
@@ -12,20 +11,22 @@ public class EtatEnCoursAnalyseSemantique extends EtatAnalyse {
     }
 
     public Symbole identifier(Entree entree){
-        // TODO
-        return new SymboleFonction(Type.BOOLEEN);
+        return tds.getEspaceDeNomCourant().identifier(entree);
     }
 
     public int getTailleDisplay() {
-        // TODO
-        return 0;
+        return tds.getNiveauImbricationMax()+1;
     }
 
     public void entreeBloc() {
-        // TODO
+        EspaceDeNom ancien = tds.getEspaceDeNomCourant();
+        EspaceDeNom nouveau = ancien.getProchainSousEspaceDeNom();
+        tds.setEspaceDeNomCourant(nouveau);
     }
 
     public void sortieBloc() {
-        // TODO
+        EspaceDeNom ancien = tds.getEspaceDeNomCourant();
+        EspaceDeNom nouveau = ancien.getEspaceDeNomParent();
+        tds.setEspaceDeNomCourant(nouveau);
     }
 }

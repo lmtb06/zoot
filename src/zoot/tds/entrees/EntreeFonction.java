@@ -40,7 +40,6 @@ public class EntreeFonction extends Entree {
      * @return la collection des paramètres de l'entrée dans l'ordre
      */
     public Collection<Type> getTypeParametres() {
-        // TODO
-        return new ArrayList<>();
+        return typeParametres;
     }
 }

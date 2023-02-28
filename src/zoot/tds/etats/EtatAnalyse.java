@@ -1,54 +1,45 @@
 package zoot.tds.etats;
 
 import zoot.tds.TDS;
-import zoot.tds.Type;
 import zoot.tds.entrees.Entree;
 import zoot.tds.symboles.Symbole;
-import zoot.tds.symboles.SymboleVariable;
 
 public abstract class EtatAnalyse {
-    private TDS tds;
+    protected TDS tds;
     protected EtatAnalyse(TDS tds) {
-        // TODO
+        this.tds = tds;
     }
 
     public void ajouter(Entree entree, Symbole symbole) throws IllegalStateException {
-        // TODO
+        throw new IllegalStateException("Opération non-permise à cette étape de la compilation");
     }
 
     public Symbole identifier(Entree entree) throws IllegalStateException {
-        // TODO
-        return new SymboleVariable(Type.BOOLEEN);
+        throw new IllegalStateException("Opération non-permise à cette étape de la compilation");
     }
 
     public int getTailleZoneVariables() {
-        // TODO
-        return 0;
+        return tds.getTailleZoneVariables();
     }
 
     public void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException {
-        // TODO
+        throw new IllegalStateException("Opération non-permise à cette étape de la compilation");
     }
 
     public int getTailleDisplay() throws IllegalStateException {
-        // TODO
-        return 0;
+        throw new IllegalStateException("Opération non-permise à cette étape de la compilation");
     }
 
     public int getNiveauImbricationCourant() {
-        // TODO
-        return 0;
+        return tds.getNiveauImbricationCourant();
     }
 
     public void entreeBloc() {
-        // TODO
     }
 
     public void sortieBloc() {
-        // TODO
     }
 
     public void allerEtatSuivant() {
-        // TODO
     }
 }
