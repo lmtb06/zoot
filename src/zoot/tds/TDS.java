@@ -3,6 +3,7 @@ package zoot.tds;
 import zoot.exceptions.DoubleDeclarationException;
 import zoot.exceptions.VariableNonDeclarerException;
 import zoot.tds.entrees.Entree;
+import zoot.tds.etats.EtatAnalyse;
 import zoot.tds.symboles.Symbole;
 
 import java.util.HashMap;
@@ -11,14 +12,39 @@ public class TDS {
     private final static TDS instance = new TDS();
     private final HashMap<String, Symbole> tableDesSymboles;
     private int tailleZoneVariables;
+    private int niveauImbricationMax;
+    private EspaceDeNom EspaceDeNomCourant;
+    private EtatAnalyse etatCourant;
 
     private TDS() {
+        // TODO
         tableDesSymboles = new HashMap<>();
         tailleZoneVariables = 0;
     }
 
     public static TDS getInstance() {
         return instance;
+    }
+
+    EspaceDeNom getEspaceDeNomCourant() {
+        // TODO
+        return new EspaceDeNom();
+    }
+
+    void setEspaceDeNomCourant(EspaceDeNom e) {
+        // TODO
+    }
+
+    void setEtatAnalyse(EtatAnalyse e) {
+        // TODO
+    }
+
+    void setNiveauImbricationMax(int niveau) {
+        // TODO
+    }
+
+    int getNiveauImbricationMax() {
+        return 0;
     }
 
     /**
@@ -29,6 +55,7 @@ public class TDS {
      * @throws DoubleDeclarationException si l'entrée existe déjà dans la TDS
      */
     public void ajouter(Entree entree, Symbole symbole) {
+        // TODO
         if (tableDesSymboles.containsKey(entree.getIdentifiant()))
             throw new DoubleDeclarationException(entree);
 
@@ -42,7 +69,8 @@ public class TDS {
      * @return le symbole associé à l'entrée
      * @throws VariableNonDeclarerException si l'entrée n'existe pas dans la TDS
      */
-    public Symbole identifier(Entree entree) {
+    public Symbole identifier(Entree entree) throws IllegalStateException {
+        // TODO
         Symbole symboleAIdentifier = tableDesSymboles.get(entree.getIdentifiant());
 
         if (symboleAIdentifier == null)
@@ -57,6 +85,7 @@ public class TDS {
      * @return deplacement, la taille de la zone des variables
      */
     public int getTailleZoneVariables() {
+        // TODO
         return tailleZoneVariables;
     }
 
@@ -65,7 +94,30 @@ public class TDS {
      *
      * @param nbOctets le nombre d'octets à allouer
      */
-    public void augmenterTailleZoneVariables(int nbOctets) {
+    public void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException {
+        // TODO
         tailleZoneVariables += nbOctets;
+    }
+
+    public int getTailleDisplay() throws IllegalStateException {
+        // TODO
+        return 0;
+    }
+
+    public int getNiveauImbricationCourant() {
+        // TODO
+        return 0;
+    }
+
+    public void entreeBloc() {
+        // TODO
+    }
+
+    public void sortieBloc() {
+        // TODO
+    }
+
+    public void allerEtatSuivant() {
+        // TODO
     }
 }
