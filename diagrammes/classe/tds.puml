@@ -42,75 +42,82 @@ namespace zoot.tds {
     + int getNiveauImbrication()'
   }
 
-  abstract EtatAnalyse {
-    # EtatAnalyse(TDS tds)
-    ~ void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
-    ~ Symbole identifier(Entree entree) throws IllegalStateException'
-    ~ int getTailleZoneVariables()'
-    ~ void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
-    ~ int getTailleDisplay() throws IllegalStateException'
-    ~ int getNiveauImbricationCourant()'
-    ~ void entreeBloc()'
-    ~ void sortieBloc()'
-    ~ allerEtatSuivant()'
+  namespace etats {
+    abstract EtatAnalyse {
+      # EtatAnalyse(TDS tds)
+      ~ void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
+      ~ Symbole identifier(Entree entree) throws IllegalStateException'
+      ~ int getTailleZoneVariables()'
+      ~ void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
+      ~ int getTailleDisplay() throws IllegalStateException'
+      ~ int getNiveauImbricationCourant()'
+      ~ void entreeBloc()'
+      ~ void sortieBloc()'
+      ~ allerEtatSuivant()'
+    }
+
+    class EtatEnCoursAnalyseSyntaxique {
+      ~ EtatEnCoursAnalyseSyntaxique(TDS tds)'
+      ~ void ajouter(Entree entree, Symbole symbole)'
+      ~ void augmenterTailleZoneVariables(int nbOctets)'
+      ~ void entreeBloc()'
+      ~ void sortieBloc()'
+    }
+
+    class EtatEnCoursAnalyseSemantique {
+      ~ EtatEnCoursAnalyseSemantique(TDS tds)'
+      ~ Symbole identifier(Entree entree)'
+      ~ int getTailleDisplay()'
+      ~ void entreeBloc()'
+      ~ void sortieBloc()'
+    }
   }
 
-  class EtatEnCoursAnalyseSyntaxique {
-    ~ EtatEnCoursAnalyseSyntaxique(TDS tds)'
-    ~ void ajouter(Entree entree, Symbole symbole)'
-    ~ void augmenterTailleZoneVariables(int nbOctets)'
-    ~ void entreeBloc()'
-    ~ void sortieBloc()'
+
+  namespace entrees {
+    abstract class Entree {
+      # String identifiant
+      + Entree(String identifiant)
+      + String getIdentifiant()
+      + boolean equals(Object objetAComparer)
+    }
+
+    class EntreeVariable {
+      + EntreeVariable(String identifiant)
+      + boolean equals(Object objetAComparer)'
+    }
+
+    class EntreeFonction {
+      + EntreeVariable(String identifiant, Collection<Type> typeParametres)'
+      + boolean equals(Object objetAComparer)'
+      + String getEtiquette()
+    }
   }
 
-  class EtatEnCoursAnalyseSemantique {
-    ~ EtatEnCoursAnalyseSemantique(TDS tds)'
-    ~ Symbole identifier(Entree entree)'
-    ~ int getTailleDisplay()'
-    ~ void entreeBloc()'
-    ~ void sortieBloc()'
-  }
+  namespace symboles {
+    abstract class Symbole {
+      + Symbole(Type type)'
+      + Type getType()
+      + void decorer(Variable v)
+      + void decorer(AppelFonction a)'
+    }
 
-  abstract class Entree {
-    # String identifiant
-    + Entree(String identifiant)
-    + String getIdentifiant()
-    + boolean equals(Object objetAComparer)
-  }
+    class SymboleVariable {
+      - int deplacement
+      + SymboleVariable(Type type)'
+      + void decorer(Variable v)
+      + void setDeplacement(int deplacement)
+    }
 
-  class EntreeVariable {
-    + EntreeVariable(String identifiant)
-    + boolean equals(Object objetAComparer)'
-  }
+    class SymboleFonction {
+      + SymboleFonction(Type type)'
+      + void decorer(AppelFonction a)'
+    }
 
-  class EntreeFonction {
-    + EntreeVariable(String identifiant, Collection<Type> typeParametres)'
-    + boolean equals(Object objetAComparer)'
-    + String getEtiquette()
-  }
-
-  abstract class Symbole {
-    + Symbole(Type type)'
-    + Type getType()
-    + void decorer(Variable v)
-    + void decorer(AppelFonction a)'
-  }
-
-  class SymboleVariable {
-    - int deplacement
-    + SymboleVariable(Type type)'
-    + void decorer(Variable v)
-    + void setDeplacement(int deplacement)
-  }
-
-  class SymboleFonction {
-    + SymboleFonction(Type type)'
-    + void decorer(AppelFonction a)'
-  }
-
-  enum Type {
-    ENTIER
-    BOOLEEN
+    enum Type {
+      ENTIER
+      BOOLEEN
+    }
   }
 
   ' Relations entre les classes
