@@ -1,4 +1,4 @@
-package zoot.tds;
+package zoot.tds.entrees;
 
 public abstract class Entree {
     protected String identifiant;
