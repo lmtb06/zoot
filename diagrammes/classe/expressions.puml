@@ -28,14 +28,31 @@ namespace zoot.arbre.expressions {
 
     abstract class Identifiable {
         + Identifiable(Entree e, int n)
-        ' TODO dans zoot2 + void setSymbole(Symbole s) la décoration se fera ici
+        + abstract void setSymbole(Symbole s) '
     }
 
     class Variable {
         - int deplacement
+        - int niveauImbrication'
         + Variable(EntreeVariable e, int n)
         + void setDeplacement(int deplacement)
         + int getDeplacement()
+        + void setNiveauImbrication(int niveauImbrication)
+        + int getNiveauImbrication()
+        + void verifier()
+        + String toMIPS()
+    }
+
+    class AppelFonction {
+        - int niveauImbrication
+        - int tailleDisplay
+        - String etiquette
+        + AppelFonction(Collection<Expression> parametres, int n)
+        + void setNiveauImbrication(int niveauImbrication)
+        + int getNiveauImbrication()
+        + void setTailleDisplay(int tailleDisplay)
+        + int getTailleDisplay()
+        + int getTailleZoneParametres()
         + void verifier()
         + String toMIPS()
     }
@@ -48,5 +65,6 @@ namespace zoot.arbre.expressions {
     Identifiable *-up- zoot.tds.Symbole
     Identifiable -left-|> Expression
     Variable -up-|> Identifiable
+    AppelFonction -left-|> Identifiable
 }
 @enduml

@@ -5,12 +5,70 @@ namespace zoot.tds {
 
   ' Classes
   class TDS << (S,#FF7700) >> {
-    - int tailleZoneVariables
+    - int niveauImbricationMax
     + TDS getInstance()
-    + void ajouter(Entree entree, Symbole symbole)
-    + Symbole identifier(Entree entree)
-    + int getTailleZoneVariables()
-    + void augmenterTailleZoneVariables(int nbOctets)
+    -- Gestion du singleton --
+    ~ EspaceDeNom getEspaceDeNomCourant()'
+    ~ void setEspaceDeNomCourant(EspaceDeNom e)'
+    ~ void setEtatAnalyse(EtatAnalyse e)'
+    ~ void setNiveauImbricationMax(int niveau)
+    ~ int getNiveauImbricationMax()
+    -- Actions délégués à EtatAnalyse --
+    + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
+    + Symbole identifier(Entree entree) throws IllegalStateException'
+    + int getTailleZoneVariables()'
+    + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
+    + int getTailleDisplay() throws IllegalStateException'
+    + int getNiveauImbricationCourant()'
+    + void entreeBloc()'
+    + void sortieBloc()'
+    + allerEtatSuivant()'
+  }
+
+  class EspaceDeNom {
+    - int tailleZoneVariables'
+    - int noSousEspaceDeNomCourant'
+    - int niveauImbrication'
+    + void ajouter(Entree entree, Symbole symbole)'
+    + Symbole identifier(Entree entree)'
+    + int getTailleZoneVariables()'
+    + void augmenterTailleZoneVariables(int nbOctets)'
+    + void setEspaceDeNomParent(EspaceDeNom e)'
+    + void ajouterSousEspaceDeNom(EspaceDeNom n)'
+    + EspaceDeNom getEspaceDeNomParent()'
+    + EspaceDeNom getProchainSousEspaceDeNom()'
+    + void resetParcoursSousEspaceDeNom()'
+    + int getNiveauImbricationMax()'
+    + int getNiveauImbrication()'
+  }
+
+  abstract EtatAnalyse {
+    # EtatAnalyse(TDS tds)
+    ~ void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
+    ~ Symbole identifier(Entree entree) throws IllegalStateException'
+    ~ int getTailleZoneVariables()'
+    ~ void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
+    ~ int getTailleDisplay() throws IllegalStateException'
+    ~ int getNiveauImbricationCourant()'
+    ~ void entreeBloc()'
+    ~ void sortieBloc()'
+    ~ allerEtatSuivant()'
+  }
+
+  class EtatEnCoursAnalyseSyntaxique {
+    ~ EtatEnCoursAnalyseSyntaxique(TDS tds)'
+    ~ void ajouter(Entree entree, Symbole symbole)'
+    ~ void augmenterTailleZoneVariables(int nbOctets)'
+    ~ void entreeBloc()'
+    ~ void sortieBloc()'
+  }
+
+  class EtatEnCoursAnalyseSemantique {
+    ~ EtatEnCoursAnalyseSemantique(TDS tds)'
+    ~ Symbole identifier(Entree entree)'
+    ~ int getTailleDisplay()'
+    ~ void entreeBloc()'
+    ~ void sortieBloc()'
   }
 
   abstract class Entree {
@@ -22,19 +80,32 @@ namespace zoot.tds {
 
   class EntreeVariable {
     + EntreeVariable(String identifiant)
+    + boolean equals(Object objetAComparer)'
+  }
+
+  class EntreeFonction {
+    + EntreeVariable(String identifiant, Collection<Type> typeParametres)'
+    + boolean equals(Object objetAComparer)'
+    + String getEtiquette()
   }
 
   abstract class Symbole {
-    + Symbole(Type type)
+    + Symbole(Type type)'
     + Type getType()
-    + void decorer(Identifiable i)
+    + void decorer(Variable v)
+    + void decorer(AppelFonction a)'
   }
 
   class SymboleVariable {
     - int deplacement
-    + SymboleVariable(Type type)
+    + SymboleVariable(Type type)'
     + void decorer(Variable v)
-    + int setDeplacement(int deplacement)
+    + void setDeplacement(int deplacement)
+  }
+
+  class SymboleFonction {
+    + SymboleFonction(Type type)'
+    + void decorer(AppelFonction a)'
   }
 
   enum Type {
@@ -44,11 +115,20 @@ namespace zoot.tds {
 
   ' Relations entre les classes
   TDS --"1" TDS : statique
-  TDS --"*" Entree
-  TDS --"*" Symbole
-  Symbole *-- Type
+  TDS --"1" EspaceDeNom : EspaceDeNomCourant
+  TDS -left-"1" EtatAnalyse : etatCourant
+  EspaceDeNom --"*" Entree
+  EspaceDeNom --"*" Symbole
+  Symbole *-left- Type
   SymboleVariable -up-|> Symbole
   EntreeVariable -up-|> Entree
+  SymboleFonction -up-|> Symbole
+  EntreeFonction -up-|> Entree
+  EntreeFonction --"*" Type : typeParametres
+  EtatEnCoursAnalyseSemantique -up-|> EtatAnalyse
+  EtatEnCoursAnalyseSyntaxique -up-|> EtatAnalyse
+  EspaceDeNom --"1" EspaceDeNom : parent
+  EspaceDeNom --"*" EspaceDeNom : enfants
 }
 
 @enduml

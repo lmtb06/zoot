@@ -1,30 +1,73 @@
 @startuml "Package arbre"
 
 namespace zoot.arbre {
-    ' Includes
-    !include expressions.puml
-    !include instructions.puml
-    ' Classes
-    abstract class ArbreAbstrait {
-      # int noLigne
-      # ArbreAbstrait(int n)
-      + int getNoLigne()
-      + abstract void verifier()
-      + abstract String toMIPS()
-    }
+  ' Includes
+  !include expressions.puml
+  !include instructions.puml
+  ' Classes
+  abstract class ArbreAbstrait {
+    # int noLigne
+    # ArbreAbstrait(int n)
+    + int getNoLigne()
+    + abstract void verifier()
+    + abstract String toMIPS()
+  }
 
-    class BlocDInstructions {
-      - int tailleZoneVariables
-      + BlocDInstructions(int n)
-      + void ajouter(Instruction i)
-      + void verifier()
-      + String toMIPS() '
-      + String toString()
-    }
-    ' Relations entre les classes
-    BlocDInstructions -up-|> ArbreAbstrait
-    BlocDInstructions --"*" zoot.arbre.instructions.Instruction
-    ArbreAbstrait ..> zoot.code_generation.MipsGenerator
+  class Programme {
+    + Programme(BlocDeFonctions bf, BlocDInstructions b, int n)'
+    + void verifier()'
+    + string toMIPS()'
+  }
+
+  interface ConteneurDInstructions {
+    + ajouter(Ecrire e)'
+    + ajouter(Affectation a)'
+    + ajouter(Retourne e)'
+  }
+
+  class BlocDInstructions {
+    - int tailleZoneVariables
+    + BlocDInstructions(int n)
+    + void ajouter(Instruction i)'
+    + void verifier()
+    + String toMIPS() '
+    + String toString()
+  }
+
+  class Fonction {
+    - int tailleZoneVariables
+    - String etiquette
+    + Fonction(EntreeFonction e, SymboleFonction s)'
+    + ajouter(Instruction i)'
+    + ajouter(Retourne r)'
+    + void verifier()'
+    + String toMIPS() '
+  }
+
+  class BlocDeFonctions {
+    + BlocDeFonctions(int n)'
+    + void ajouter(Fonction f)'
+    + void verifier()'
+    + String toMIPS()'
+  }
+  ' Relations entre les classes
+  BlocDInstructions -up-|> ArbreAbstrait
+  BlocDInstructions .up.|> ConteneurDInstructions
+  BlocDInstructions --"*" zoot.arbre.instructions.Instruction
+
+  Fonction -up-|> ArbreAbstrait
+  Fonction .up.|> ConteneurDInstructions
+  Fonction *-- BlocDInstructions
+  Fonction --"*" zoot.arbre.instructions.Retourne : retournes
+
+  BlocDeFonctions --|> ArbreAbstrait
+  BlocDeFonctions --"*" Fonction : fonctions
+
+  ArbreAbstrait ..> zoot.code_generation.MipsGenerator
+
+  Programme --|> ArbreAbstrait
+  Programme *-- BlocDeFonctions
+  Programme *-- BlocDInstructions 
 }
 
 @enduml
