@@ -13,7 +13,8 @@ public class AppelFonction extends Identifiable{
 
     public AppelFonction(EntreeFonction e, int n) {
         super(e, n);
-        tailleZoneParametres = e.getTypeParametres().size();
+        tailleZoneParametres = e.getTypeParametres().size()*4;
+        etiquette = e.getEtiquette();
     }
 
     @Override

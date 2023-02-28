@@ -8,39 +8,39 @@ namespace zoot.tds {
     - int niveauImbricationMax
     + TDS getInstance()
     -- Gestion du singleton --
-    ~ EspaceDeNom getEspaceDeNomCourant()'
-    ~ void setEspaceDeNomCourant(EspaceDeNom e)'
-    ~ void setEtatAnalyse(EtatAnalyse e)'
-    ~ void setNiveauImbricationMax(int niveau)
-    ~ int getNiveauImbricationMax()
+    + EspaceDeNom getEspaceDeNomCourant()
+    + void setEspaceDeNomCourant(EspaceDeNom e)
+    + void setEtatAnalyse(EtatAnalyse e)
+    + void setNiveauImbricationMax(int niveau)
+    + int getNiveauImbricationMax()
     -- Actions délégués à EtatAnalyse --
-    + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
-    + Symbole identifier(Entree entree) throws IllegalStateException'
-    + int getTailleZoneVariables()'
-    + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
-    + int getTailleDisplay() throws IllegalStateException'
-    + int getNiveauImbricationCourant()'
-    + void entreeBloc()'
-    + void sortieBloc()'
-    + void allerEtatSuivant()'
+    + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException
+    + Symbole identifier(Entree entree) throws IllegalStateException
+    + int getTailleZoneVariables()
+    + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException
+    + int getTailleDisplay() throws IllegalStateException
+    + int getNiveauImbricationCourant()
+    + void entreeBloc()
+    + void sortieBloc()
+    + void allerEtatSuivant()
   }
 
   class EspaceDeNom {
-    - int tailleZoneVariables'
-    - int noSousEspaceDeNomCourant'
-    - int niveauImbrication'
-    + EspaceDeNom()
-    + void ajouter(Entree entree, Symbole symbole)'
-    + Symbole identifier(Entree entree)'
-    + int getTailleZoneVariables()'
-    + void augmenterTailleZoneVariables(int nbOctets)'
-    + void setEspaceDeNomParent(EspaceDeNom e)'
-    + void ajouterSousEspaceDeNom(EspaceDeNom n)'
-    + EspaceDeNom getEspaceDeNomParent()'
-    + EspaceDeNom getProchainSousEspaceDeNom()'
-    + void resetParcoursSousEspaceDeNom()'
-    + int getNiveauImbricationMax()'
-    + int getNiveauImbrication()'
+    - int tailleZoneVariables
+    - int noSousEspaceDeNomCourant
+    - int niveauImbrication
+    + EspaceDeNom(int niveauImbrication)
+    + void ajouter(Entree entree, Symbole symbole)
+    + Symbole identifier(Entree entree)
+    + int getTailleZoneVariables()
+    + void augmenterTailleZoneVariables(int nbOctets)
+    + void setEspaceDeNomParent(EspaceDeNom e)
+    + void ajouterSousEspaceDeNom(EspaceDeNom n)
+    + EspaceDeNom getEspaceDeNomParent()
+    + EspaceDeNom getProchainSousEspaceDeNom()
+    + void resetParcoursSousEspaceDeNom()
+    + int getNiveauImbricationMax()
+    + int getNiveauImbrication()
   }
 
   namespace etats {
@@ -86,12 +86,12 @@ namespace zoot.tds {
 
     class EntreeVariable {
       + EntreeVariable(String identifiant)
-      + boolean equals(Object objetAComparer)'
+      + boolean equals(Object objetAComparer)
     }
 
     class EntreeFonction {
-      + EntreeFonction(String identifiant, Collection<Type> typeParametres)'
-      + boolean equals(Object objetAComparer)'
+      + EntreeFonction(String identifiant, Collection<Type> typeParametres)
+      + boolean equals(Object objetAComparer)
       + String getEtiquette()
       + Collection<Type> getTypeParametres()
     }
@@ -99,22 +99,22 @@ namespace zoot.tds {
 
   namespace symboles {
     abstract class Symbole {
-      + Symbole(Type type)'
+      + Symbole(Type type)
       + Type getType()
       + void decorer(Variable v)
-      + void decorer(AppelFonction a)'
+      + void decorer(AppelFonction a)
     }
 
     class SymboleVariable {
       - int deplacement
-      + SymboleVariable(Type type)'
+      + SymboleVariable(Type type)
       + void decorer(Variable v)
       + void setDeplacement(int deplacement)
     }
 
     class SymboleFonction {
-      + SymboleFonction(Type type)'
-      + void decorer(AppelFonction a)'
+      + SymboleFonction(Type type)
+      + void decorer(AppelFonction a)
     }
 
     enum Type {
@@ -125,7 +125,7 @@ namespace zoot.tds {
 
   ' Relations entre les classes
   TDS --"1" TDS : statique
-  TDS --"1" EspaceDeNom : EspaceDeNomCourant
+  TDS --"1" EspaceDeNom : espaceDeNomCourant
   TDS "1"-left-"1" EtatAnalyse : etatCourant
   EspaceDeNom --"*" Entree
   EspaceDeNom --"*" Symbole
