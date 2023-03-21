@@ -82,6 +82,7 @@ namespace zoot.tds {
       + Entree(String identifiant)
       + String getIdentifiant()
       + boolean equals(Object objetAComparer)
+      + int hashCode()
     }
 
     class EntreeVariable {
