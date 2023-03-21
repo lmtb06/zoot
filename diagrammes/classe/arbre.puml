@@ -14,44 +14,53 @@ namespace zoot.arbre {
   }
 
   class Programme {
+    - int tailleDisplay
+    - int tailleZoneVariables
     + Programme(BlocDeFonctions bf, BlocDInstructions b, int n)
+    + int getTailleDisplay()
+    + int getTailleZoneVariables()
     + void verifier()
-    + string toMIPS()'
+    + string toMIPS()
   }
 
   interface ConteneurDInstructions {
-    + ajouter(Ecrire e)
-    + ajouter(Affectation a)
-    + ajouter(Retourne e)
+    + Iterator<Instruction> iterator();
+    + void ajouter(Ecrire e)
+    + void ajouter(Affectation a)
+    + void ajouter(Retourne e)
+    + void ajouter(ConteneurDInstructions c)
   }
 
   class BlocDInstructions {
     - int tailleZoneVariables
     + BlocDInstructions(int n)
-    + ajouter(Ecrire e)
-    + ajouter(Affectation a)
-    + ajouter(Retourne r)
+    + void ajouter(Ecrire e)
+    + void ajouter(Affectation a)
+    + void ajouter(Retourne r)
     + void verifier()
-    + String toMIPS() '
+    + String toMIPS()
     + String toString()
   }
 
   class Fonction {
     - int tailleZoneVariables
     - String etiquette
-    + Fonction(EntreeFonction e, SymboleFonction s)'
-    + ajouter(Ecrire e)
-    + ajouter(Affectation a)
-    + ajouter(Retourne r)
+    + Fonction(EntreeFonction e, SymboleFonction s, int n)
+    + void ajouter(Ecrire e)
+    + void ajouter(Affectation a)
+    + void ajouter(Retourne r)
+    + void ajouter(ConteneurDInstructions c)
+    + String getEtiquette()
+    + int getTailleZoneVariables()
     + void verifier()
-    + String toMIPS() '
+    + String toMIPS()
   }
 
   class BlocDeFonctions {
     + BlocDeFonctions(int n)
     + void ajouter(Fonction f)
     + void verifier()
-    + String toMIPS()'
+    + String toMIPS()
   }
   ' Relations entre les classes
   BlocDInstructions -up-|> ArbreAbstrait
