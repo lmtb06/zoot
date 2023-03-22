@@ -48,6 +48,7 @@ public class EtatEnCoursAnalyseSyntaxique extends EtatAnalyse {
      */
     public void allerEtatSuivant() {
         tds.setEtatAnalyse(new EtatEnCoursAnalyseSemantique(tds));
+        tds.getEspaceDeNomCourant().resetParcoursSousEspaceDeNom();
         tds.setNiveauImbricationMax(tds.getEspaceDeNomCourant().getNiveauImbricationMax());
     }
 }
