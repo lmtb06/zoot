@@ -2,29 +2,41 @@ package zoot.arbre;
 
 import zoot.arbre.instructions.Affectation;
 import zoot.arbre.instructions.Ecrire;
+import zoot.arbre.instructions.Instruction;
 import zoot.arbre.instructions.Retourne;
+import zoot.code_generation.MipsGenerator;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.TypeIncompatibleException;
+import zoot.tds.TDS;
 import zoot.tds.entrees.EntreeFonction;
 import zoot.tds.symboles.SymboleFonction;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Fonction extends ArbreAbstrait implements ConteneurDInstructions{
-    private EntreeFonction entreeFonction;
-    private SymboleFonction symboleFonction;
-    private int tailleZoneVariables;
-    private String etiquette;
-
-    private BlocDInstructions instructions;
-    private ArrayList<Retourne> retourneArrayList;
+public class Fonction extends ArbreAbstrait implements ConteneurDInstructions {
+    private final EntreeFonction entreeFonction;
+    private final SymboleFonction symboleFonction;
+    private final BlocDInstructions instructions;
+    private final ArrayList<Retourne> retournes;
+    private int tailleZoneVariables = 0;
+    private String etiquette = "";
 
     public Fonction(EntreeFonction e, SymboleFonction s, int n) {
         super(n);
-
         this.entreeFonction = e;
         this.symboleFonction = s;
+        this.retournes = new ArrayList<>();
+        this.instructions = new BlocDInstructions(n);
+    }
+
+    public String getEtiquette() {
+        return etiquette;
+    }
+
+    public int getTailleZoneVariables() {
+        return tailleZoneVariables;
     }
 
     /**
@@ -32,18 +44,22 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions{
      */
     @Override
     public void verifier() {
-        for (Retourne r : retourneArrayList)
-        {
-            r.verifier();
-
-            if(symboleFonction.getType() != r.getType())
-                GestionnaireExceptionsSemantiques.getInstance()
-                        .ajouter(new LigneDecorator(noLigne,
-                                new TypeIncompatibleException(r.getType(),
-                                        symboleFonction.getType())));
-        }
+        TDS.getInstance().entreeBloc();
 
         instructions.verifier();
+
+        for (Retourne r : retournes) {
+            if (symboleFonction.getType() != r.getType()) {
+                GestionnaireExceptionsSemantiques.getInstance()
+                        .ajouter(new LigneDecorator(r.getNoLigne(),
+                                new TypeIncompatibleException(symboleFonction.getType(), r.getType())));
+            }
+        }
+
+        tailleZoneVariables = TDS.getInstance().getTailleZoneVariables();
+        etiquette = symboleFonction.getEtiquette();
+
+        TDS.getInstance().sortieBloc();
     }
 
     /**
@@ -51,8 +67,7 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions{
      */
     @Override
     public String toMIPS() {
-        //TODO
-        return null;
+        return MipsGenerator.getInstance().getEnteteFonction(this) + instructions.toMIPS() + "\n";
     }
 
     /**
@@ -77,6 +92,26 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions{
     @Override
     public void ajouter(Retourne e) {
         instructions.ajouter(e);
-        retourneArrayList.add(e);
+        retournes.add(e);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<Instruction> iterator() {
+        return instructions.iterator();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void ajouter(ConteneurDInstructions c) {
+        Iterator<Instruction> it = c.iterator();
+        while (it.hasNext()) {
+            Instruction i = it.next();
+            i.sAjouter(this);
+        }
     }
 }
