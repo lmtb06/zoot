@@ -5,6 +5,7 @@ import zoot.arbre.instructions.Ecrire;
 import zoot.arbre.instructions.Instruction;
 import zoot.arbre.instructions.Retourne;
 import zoot.code_generation.MipsGenerator;
+import zoot.exceptions.FonctionSansRetourneException;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.TypeIncompatibleException;
@@ -47,6 +48,10 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions {
         TDS.getInstance().entreeBloc();
 
         instructions.verifier();
+
+        if (retournes.isEmpty())
+            GestionnaireExceptionsSemantiques.getInstance()
+                    .ajouter(new LigneDecorator(noLigne, new FonctionSansRetourneException(this)));
 
         for (Retourne r : retournes) {
             if (symboleFonction.getType() != r.getType()) {
