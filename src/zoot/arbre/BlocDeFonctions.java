@@ -2,12 +2,12 @@ package zoot.arbre;
 
 import java.util.ArrayList;
 
-public class BlocDeFonctions extends ArbreAbstrait{
-    private ArrayList<Fonction> fonctions;
+public class BlocDeFonctions extends ArbreAbstrait {
+    private final ArrayList<Fonction> fonctions;
 
-    public BlocDeFonctions(int n)
-    {
+    public BlocDeFonctions(int n) {
         super(n);
+        fonctions = new ArrayList<>();
     }
 
     /**
@@ -22,7 +22,7 @@ public class BlocDeFonctions extends ArbreAbstrait{
      */
     @Override
     public void verifier() {
-        for(Fonction f : fonctions) f.verifier();
+        for (Fonction f : fonctions) f.verifier();
     }
 
     /**
@@ -30,7 +30,12 @@ public class BlocDeFonctions extends ArbreAbstrait{
      */
     @Override
     public String toMIPS() {
-        //TODO
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        for (Fonction f : fonctions) {
+            sb.append(f.toMIPS());
+        }
+
+        return sb.toString();
     }
 }
