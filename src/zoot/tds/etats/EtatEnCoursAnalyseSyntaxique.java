@@ -10,27 +10,42 @@ public class EtatEnCoursAnalyseSyntaxique extends EtatAnalyse {
         super(tds);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void ajouter(Entree entree, Symbole symbole) {
         tds.getEspaceDeNomCourant().ajouter(entree, symbole);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void augmenterTailleZoneVariables(int nbOctets) {
         tds.getEspaceDeNomCourant().augmenterTailleZoneVariables(nbOctets);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void entreeBloc() {
         EspaceDeNom ancien = tds.getEspaceDeNomCourant();
-        EspaceDeNom nouveau = new EspaceDeNom(ancien.getNiveauImbrication()+1);
+        EspaceDeNom nouveau = new EspaceDeNom(ancien.getNiveauImbrication() + 1);
         ancien.ajouterSousEspaceDeNom(nouveau);
         tds.setEspaceDeNomCourant(nouveau);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void sortieBloc() {
         EspaceDeNom ancien = tds.getEspaceDeNomCourant();
         EspaceDeNom nouveau = ancien.getEspaceDeNomParent();
         tds.setEspaceDeNomCourant(nouveau);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void allerEtatSuivant() {
         tds.setEtatAnalyse(new EtatEnCoursAnalyseSemantique(tds));
         tds.setNiveauImbricationMax(tds.getEspaceDeNomCourant().getNiveauImbricationMax());
