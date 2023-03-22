@@ -1,63 +1,88 @@
 package zoot.arbre.expressions;
 
-import zoot.tds.TDS;
-import zoot.tds.Type;
+import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
+import zoot.exceptions.EntreeNonTrouveException;
+import zoot.exceptions.FonctionNonDeclarerException;
+import zoot.exceptions.GestionnaireExceptionsSemantiques;
+import zoot.exceptions.LigneDecorator;
 import zoot.tds.entrees.EntreeFonction;
-import zoot.tds.symboles.Symbole;
 
-public class AppelFonction extends Identifiable{
+public class AppelFonction extends Identifiable {
     private int niveauImbrication;
     private int tailleDisplay;
-    private int tailleZoneParametres;
+    private final int tailleZoneParametres;
     private String etiquette;
 
     public AppelFonction(EntreeFonction e, int n) {
         super(e, n);
-        tailleZoneParametres = e.getTypeParametres().size()*4;
-        etiquette = e.getEtiquette();
+        tailleZoneParametres = e.getTypeParametres().size() * 4;
     }
 
-    @Override
-    public void verifier() {
-        TDS.getInstance().identifier(entree);
+    public int getTailleZoneParametres() {
+        return tailleZoneParametres;
     }
 
-    @Override
-    public String toMIPS() {
-        //TODO
-        return null;
+    public int getTailleDisplay() {
+        return tailleDisplay;
     }
 
-    @Override
-    public Type getType() {
-        return symbole.getType();
-    }
-
-    @Override
-    public void setSymbole(Symbole s) {
-        this.symbole = s;
-    }
-
-    public void setNiveauImbrication(int niveauImbrication) {
-        this.niveauImbrication = niveauImbrication;
+    /**
+     * Set la taille du display pour la génération de code.
+     *
+     * @param tailleDisplay la taille du display du programme.
+     */
+    public void setTailleDisplay(int tailleDisplay) {
+        this.tailleDisplay = tailleDisplay;
     }
 
     public int getNiveauImbrication() {
         return niveauImbrication;
     }
 
-    public void setTailleDisplay(int tailleDisplay)
-    {
-        this.tailleDisplay = tailleDisplay;
+    /**
+     * Set le niveau d'imbrication de l'appel fonction.
+     *
+     * @param niveauImbrication le niveau d'imbrication de l'appel fonction dans le programme
+     *                          pour savoir quelle partie du display mettre à jour.
+     */
+    public void setNiveauImbrication(int niveauImbrication) {
+        this.niveauImbrication = niveauImbrication;
     }
 
-    public int getTailleDisplay()
-    {
-        return tailleDisplay;
+    public String getEtiquette() {
+        return etiquette;
     }
 
-    public int getTailleZoneParametres()
-    {
-        return tailleZoneParametres;
+    /**
+     * Set l'etiquette de l'appel de fonction.
+     *
+     * @param etiquette l'étiquette qui a été attribué lors de la définition de la fonction.
+     */
+    public void setEtiquette(String etiquette) {
+        this.etiquette = etiquette;
+    }
+
+    /**
+     * {@inheritDoc}
+     * Décore la variable pour la génération de code grâce à son symbole.
+     */
+    @Override
+    public void verifier() {
+        try {
+            super.verifier();
+            symbole.decorer(this);
+        } catch (EntreeNonTrouveException e) {
+            GestionnaireExceptionsSemantiques.getInstance()
+                    .ajouter(new LigneDecorator(this.noLigne, new FonctionNonDeclarerException(entree)));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toMIPS() {
+        return MipsGenerator.getInstance().executerFonctionEtMettreResultatDansRegistre(this, Registre.STOCKAGE_RESULTAT.valeur);
     }
 }

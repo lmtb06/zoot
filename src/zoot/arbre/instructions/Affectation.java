@@ -19,6 +19,9 @@ public class Affectation extends Instruction {
         this.expression = e;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void verifier() {
         variable.verifier();
@@ -30,14 +33,20 @@ public class Affectation extends Instruction {
                                     expression.getType())));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toMIPS() {
         //TODO
         return expression.toMIPS() +
                 MipsGenerator.getInstance()
-                        .sauvegarderVariableDepuisRegistre(Registre.STOCKAGE_RESULTAT.valeur, variable.getDeplacement());
+                        .sauvegarderContenuRegistreDansVariable(Registre.STOCKAGE_RESULTAT.valeur, variable);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void sAjouter(ConteneurDInstructions c) {
         c.ajouter(this);
     }

@@ -6,28 +6,28 @@ namespace zoot.arbre.instructions {
     class Ecrire {
         + Ecrire (Expression e, int n)
         + void verifier()
-        + String toMIPS()'
-        + sAjouter(ConteneurDInstructions c)
+        + String toMIPS()
+        + void sAjouter(ConteneurDInstructions c)
     }
 
     class Affectation {
         + Affectation (Variable v, Expression e, int n)
         + void verifier()
-        + String toMIPS()'
-        + sAjouter(ConteneurDInstructions c)
+        + String toMIPS()
+        + void sAjouter(ConteneurDInstructions c)
     }
 
     class Retourne {
         + Retourne(Expression e, int n)
         + void verifier()
-        + String toMIPS()'
+        + String toMIPS()
         + Type getType()
-        + sAjouter(ConteneurDInstructions c)
+        + void sAjouter(ConteneurDInstructions c)
     }
 
     abstract class Instruction {
         # Instruction(int n)
-        + abstract sAjouter(ConteneurDInstructions c)
+        + abstract void sAjouter(ConteneurDInstructions c)
     }
     
     ' Relations entre les classes

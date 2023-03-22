@@ -2,7 +2,7 @@ package zoot.code_generation;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MipsGeneratorTest {
 
@@ -134,6 +134,6 @@ class MipsGeneratorTest {
     void recupererVariableDepuisPile() {
         MipsGenerator generator = MipsGenerator.getInstance();
         String attendu = "sw $v0, -7($s7)\n";
-        assertEquals(attendu, generator.recupererVariableDepuisPile(Registre.STOCKAGE_RESULTAT.valeur, -7));
+        assertEquals(attendu, generator.chargementContenuAdresseDansRegistreDansRegistre(Registre.STOCKAGE_RESULTAT.valeur, "", -7));
     }
 }

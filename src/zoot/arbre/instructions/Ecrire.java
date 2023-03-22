@@ -45,17 +45,16 @@ public class Ecrire extends Instruction {
         MipsGenerator mg = MipsGenerator.getInstance();
         sb.append(exp.toMIPS());
         switch (exp.getType()) {
-            case ENTIER:
-                sb.append(mg.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur));
-                break;
-            case BOOLEEN:
-                sb.append(mg.afficherBooleenRegistre(Registre.STOCKAGE_RESULTAT.valeur));
-                break;
+            case ENTIER -> sb.append(mg.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur));
+            case BOOLEEN -> sb.append(mg.afficherBooleenRegistre(Registre.STOCKAGE_RESULTAT.valeur));
         }
         sb.append(mg.afficherRetourLigne());
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void sAjouter(ConteneurDInstructions c) {
         c.ajouter(this);
     }

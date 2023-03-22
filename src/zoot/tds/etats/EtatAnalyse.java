@@ -19,7 +19,7 @@ public abstract class EtatAnalyse {
     }
 
     public int getTailleZoneVariables() {
-        return tds.getTailleZoneVariables();
+        return tds.getEspaceDeNomCourant().getTailleZoneVariables();
     }
 
     public void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException {
@@ -31,7 +31,7 @@ public abstract class EtatAnalyse {
     }
 
     public int getNiveauImbricationCourant() {
-        return tds.getNiveauImbricationCourant();
+        return tds.getEspaceDeNomCourant().getNiveauImbrication();
     }
 
     public void entreeBloc() {

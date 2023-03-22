@@ -5,6 +5,9 @@ public class EntreeVariable extends Entree {
         super(identifiant);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object entreeAComparer) {
         return super.equals(entreeAComparer);

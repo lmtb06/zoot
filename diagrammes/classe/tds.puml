@@ -14,8 +14,8 @@ namespace zoot.tds {
     + void setNiveauImbricationMax(int niveau)
     + int getNiveauImbricationMax()
     -- Actions délégués à EtatAnalyse --
-    + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException
-    + Symbole identifier(Entree entree) throws IllegalStateException
+    + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException, DoubleDeclarationException
+    + Symbole identifier(Entree entree) throws IllegalStateException, EntreeNonTrouveException
     + int getTailleZoneVariables()
     + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException
     + int getTailleDisplay() throws IllegalStateException
@@ -30,8 +30,8 @@ namespace zoot.tds {
     - int noSousEspaceDeNomCourant
     - int niveauImbrication
     + EspaceDeNom(int niveauImbrication)
-    + void ajouter(Entree entree, Symbole symbole)
-    + Symbole identifier(Entree entree)
+    + void ajouter(Entree entree, Symbole symbole) throws DoubleDeclarationException
+    + Symbole identifier(Entree entree) throws EntreeNonTrouveException
     + int getTailleZoneVariables()
     + void augmenterTailleZoneVariables(int nbOctets)
     + void setEspaceDeNomParent(EspaceDeNom e)
@@ -46,32 +46,32 @@ namespace zoot.tds {
   namespace etats {
     abstract EtatAnalyse {
       # EtatAnalyse(TDS tds)
-      + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException'
-      + Symbole identifier(Entree entree) throws IllegalStateException'
-      + int getTailleZoneVariables()'
-      + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException'
-      + int getTailleDisplay() throws IllegalStateException'
-      + int getNiveauImbricationCourant()'
-      + void entreeBloc()'
-      + void sortieBloc()'
-      + void allerEtatSuivant()'
+      + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException, DoubleDeclarationException
+      + Symbole identifier(Entree entree) throws IllegalStateException, EntreeNonTrouveException
+      + int getTailleZoneVariables()
+      + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException
+      + int getTailleDisplay() throws IllegalStateException
+      + int getNiveauImbricationCourant()
+      + void entreeBloc()
+      + void sortieBloc()
+      + void allerEtatSuivant()
     }
 
     class EtatEnCoursAnalyseSyntaxique {
-      + EtatEnCoursAnalyseSyntaxique(TDS tds)'
-      + void ajouter(Entree entree, Symbole symbole)'
-      + void augmenterTailleZoneVariables(int nbOctets)'
-      + void entreeBloc()'
-      + void sortieBloc()'
-      + void allerEtatSuivant()'
+      + EtatEnCoursAnalyseSyntaxique(TDS tds)
+      + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException, DoubleDeclarationException
+      + void augmenterTailleZoneVariables(int nbOctets)
+      + void entreeBloc()
+      + void sortieBloc()
+      + void allerEtatSuivant()
     }
 
     class EtatEnCoursAnalyseSemantique {
-      + EtatEnCoursAnalyseSemantique(TDS tds)'
-      + Symbole identifier(Entree entree)'
-      + int getTailleDisplay()'
-      + void entreeBloc()'
-      + void sortieBloc()'
+      + EtatEnCoursAnalyseSemantique(TDS tds)
+      + Symbole identifier(Entree entree) throws IllegalStateException, EntreeNonTrouveException
+      + int getTailleDisplay()
+      + void entreeBloc()
+      + void sortieBloc()
     }
   }
 
@@ -82,6 +82,7 @@ namespace zoot.tds {
       + Entree(String identifiant)
       + String getIdentifiant()
       + boolean equals(Object objetAComparer)
+      + int hashCode()
     }
 
     class EntreeVariable {
@@ -92,7 +93,6 @@ namespace zoot.tds {
     class EntreeFonction {
       + EntreeFonction(String identifiant, Collection<Type> typeParametres)
       + boolean equals(Object objetAComparer)
-      + String getEtiquette()
       + Collection<Type> getTypeParametres()
     }
   }
@@ -113,8 +113,11 @@ namespace zoot.tds {
     }
 
     class SymboleFonction {
+      - String etiquette
       + SymboleFonction(Type type)
       + void decorer(AppelFonction a)
+      + void setEtiquette(String etiquette)
+      + String getEtiquette()
     }
 
     enum Type {

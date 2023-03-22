@@ -10,20 +10,32 @@ public class EtatEnCoursAnalyseSemantique extends EtatAnalyse {
         super(tds);
     }
 
-    public Symbole identifier(Entree entree){
+    /**
+     * {@inheritDoc}
+     */
+    public Symbole identifier(Entree entree) {
         return tds.getEspaceDeNomCourant().identifier(entree);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int getTailleDisplay() {
-        return tds.getNiveauImbricationMax()+1;
+        return tds.getNiveauImbricationMax() + 1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void entreeBloc() {
         EspaceDeNom ancien = tds.getEspaceDeNomCourant();
         EspaceDeNom nouveau = ancien.getProchainSousEspaceDeNom();
         tds.setEspaceDeNomCourant(nouveau);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void sortieBloc() {
         EspaceDeNom ancien = tds.getEspaceDeNomCourant();
         EspaceDeNom nouveau = ancien.getEspaceDeNomParent();

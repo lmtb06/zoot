@@ -11,10 +11,10 @@ public abstract class Constante extends Expression {
     protected String cste;
 
     /**
-     * Constructeur
+     * Constructeur.
      *
-     * @param valeur la valeur de la constante
-     * @param n      le numéro de la ligne de la déclaration dans le code zoot
+     * @param valeur la valeur de la constante.
+     * @param n      le numéro de la ligne de la déclaration dans le code zoot.
      */
     protected Constante(String valeur, int n) {
         super(n);

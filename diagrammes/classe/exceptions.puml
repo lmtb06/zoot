@@ -41,8 +41,20 @@ namespace zoot.exceptions {
         + TypeIncompatibleException(Type destination, Type source)
     }
 
+    class EntreeNonTrouveException {
+        + EntreeNonTrouveException(Entree e)
+    }
+
     class VariableNonDeclarerException {
         + VariableNonDeclarerException(EntreeVariable e)
+    }
+
+    class FonctionNonDeclarerException {
+        + FonctionNonDeclarerException(EntreeFonction e)
+    }
+
+    class FonctionSansRetourneException {
+        + FonctionSansRetourneException(Fonction f)
     }
 
     class LigneDecorator {
@@ -62,6 +74,9 @@ namespace zoot.exceptions {
     DoubleDeclarationException -up-|> AnalyseSemantiqueException
     TypeIncompatibleException -up-|> AnalyseSemantiqueException
     VariableNonDeclarerException -left-|> AnalyseSemantiqueException
+    FonctionNonDeclarerException -up-|> AnalyseSemantiqueException
+    EntreeNonTrouveException -up-|> AnalyseSemantiqueException
+    FonctionSansRetourneException -up-|> AnalyseSemantiqueException
     LigneDecorator --|> AnalyseSemantiqueDecorator
     GestionnaireExceptionsSemantiques -down-"*" AnalyseSemantiqueException
 }

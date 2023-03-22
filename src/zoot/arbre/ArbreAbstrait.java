@@ -29,7 +29,7 @@ public abstract class ArbreAbstrait {
     }
 
     /**
-     * Permet de faire l'analyse sémantique de l'arbre
+     * Permet de faire l'analyse sémantique de l'arbre.
      */
     public abstract void verifier();
 

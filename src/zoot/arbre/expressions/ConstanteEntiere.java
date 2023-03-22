@@ -5,7 +5,7 @@ import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
 /**
- * Représente une constante entière dans l'arbre abstrait
+ * Représente une constante entière dans l'arbre abstrait.
  */
 public class ConstanteEntiere extends Constante {
 
@@ -27,6 +27,9 @@ public class ConstanteEntiere extends Constante {
         return MipsGenerator.getInstance().chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Type getType() {
         return Type.ENTIER;

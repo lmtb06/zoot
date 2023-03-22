@@ -1,7 +1,7 @@
 package zoot.tds;
 
 import zoot.exceptions.DoubleDeclarationException;
-import zoot.exceptions.VariableNonDeclarerException;
+import zoot.exceptions.EntreeNonTrouveException;
 import zoot.tds.entrees.Entree;
 import zoot.tds.etats.EtatAnalyse;
 import zoot.tds.etats.EtatEnCoursAnalyseSyntaxique;
@@ -50,19 +50,19 @@ public class TDS {
      * @param symbole le symbole associé à l'entrée dans la TDS
      * @throws DoubleDeclarationException si l'entrée existe déjà dans la TDS
      */
-    public void ajouter(Entree entree, Symbole symbole) {
+    public void ajouter(Entree entree, Symbole symbole) throws IllegalStateException, DoubleDeclarationException {
         etatCourant.ajouter(entree, symbole);
     }
 
     /**
-     * Identifie et retourne le symbole associé à l'entrée
+     * Identifie et retourne le symbole associé à l'entrée.
      *
-     * @param entree l'entree de la TDS
-     * @return le symbole associé à l'entrée
-     * @throws VariableNonDeclarerException si l'entrée n'existe pas dans la TDS
+     * @param entree l'entree de la TDS.
+     * @return le symbole associé à l'entrée.
+     * @throws EntreeNonTrouveException si l'entrée n'existe pas dans la TDS.
      */
-    public Symbole identifier(Entree entree) throws IllegalStateException {
-        return espaceDeNomCourant.identifier(entree);
+    public Symbole identifier(Entree entree) throws IllegalStateException, EntreeNonTrouveException {
+        return etatCourant.identifier(entree);
     }
 
     /**
@@ -71,7 +71,7 @@ public class TDS {
      * @return deplacement, la taille de la zone des variables
      */
     public int getTailleZoneVariables() {
-        return espaceDeNomCourant.getTailleZoneVariables();
+        return etatCourant.getTailleZoneVariables();
     }
 
     /**
