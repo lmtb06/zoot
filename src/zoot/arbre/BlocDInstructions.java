@@ -4,10 +4,9 @@ import zoot.arbre.instructions.Affectation;
 import zoot.arbre.instructions.Ecrire;
 import zoot.arbre.instructions.Instruction;
 import zoot.arbre.instructions.Retourne;
-import zoot.code_generation.MipsGenerator;
-import zoot.tds.TDS;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * 21 novembre 2018
@@ -18,8 +17,7 @@ import java.util.ArrayList;
 
 public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstructions {
 
-    protected ArrayList<Instruction> programme;
-    private int tailleZoneVariables;
+    protected ArrayList<Instruction> instructions;
 
     /**
      * Constructeur.
@@ -28,7 +26,7 @@ public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstru
      */
     public BlocDInstructions(int n) {
         super(n);
-        programme = new ArrayList<>();
+        instructions = new ArrayList<>();
     }
 
     /**
@@ -37,7 +35,7 @@ public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstru
      * @param i l'instruction à ajouter.
      */
     public void ajouter(Instruction i) {
-        programme.add(i);
+        instructions.add(i);
     }
 
     /**
@@ -45,11 +43,9 @@ public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstru
      */
     @Override
     public void verifier() {
-        for (Instruction i :
-                programme) {
+        for (Instruction i : instructions) {
             i.verifier();
         }
-        tailleZoneVariables = TDS.getInstance().getTailleZoneVariables();
     }
 
     /**
@@ -58,13 +54,10 @@ public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstru
     @Override
     public String toMIPS() {
         StringBuilder sb = new StringBuilder();
-        sb.append(MipsGenerator.getInstance().enteteProgramme(tailleZoneVariables));
 
-        for (Instruction instruction : programme) {
+        for (Instruction instruction : instructions) {
             sb.append(instruction.toMIPS());
         }
-
-        sb.append(MipsGenerator.getInstance().finProgramme());
 
         return sb.toString();
     }
@@ -74,21 +67,50 @@ public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstru
      */
     @Override
     public String toString() {
-        return programme.toString();
+        return instructions.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void ajouter(Ecrire e) {
-        programme.add(e);
+        instructions.add(e);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void ajouter(Affectation a) {
-        programme.add(a);
+        instructions.add(a);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void ajouter(Retourne e) {
-        programme.add(e);
+        instructions.add(e);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<Instruction> iterator() {
+        return instructions.iterator();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void ajouter(ConteneurDInstructions c) {
+        Iterator<Instruction> it = c.iterator();
+        while (it.hasNext()) {
+            Instruction i = it.next();
+            i.sAjouter(this);
+        }
     }
 }
