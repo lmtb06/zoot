@@ -4,6 +4,7 @@ import zoot.arbre.Fonction;
 import zoot.arbre.Programme;
 import zoot.arbre.expressions.AppelFonction;
 import zoot.arbre.expressions.Variable;
+import zoot.arbre.instructions.Retourne;
 
 /**
  * Singleton utilisé pour centraliser la gestion du code MIPS.
@@ -59,41 +60,47 @@ public class MipsGenerator {
     }
 
     //TODO Supprimer
-    public String recupererVariableDepuisPile(String registreDestination, int deplacementVariable) {
+    public String chargementContenuAdresseDansRegistreDansRegistre(String registreSource, String registreDestination, int deplacement) {
         return "lw " + registreDestination + ", "
-                + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
+                + deplacement + "(" + registreSource + ")\n";
     }
 
     //TODO Supprimer
-    public String sauvegarderVariableDepuisRegistre(String registreSource, int deplacementVariable) {
+    public String sauvegarderContenuRegistreDansAdresseContenuDansRegistre(String registreSource, String registreDestination, int deplacement) {
         return "sw " + registreSource + ", "
-                + deplacementVariable + "(" + Registre.POINTEUR_DEBUT_ZONE_PILE.valeur + ")\n";
+                + deplacement + "(" + registreDestination + ")\n";
     }
 
     public String chargerContenuVariableDansRegistre(Variable variableSource, String registreDestination) {
         // TODO
-        return "";
+        return "# Chargement depuis variable\n" +
+                "lw " + Registre.STOCKAGE_TEMPORAIRE.valeur + ", " +
+                -(variableSource.getNiveauImbrication() * 4) + "(" +
+                Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur + ")\n" +
+                "lw " + registreDestination + ", " + variableSource.getDeplacement() +
+                "(" + Registre.STOCKAGE_TEMPORAIRE.valeur + ")\n";
     }
 
     public String sauvegarderContenuRegistreDansVariable(String registreSource, Variable variableDestination) {
         // TODO
-        return "";
+        return "# Sauvegarde dans variable\n" +
+                "lw " + Registre.STOCKAGE_TEMPORAIRE.valeur + ", " +
+                -(variableDestination.getNiveauImbrication() * 4) + "(" +
+                Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur + ")\n" +
+                "sw " + registreSource + ", " + variableDestination.getDeplacement() +
+                "(" + Registre.STOCKAGE_TEMPORAIRE.valeur + ")\n";
     }
 
-    public String executerFonction(AppelFonction a) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(reserverOctetsPile(4)); // Resultat
-        // sb.append(reserverOctetsPile(a.getTailleZoneParametres())); // Params
-        sb.append(reserverOctetsPile(4)); // adresse retour
-        sb.append(reserverOctetsPile(a.getTailleDisplay())); // Display
-        sb.append("");
-        return sb.toString();
+    public String executerFonctionEtMettreResultatDansRegistre(AppelFonction a, String registreDestination) {
+        return "# Appel fonction " + a.getEtiquette() + "\n";
     }
 
-    public String getDefinitionFonction(Fonction f) {
-        StringBuilder sb = new StringBuilder();
+    public String appelRetourFonction(Retourne r) {
+        return "#Retourne\n";
+    }
 
-        return sb.toString();
+    public String getEnteteFonction(Fonction f) {
+        return "#" + f.getEtiquette() + "\n";
     }
 
     /**
@@ -172,6 +179,7 @@ public class MipsGenerator {
     }
 
     //TODO Supprimer
+
     /**
      * Retourne le code MIPS pour l’entête du programme MIPS.
      *
@@ -190,13 +198,48 @@ public class MipsGenerator {
     }
 
     public String getEnteteProgramme(Programme p) {
-        //TODO
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("""
+                        .data
+                        vrai: .asciiz "vrai"
+                        faux: .asciiz "faux"
+                        .text
+                        main :
+                        # début du programme
+                        """)
+                .append(copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur))
+                .append(reserverOctetsPile(p.getTailleDisplay() * 4)) // Display
+                .append(reserverOctetsPile(2 * 4)) // Resultat + Adresse Retour (vide pour le main)
+        ;
+        return ".data\n" +
+                "vrai: .asciiz \"vrai\"\n" +
+                "faux: .asciiz \"faux\"\n" +
+                ".text\n" +
+                "main :\n" +
+                "# début du programme\n" +
+                copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur) +
+                reserverOctetsPile(p.getTailleDisplay() * 4) + // Display
+                reserverOctetsPile(2 * 4) + // Resultat + Adresse Retour (vide pour le main)
+                reserverOctetsPile(p.getTailleDisplay()) + // Sauvegarde display
+                sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur, 0) +
+                reserverOctetsPile(p.getTailleZoneVariables());
     }
 
     public String getFinProgramme(Programme p) {
-        //TODO
-        return null;
+        return "end :\n" +
+                "# fin du programme\n" +
+                chargementImmediat("$v0", "10") +
+                "syscall\n" +
+                "# fonctions utilitaires zoot\n" +
+                "selection_label_booleen:\n" +
+                chargementImmediat(Registre.STOCKAGE_TEMPORAIRE.valeur, "0") +
+                "beq $a0," + Registre.STOCKAGE_TEMPORAIRE.valeur + ", sinon_label_booleen\n" +
+                chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "vrai") +
+                "j fin_label_booleen\n" +
+                "sinon_label_booleen:\n" +
+                chargementAdresseRegistre(Registre.STOCKAGE_RESULTAT.valeur, "faux") +
+                "fin_label_booleen:\n" +
+                "jr $ra\n";
     }
 
     /**
