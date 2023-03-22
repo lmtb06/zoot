@@ -2,14 +2,14 @@ package zoot.arbre.instructions;
 
 import zoot.arbre.ConteneurDInstructions;
 import zoot.arbre.expressions.Expression;
+import zoot.code_generation.MipsGenerator;
 import zoot.tds.Type;
 
 public class Retourne extends Instruction {
 
     protected Expression exp;
 
-    public Retourne(Expression e, int n)
-    {
+    public Retourne(Expression e, int n) {
         super(n);
         this.exp = e;
     }
@@ -36,8 +36,7 @@ public class Retourne extends Instruction {
      */
     @Override
     public String toMIPS() {
-        //TODO
-        return null;
+        return exp.toMIPS() + MipsGenerator.getInstance().appelRetourFonction(this);
     }
 
     /**

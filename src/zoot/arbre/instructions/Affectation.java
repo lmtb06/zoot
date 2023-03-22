@@ -41,7 +41,7 @@ public class Affectation extends Instruction {
         //TODO
         return expression.toMIPS() +
                 MipsGenerator.getInstance()
-                        .sauvegarderVariableDepuisRegistre(Registre.STOCKAGE_RESULTAT.valeur, variable.getDeplacement());
+                        .sauvegarderContenuRegistreDansVariable(Registre.STOCKAGE_RESULTAT.valeur, variable);
     }
 
     /**
