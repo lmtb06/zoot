@@ -3,8 +3,10 @@ package zoot.tds;
 import org.junit.jupiter.api.Test;
 import zoot.exceptions.DoubleDeclarationException;
 import zoot.exceptions.VariableNonDeclarerException;
+import zoot.tds.entrees.EntreeVariable;
+import zoot.tds.symboles.SymboleVariable;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 class TDSTest {

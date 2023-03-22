@@ -1,13 +1,20 @@
 variables
     entier a;
     booleen b;
+    entier c;
 fonctions
     entier f ()
     debut
-        ecrire 10;
         retourne 5;
+    fin
+
+    entier f1 ()
+    debut
+        c = 1;
+        ecrire a;
     fin
 debut
     a = 10;
-    ecrire vrai;
+    b = faux;
+    c = a;
 fin
