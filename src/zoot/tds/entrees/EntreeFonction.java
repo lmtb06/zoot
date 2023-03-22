@@ -6,13 +6,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class EntreeFonction extends Entree {
-    private ArrayList<Type> typeParametres;
+    private final ArrayList<Type> typeParametres;
     public EntreeFonction(String identifiant, Collection<Type> typeParametres) {
         super(identifiant);
+        // L'identifiant d'une fonction est du style "nom_typeParam1_typeParam2_..._typeParamN_"
+        StringBuilder sb = new StringBuilder();
+        sb.append(identifiant);
+        sb.append('_');
         this.typeParametres = new ArrayList<>(typeParametres.size());
-        this.typeParametres.addAll(typeParametres);
+        typeParametres.forEach(typeParametre -> {
+            sb.append(typeParametre.name())
+                    .append('_');
+            typeParametres.add(typeParametre);
+        });
+        this.identifiant = sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object entreeAComparer) {
         boolean memeClasseEtNom = super.equals(entreeAComparer);
@@ -20,19 +32,6 @@ public class EntreeFonction extends Entree {
         if (memeClasseEtNom)
             memeSignature = typeParametres.equals(((EntreeFonction) entreeAComparer).typeParametres);
         return memeSignature;
-    }
-
-    /**
-     * Retourne l'etiquette de l'entree
-     * @return l'etiquette de l'entree
-     */
-    public String getEtiquette() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(identifiant);
-        for (Type t : typeParametres) {
-            sb.append(t.name());
-        }
-        return sb.toString();
     }
 
     /**

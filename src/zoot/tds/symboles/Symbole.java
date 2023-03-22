@@ -12,24 +12,29 @@ public abstract class Symbole {
         this.type = type;
     }
 
+    /**
+     * Retourne le {@link Type} du symbole.
+     *
+     * @return le {@link Type} du symbole.
+     */
     public Type getType() {
         return type;
     }
 
 
     /**
-     * Décore une variable, ici il ne fait rien, il est à redéfinir si besoin
+     * Décore une {@link Variable}.
      *
-     * @param v un variable
+     * @param v une {@link Variable}.
      */
     public void decorer(Variable v) {
         //IT DOES NOTHING
     }
 
     /**
-     * Décore une appel de fonction, ici il ne fait rien, il est à redéfinir si besoin
+     * Décore un {@link AppelFonction}.
      *
-     * @param a un appel de fonction
+     * @param a l'{@link AppelFonction}.
      */
     public void decorer(AppelFonction a) {
         //IT DOES NOTHING
