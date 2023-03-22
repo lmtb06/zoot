@@ -10,16 +10,24 @@ public class BlocDeFonctions extends ArbreAbstrait{
         super(n);
     }
 
-    public void ajouter(Fonction f)
-    {
+    /**
+     * {@inheritDoc}
+     */
+    public void ajouter(Fonction f) {
         fonctions.add(f);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void verifier() {
         for(Fonction f : fonctions) f.verifier();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toMIPS() {
         //TODO

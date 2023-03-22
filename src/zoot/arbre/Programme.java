@@ -16,9 +16,12 @@ public class Programme extends ArbreAbstrait {
         blocDInstructions.verifier();
     }
 
-    public String toMIPS()
-    {
-        //TODO
-        return null;
+    /**
+     * {@inheritDoc}
+     */
+    public String toMIPS() {
+        MipsGenerator mg = MipsGenerator.getInstance();
+        return mg.getEnteteProgramme(this) + blocDInstructions.toMIPS() + mg.getFinProgramme(this) +
+                "\n" + blocDeFonctions.toMIPS();
     }
 }

@@ -27,6 +27,9 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions{
         this.symboleFonction = s;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void verifier() {
         for (Retourne r : retourneArrayList)
@@ -43,22 +46,34 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions{
         instructions.verifier();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toMIPS() {
         //TODO
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void ajouter(Ecrire e) {
         instructions.ajouter(e);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void ajouter(Affectation a) {
         instructions.ajouter(a);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void ajouter(Retourne e) {
         instructions.ajouter(e);
