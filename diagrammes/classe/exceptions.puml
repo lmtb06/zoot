@@ -53,6 +53,10 @@ namespace zoot.exceptions {
         + FonctionNonDeclarerException(EntreeFonction e)
     }
 
+    class FonctionSansRetourneException {
+        + FonctionSansRetourneException(Fonction f)
+    }
+
     class LigneDecorator {
         - int ligne
         + LigneDecorator(int ligne, AnalyseSemantiqueException)
@@ -72,6 +76,7 @@ namespace zoot.exceptions {
     VariableNonDeclarerException -left-|> AnalyseSemantiqueException
     FonctionNonDeclarerException -up-|> AnalyseSemantiqueException
     EntreeNonTrouveException -up-|> AnalyseSemantiqueException
+    FonctionSansRetourneException -up-|> AnalyseSemantiqueException
     LigneDecorator --|> AnalyseSemantiqueDecorator
     GestionnaireExceptionsSemantiques -down-"*" AnalyseSemantiqueException
 }
