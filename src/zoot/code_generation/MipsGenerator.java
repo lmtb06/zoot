@@ -59,36 +59,34 @@ public class MipsGenerator {
         return "move " + registreDestination + ", " + registreSource + "\n";
     }
 
-    //TODO Supprimer
     public String chargementContenuAdresseDansRegistreDansRegistre(String registreSource, String registreDestination, int deplacement) {
         return "lw " + registreDestination + ", "
                 + deplacement + "(" + registreSource + ")\n";
     }
 
-    //TODO Supprimer
     public String sauvegarderContenuRegistreDansAdresseContenuDansRegistre(String registreSource, String registreDestination, int deplacement) {
         return "sw " + registreSource + ", "
                 + deplacement + "(" + registreDestination + ")\n";
     }
 
     public String chargerContenuVariableDansRegistre(Variable variableSource, String registreDestination) {
-        // TODO
         return "# Chargement depuis variable\n" +
-                "lw " + Registre.STOCKAGE_TEMPORAIRE.valeur + ", " +
-                -(variableSource.getNiveauImbrication() * 4) + "(" +
-                Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur + ")\n" +
-                "lw " + registreDestination + ", " + variableSource.getDeplacement() +
-                "(" + Registre.STOCKAGE_TEMPORAIRE.valeur + ")\n";
+                // On récupère la position de la variable dans la pile et on le met dans le registre de stockage temporaire
+                chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur,
+                        Registre.STOCKAGE_TEMPORAIRE.valeur, -(variableSource.getNiveauImbrication() * 4)) +
+                // On récupère le contenu de la variable et on le met dans le registre de destination
+                chargementContenuAdresseDansRegistreDansRegistre(Registre.STOCKAGE_TEMPORAIRE.valeur, registreDestination
+                        , variableSource.getDeplacement());
     }
 
     public String sauvegarderContenuRegistreDansVariable(String registreSource, Variable variableDestination) {
-        // TODO
         return "# Sauvegarde dans variable\n" +
-                "lw " + Registre.STOCKAGE_TEMPORAIRE.valeur + ", " +
-                -(variableDestination.getNiveauImbrication() * 4) + "(" +
-                Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur + ")\n" +
-                "sw " + registreSource + ", " + variableDestination.getDeplacement() +
-                "(" + Registre.STOCKAGE_TEMPORAIRE.valeur + ")\n";
+                // On récupère la position de la variable dans la pile et on le met dans le registre de stockage temporaire
+                chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur,
+                        Registre.STOCKAGE_TEMPORAIRE.valeur, -(variableDestination.getNiveauImbrication() * 4)) +
+                // On met la valeur de registreSource dans la variable
+                sauvegarderContenuRegistreDansAdresseContenuDansRegistre(registreSource, Registre.STOCKAGE_TEMPORAIRE.valeur
+                        , variableDestination.getDeplacement());
     }
 
     public String executerFonctionEtMettreResultatDansRegistre(AppelFonction a, String registreDestination) {
@@ -198,31 +196,22 @@ public class MipsGenerator {
     }
 
     public String getEnteteProgramme(Programme p) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("""
-                        .data
-                        vrai: .asciiz "vrai"
-                        faux: .asciiz "faux"
-                        .text
-                        main :
-                        # début du programme
-                        """)
-                .append(copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur))
-                .append(reserverOctetsPile(p.getTailleDisplay() * 4)) // Display
-                .append(reserverOctetsPile(2 * 4)) // Resultat + Adresse Retour (vide pour le main)
-        ;
-        return ".data\n" +
-                "vrai: .asciiz \"vrai\"\n" +
-                "faux: .asciiz \"faux\"\n" +
-                ".text\n" +
-                "main :\n" +
-                "# début du programme\n" +
+        int tailleDisplay = p.getTailleDisplay();
+        return """
+                .data
+                vrai: .asciiz "vrai"
+                faux: .asciiz "faux"
+                .text
+                main :
+                # début du programme
+                """ +
                 copieRegistreRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur) +
-                reserverOctetsPile(p.getTailleDisplay() * 4) + // Display
-                reserverOctetsPile(2 * 4) + // Resultat + Adresse Retour (vide pour le main)
-                reserverOctetsPile(p.getTailleDisplay()) + // Sauvegarde display
-                sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.POINTEUR_PILE.valeur, Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur, 0) +
-                reserverOctetsPile(p.getTailleZoneVariables());
+                "# Reservation Display\n" + reserverOctetsPile((tailleDisplay * 4)) +
+                "# Reservation Resultat + Params + Adresse Retour\n" + reserverOctetsPile(2 * 4) +
+                "# Reservation Zone sauvegarde display\n" + reserverOctetsPile(tailleDisplay * 4) +
+                sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.POINTEUR_PILE.valeur,
+                        Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur, 0) + // Mise à jour du display avec la position du debut des variables du main
+                "# Reservation zone variables\n" + reserverOctetsPile(p.getTailleZoneVariables());
     }
 
     public String getFinProgramme(Programme p) {
@@ -242,6 +231,7 @@ public class MipsGenerator {
                 "jr $ra\n";
     }
 
+    // TODO Supprimer
     /**
      * Retourne le code MIPS pour la fin du programme MIPS.
      *

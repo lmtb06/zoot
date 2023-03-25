@@ -194,7 +194,7 @@ DECL    ::=     TYPE:t IDF:i POINTVIRGULE
                         GestionnaireExceptionsSemantiques.getInstance()
                                             .ajouter(new LigneDecorator(ileft + 1, e));
                     }
-                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
+                    s.setDeplacement(-TDS.getInstance().getTailleZoneVariables());
                     TDS.getInstance().augmenterTailleZoneVariables(4);
                 :};
 

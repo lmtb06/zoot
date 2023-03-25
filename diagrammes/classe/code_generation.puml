@@ -21,6 +21,8 @@ namespace zoot.code_generation {
         + String chargementImmediat(String registre, String valeur)
         + String chargementAdresseRegistre(String registre, String valeur)
         + String copieRegistreRegistre(String registreSource, String registreDestination)
+        + String chargementContenuAdresseDansRegistreDansRegistre(String registreSource, String registreDestination, int deplacement)
+        + String sauvegarderContenuRegistreDansAdresseContenuDansRegistre(String registreSource, String registreDestination, int deplacement)
         .. Gestion des variables ..
         + String chargerContenuVariableDansRegistre(Variable variableSource, String registreDestination)
         + String sauvegarderContenuRegistreDansVariable(String registreSource, Variable variableDestination)
