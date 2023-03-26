@@ -11,10 +11,14 @@ fonctions
     entier f1 ()
     debut
         c = 1;
-        ecrire a;
+        a = 26;
+        retourne 12;
     fin
 debut
     a = 10;
     b = faux;
     c = a;
+    ecrire f1();
+    ecrire a;
+    ecrire c;
 fin

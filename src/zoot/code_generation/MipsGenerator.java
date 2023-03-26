@@ -90,15 +90,83 @@ public class MipsGenerator {
     }
 
     public String executerFonctionEtMettreResultatDansRegistre(AppelFonction a, String registreDestination) {
-        return "# Appel fonction " + a.getEtiquette() + "\n";
+        StringBuilder sb = new StringBuilder();
+        int tailleDisplay = a.getTailleDisplay();
+        String etiquette = a.getEtiquette();
+        sb.append("# Appel fonction ").append(etiquette).append("\n")
+                .append(reserverOctetsPile(4)) // Resultat
+                // TODO Mettre les parametres
+                .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.ADRESSE_RETOUR.valeur,
+                        Registre.POINTEUR_PILE.valeur, 0)).append(reserverOctetsPile(4)) // empiler adresse retour
+                .append(sauvegarderDisplay(tailleDisplay)) // sauvegarde display
+                .append(mettreAJourCaseDisplay(a.getNiveauImbrication())) // Mise à jour du display
+                .append("jal ").append(etiquette).append("\n") // Jump vers la fonction
+                .append(restaurerDisplay(tailleDisplay))
+                .append(libererOctetsPile(tailleDisplay * 4)) // Liberation zone sauvegarde display
+                .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
+                        Registre.ADRESSE_RETOUR.valeur, 4)).append(libererOctetsPile(4)) // Restauration adresse retour
+                .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_RESULTAT.valeur,
+                        Registre.POINTEUR_PILE.valeur, 4)) // Mise du resultat dans la pile
+                .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
+                        registreDestination, 4)) // Récupération du résultat dans le registre destiné (même si c'est redondant)
+                .append(libererOctetsPile(4));
+        return sb.toString();
     }
 
     public String appelRetourFonction(Retourne r) {
-        return "#Retourne\n";
+        StringBuilder sb = new StringBuilder();
+        int tailleZoneVariables = r.getTailleZoneVariables();
+        sb.append("# Retourne\n");
+        if (tailleZoneVariables > 0) {
+            sb.append(libererOctetsPile(r.getTailleZoneVariables())) // Liberation de la zone des variables locales
+            ;
+        }
+        sb.append("jr $ra\n");
+        return sb.toString();
     }
 
     public String getEnteteFonction(Fonction f) {
-        return "#" + f.getEtiquette() + "\n";
+        StringBuilder sb = new StringBuilder();
+        int tailleZoneVariables = f.getTailleZoneVariables();
+        sb.append(f.getEtiquette()).append(" :\n");
+        if (tailleZoneVariables > 0) {
+            sb.append("# Réservation variables locales\n")
+                    .append(reserverOctetsPile(f.getTailleZoneVariables())) // Reserver la place pour les variables locales
+            ;
+        }
+        return sb.toString();
+    }
+
+    public String sauvegarderDisplay(int tailleDisplay) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tailleDisplay; i++) {
+            sb.append("# Copie case ").append(i).append(" du display\n")
+                    .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur,
+                            Registre.STOCKAGE_TEMPORAIRE.valeur, i * -4))
+                    .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_TEMPORAIRE.valeur,
+                            Registre.POINTEUR_PILE.valeur, 0))
+                    .append(reserverOctetsPile(4));
+        }
+        return sb.toString();
+    }
+
+    public String mettreAJourCaseDisplay(int index) {
+        return "# Mise à jour case " + index + " display \n" +
+                sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.POINTEUR_PILE.valeur,
+                        Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur, index * -4);
+    }
+
+    public String restaurerDisplay(int tailleDisplay) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tailleDisplay; i++) {
+            // On restaure le display en partant du bas de la pile
+            sb.append("# Restauration case ").append(i).append(" du display\n")
+                    .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
+                            Registre.STOCKAGE_TEMPORAIRE.valeur, (i * 4) + 4))
+                    .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_TEMPORAIRE.valeur,
+                            Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur, ((tailleDisplay - 1) * 4) - (i * 4)));
+        }
+        return sb.toString();
     }
 
     /**
@@ -171,9 +239,17 @@ public class MipsGenerator {
     }
 
     public String afficherBooleenRegistre(String registre) {
-        return copieRegistreRegistre(registre, "$a0") +
-                "jal selection_label_booleen\n" +
-                afficherChaineDeCaracteresRegistre(Registre.STOCKAGE_RESULTAT.valeur);
+        // Sauvegarde de $ra avant de faire le jal et le restauration après
+        return
+                sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.ADRESSE_RETOUR.valeur,
+                        Registre.POINTEUR_PILE.valeur, 0) +
+                        reserverOctetsPile(4) + // empiler adresse retour
+                        copieRegistreRegistre(registre, "$a0") +
+                        "jal selection_label_booleen\n" +
+                        chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
+                                Registre.ADRESSE_RETOUR.valeur, 4) +
+                        libererOctetsPile(4) + // Restauration adresse retour
+                        afficherChaineDeCaracteresRegistre(Registre.STOCKAGE_RESULTAT.valeur);
     }
 
     //TODO Supprimer
