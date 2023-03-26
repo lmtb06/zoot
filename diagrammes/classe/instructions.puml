@@ -18,11 +18,14 @@ namespace zoot.arbre.instructions {
     }
 
     class Retourne {
+        - int tailleZoneVariables
         + Retourne(Expression e, int n)
         + void verifier()
         + String toMIPS()
         + Type getType()
         + void sAjouter(ConteneurDInstructions c)
+        + void setTailleZoneVariables(int tailleZoneVariables)
+        + int getTailleZoneVariables()
     }
 
     abstract class Instruction {
