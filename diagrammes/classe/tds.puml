@@ -99,7 +99,7 @@ namespace zoot.tds {
 
   namespace symboles {
     abstract class Symbole {
-      + Symbole(Type type)
+      + Symbole(Type type, EspaceDeNom espaceDeNom)
       + Type getType()
       + void decorer(Variable v)
       + void decorer(AppelFonction a)
@@ -107,14 +107,14 @@ namespace zoot.tds {
 
     class SymboleVariable {
       - int deplacement
-      + SymboleVariable(Type type)
+      + SymboleVariable(Type type, EspaceDeNom espaceDeNom)
       + void decorer(Variable v)
       + void setDeplacement(int deplacement)
     }
 
     class SymboleFonction {
       - String etiquette
-      + SymboleFonction(Type type)
+      + SymboleFonction(Type type, EspaceDeNom espaceDeNom)
       + void decorer(AppelFonction a)
       + void setEtiquette(String etiquette)
       + String getEtiquette()
@@ -131,7 +131,7 @@ namespace zoot.tds {
   TDS --"1" EspaceDeNom : espaceDeNomCourant
   TDS "1"-left-"1" EtatAnalyse : etatCourant
   EspaceDeNom --"*" Entree
-  EspaceDeNom --"*" Symbole
+  EspaceDeNom "1"--"*" Symbole
   Symbole *-left- Type
   SymboleVariable -up-|> Symbole
   EntreeVariable -up-|> Entree
