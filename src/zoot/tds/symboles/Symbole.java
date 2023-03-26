@@ -2,14 +2,16 @@ package zoot.tds.symboles;
 
 import zoot.arbre.expressions.AppelFonction;
 import zoot.arbre.expressions.Variable;
+import zoot.tds.EspaceDeNom;
 import zoot.tds.Type;
 
 public abstract class Symbole {
     protected Type type;
+    protected EspaceDeNom espaceDeNom;
 
-
-    public Symbole(Type type) {
+    public Symbole(Type type, EspaceDeNom espaceDeNom) {
         this.type = type;
+        this.espaceDeNom = espaceDeNom;
     }
 
     /**

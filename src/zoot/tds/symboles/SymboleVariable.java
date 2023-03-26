@@ -1,14 +1,14 @@
 package zoot.tds.symboles;
 
 import zoot.arbre.expressions.Variable;
-import zoot.tds.TDS;
+import zoot.tds.EspaceDeNom;
 import zoot.tds.Type;
 
 public class SymboleVariable extends Symbole {
     protected int deplacement = 0;
 
-    public SymboleVariable(Type type) {
-        super(type);
+    public SymboleVariable(Type type, EspaceDeNom espaceDeNom) {
+        super(type, espaceDeNom);
     }
 
     /**
@@ -26,6 +26,6 @@ public class SymboleVariable extends Symbole {
     @Override
     public void decorer(Variable v) {
         v.setDeplacement(deplacement);
-        v.setNiveauImbrication(TDS.getInstance().getNiveauImbricationCourant());
+        v.setNiveauImbrication(espaceDeNom.getNiveauImbrication());
     }
 }
