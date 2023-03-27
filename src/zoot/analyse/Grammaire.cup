@@ -122,17 +122,18 @@ FONC    ::=     TYPE:t IDF:i PARAMETRES DEBUT LINSTF:li  FIN
                     }
 
                     EntreeFonction entreeFonction = new EntreeFonction(i, new ArrayList<Type>(0));
-                    SymboleFonction symboleFonction = new SymboleFonction(typeSymbole);
-                    symboleFonction.setEtiquette(entreeFonction.getIdentifiant() + TDS.getInstance().getNiveauImbricationCourant());
 
-                    TDS.getInstance().ajouter(entreeFonction, symboleFonction);
 
-                    Fonction f = new Fonction(entreeFonction, symboleFonction, tleft + 1);
 
                     TDS.getInstance().entreeBloc();
+                    SymboleFonction symboleFonction = new SymboleFonction(typeSymbole, TDS.getInstance().getEspaceDeNomCourant());
                     // Ajout des déclarations
                     TDS.getInstance().sortieBloc();
 
+                    symboleFonction.setEtiquette(entreeFonction.getIdentifiant() + TDS.getInstance().getNiveauImbricationCourant());
+                    TDS.getInstance().ajouter(entreeFonction, symboleFonction);
+
+                    Fonction f = new Fonction(entreeFonction, symboleFonction, tleft + 1);
                     f.ajouter(li);
 
                     RESULT = f;
@@ -187,14 +188,14 @@ DECL    ::=     TYPE:t IDF:i POINTVIRGULE
                     }
 
 
-                    SymboleVariable s = new SymboleVariable(typeSymbole);
+                    SymboleVariable s = new SymboleVariable(typeSymbole, TDS.getInstance().getEspaceDeNomCourant());
                     try{
                         TDS.getInstance().ajouter(new EntreeVariable(i), s);
                     } catch (DoubleDeclarationException e) {
                         GestionnaireExceptionsSemantiques.getInstance()
                                             .ajouter(new LigneDecorator(ileft + 1, e));
                     }
-                    s.setDeplacement(TDS.getInstance().getTailleZoneVariables());
+                    s.setDeplacement(-TDS.getInstance().getTailleZoneVariables());
                     TDS.getInstance().augmenterTailleZoneVariables(4);
                 :};
 

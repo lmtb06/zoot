@@ -53,16 +53,18 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions {
             GestionnaireExceptionsSemantiques.getInstance()
                     .ajouter(new LigneDecorator(noLigne, new FonctionSansRetourneException(this)));
 
+        tailleZoneVariables = TDS.getInstance().getTailleZoneVariables();
+        etiquette = symboleFonction.getEtiquette();
+
         for (Retourne r : retournes) {
             if (symboleFonction.getType() != r.getType()) {
                 GestionnaireExceptionsSemantiques.getInstance()
                         .ajouter(new LigneDecorator(r.getNoLigne(),
                                 new TypeIncompatibleException(symboleFonction.getType(), r.getType())));
+            } else {
+                r.setTailleZoneVariables(tailleZoneVariables); // On décore les retournes
             }
         }
-
-        tailleZoneVariables = TDS.getInstance().getTailleZoneVariables();
-        etiquette = symboleFonction.getEtiquette();
 
         TDS.getInstance().sortieBloc();
     }

@@ -6,7 +6,7 @@ import zoot.code_generation.MipsGenerator;
 import zoot.tds.Type;
 
 public class Retourne extends Instruction {
-
+    private int tailleZoneVariables = 0;
     protected Expression exp;
 
     public Retourne(Expression e, int n) {
@@ -45,5 +45,13 @@ public class Retourne extends Instruction {
     @Override
     public void sAjouter(ConteneurDInstructions c) {
         c.ajouter(this);
+    }
+
+    public int getTailleZoneVariables() {
+        return tailleZoneVariables;
+    }
+
+    public void setTailleZoneVariables(int tailleZoneVariables) {
+        this.tailleZoneVariables = tailleZoneVariables;
     }
 }
