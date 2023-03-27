@@ -62,7 +62,7 @@ parser code {:
 /* Terminals (tokens returned by the scanner).  */
 
 terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE,
-PARENTHESEFERMEE, RETOURNE ;
+PARENTHESEFERMEE, RETOURNE, VIRGULE ;
 terminal String    TYPE, CSTENTIERE, CSTBOOL, IDF ;
 
 /* Non terminals used in the grammar section.  */
