@@ -222,7 +222,7 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
         |
                 IDF:i EGAL EXP:e POINTVIRGULE
                 {:
-                    Variable v = new Variable(new EntreeVariable(i), ileft + 1);
+                    Variable v = new Variable(i, ileft + 1);
                     RESULT = new Affectation(v, e, ileft + 1) ;
                 :}
                 ;
@@ -237,13 +237,12 @@ EXP    ::=     CSTENTIERE:c
         |
                IDF:i
                 {:
-                    RESULT = new Variable(new EntreeVariable(i), ileft + 1) ;
+                    RESULT = new Variable(i, ileft + 1) ;
                 :}
         |
                IDF:i PAR_EFF:p
                {:
-                    EntreeFonction entreeFonction = new EntreeFonction(i, new ArrayList<Type>(0));
-                    RESULT = new AppelFonction(entreeFonction, ileft + 1);
+                    RESULT = new AppelFonction(i, ileft + 1);
                :}
                 ;
 

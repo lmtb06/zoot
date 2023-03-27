@@ -57,7 +57,7 @@ namespace zoot.arbre.expressions {
         + int getNiveauImbrication()
         + void setEtiquette(String etiquette)
         + String getEtiquette()
-        + Collection<Expression> getParametres()
+        + Iterator<Expression> getParametres()
         + void verifier()
         + String toMIPS()
     }
