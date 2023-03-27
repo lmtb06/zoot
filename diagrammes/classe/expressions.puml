@@ -27,9 +27,9 @@ namespace zoot.arbre.expressions {
     }
 
     abstract class Identifiable {
-        + Identifiable(int n)
+        - String identifiant
+        + Identifiable(String identifiant, int n)
         + Type getType()
-        + void verifier()
     }
 
     class Variable {
@@ -66,7 +66,6 @@ namespace zoot.arbre.expressions {
     Constante -up-|> Expression
     ConstanteEntiere -up-|> Constante
     ConstanteBooleene -right-|> Constante
-    Identifiable *-up- zoot.tds.entrees.Entree
     Identifiable *-up- zoot.tds.symboles.Symbole
     Identifiable -left-|> Expression
     Variable -up-|> Identifiable
