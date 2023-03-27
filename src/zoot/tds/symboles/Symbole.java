@@ -9,9 +9,8 @@ public abstract class Symbole {
     protected Type type;
     protected EspaceDeNom espaceDeNom;
 
-    public Symbole(Type type, EspaceDeNom espaceDeNom) {
+    public Symbole(Type type) {
         this.type = type;
-        this.espaceDeNom = espaceDeNom;
     }
 
     /**
@@ -23,6 +22,9 @@ public abstract class Symbole {
         return type;
     }
 
+    public void setEspaceDeNom(EspaceDeNom espaceDeNom) {
+        this.espaceDeNom = espaceDeNom;
+    }
 
     /**
      * Décore une {@link Variable}.

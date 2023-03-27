@@ -13,10 +13,10 @@ class TDSTest {
 
     @Test
     void ajouter() {
-        TDS.getInstance().ajouter(new EntreeVariable("azerty"), new SymboleVariable(Type.ENTIER, null));
+        TDS.getInstance().ajouter(new EntreeVariable("azerty"), new SymboleVariable(Type.ENTIER));
 
         assertThrowsExactly(DoubleDeclarationException.class,
-                () -> TDS.getInstance().ajouter(new EntreeVariable("azerty"), new SymboleVariable(Type.ENTIER, null))
+                () -> TDS.getInstance().ajouter(new EntreeVariable("azerty"), new SymboleVariable(Type.ENTIER))
         );
     }
 

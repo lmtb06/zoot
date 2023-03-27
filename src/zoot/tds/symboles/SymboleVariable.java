@@ -7,8 +7,8 @@ import zoot.tds.Type;
 public class SymboleVariable extends Symbole {
     protected int deplacement = 0;
 
-    public SymboleVariable(Type type, EspaceDeNom espaceDeNom) {
-        super(type, espaceDeNom);
+    public SymboleVariable(Type type) {
+        super(type);
     }
 
     /**
