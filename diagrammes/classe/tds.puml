@@ -18,6 +18,9 @@ namespace zoot.tds {
     + Symbole identifier(Entree entree) throws IllegalStateException, EntreeNonTrouveException
     + int getTailleZoneVariables()
     + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException
+    + int getTailleZoneParametres()
+    + void augmenterTailleZoneParametres(int nbOctets) throws IllegalStateException
+    + void ajouterSymboleParametre(SymboleVariable p) throws IllegalStateException
     + int getTailleDisplay() throws IllegalStateException
     + int getNiveauImbricationCourant()
     + void entreeBloc()
@@ -27,6 +30,7 @@ namespace zoot.tds {
 
   class EspaceDeNom {
     - int tailleZoneVariables
+    - int tailleZoneParametres
     - int noSousEspaceDeNomCourant
     - int niveauImbrication
     + EspaceDeNom(int niveauImbrication)
@@ -34,6 +38,10 @@ namespace zoot.tds {
     + Symbole identifier(Entree entree) throws EntreeNonTrouveException
     + int getTailleZoneVariables()
     + void augmenterTailleZoneVariables(int nbOctets)
+    + int getTailleZoneParametres()
+    + void augmenterTailleZoneParametres(int nbOctets)
+    + void ajouterSymboleParametre(SymboleVariable p)
+    + void ajouterDeplacementDisplayAuxParametres(int nbOctets)
     + void setEspaceDeNomParent(EspaceDeNom e)
     + void ajouterSousEspaceDeNom(EspaceDeNom n)
     + EspaceDeNom getEspaceDeNomParent()
@@ -50,6 +58,9 @@ namespace zoot.tds {
       + Symbole identifier(Entree entree) throws IllegalStateException, EntreeNonTrouveException
       + int getTailleZoneVariables()
       + void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException
+      + int getTailleZoneParametres()
+      + void augmenterTailleZoneParametres(int nbOctets) throws IllegalStateException
+      + void ajouterSymboleParametre(SymboleVariable p) throws IllegalStateException
       + int getTailleDisplay() throws IllegalStateException
       + int getNiveauImbricationCourant()
       + void entreeBloc()
@@ -59,8 +70,10 @@ namespace zoot.tds {
 
     class EtatEnCoursAnalyseSyntaxique {
       + EtatEnCoursAnalyseSyntaxique(TDS tds)
-      + void ajouter(Entree entree, Symbole symbole) throws IllegalStateException, DoubleDeclarationException
+      + void ajouter(Entree entree, Symbole symbole) throws DoubleDeclarationException
       + void augmenterTailleZoneVariables(int nbOctets)
+      + void augmenterTailleZoneParametres(int nbOctets)
+      + void ajouterSymboleParametre(SymboleVariable p)
       + void entreeBloc()
       + void sortieBloc()
       + void allerEtatSuivant()
@@ -99,22 +112,24 @@ namespace zoot.tds {
 
   namespace symboles {
     abstract class Symbole {
-      + Symbole(Type type, EspaceDeNom espaceDeNom)
+      + Symbole(Type type)
       + Type getType()
+      + void setEspaceDeNom(EspaceDeNom espaceDeNom)
       + void decorer(Variable v)
       + void decorer(AppelFonction a)
     }
 
     class SymboleVariable {
       - int deplacement
-      + SymboleVariable(Type type, EspaceDeNom espaceDeNom)
+      + SymboleVariable(Type type)
       + void decorer(Variable v)
       + void setDeplacement(int deplacement)
+      + int getDeplacement()
     }
 
     class SymboleFonction {
       - String etiquette
-      + SymboleFonction(Type type, EspaceDeNom espaceDeNom)
+      + SymboleFonction(Type type)
       + void decorer(AppelFonction a)
       + void setEtiquette(String etiquette)
       + String getEtiquette()
@@ -123,6 +138,9 @@ namespace zoot.tds {
     enum Type {
       ENTIER
       BOOLEEN
+      + int taille
+      - Type(int taille)
+      + static Type fromString(String str)
     }
   }
 
@@ -132,6 +150,7 @@ namespace zoot.tds {
   TDS "1"-left-"1" EtatAnalyse : etatCourant
   EspaceDeNom --"*" Entree
   EspaceDeNom "1"--"*" Symbole
+  EspaceDeNom --"*" SymboleVariable : symbolesParametres
   Symbole *-left- Type
   SymboleVariable -up-|> Symbole
   EntreeVariable -up-|> Entree

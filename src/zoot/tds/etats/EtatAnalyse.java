@@ -3,6 +3,7 @@ package zoot.tds.etats;
 import zoot.tds.TDS;
 import zoot.tds.entrees.Entree;
 import zoot.tds.symboles.Symbole;
+import zoot.tds.symboles.SymboleVariable;
 
 public abstract class EtatAnalyse {
     protected TDS tds;
@@ -23,6 +24,18 @@ public abstract class EtatAnalyse {
     }
 
     public void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException {
+        throw new IllegalStateException("Opération non-permise à cette étape de la compilation");
+    }
+
+    public int getTailleZoneParametres() {
+        return tds.getEspaceDeNomCourant().getTailleZoneParametres();
+    }
+
+    public void augmenterTailleZoneParametres(int nbOctets) throws IllegalStateException {
+        throw new IllegalStateException("Opération non-permise à cette étape de la compilation");
+    }
+
+    public void ajouterSymboleParametre(SymboleVariable p) {
         throw new IllegalStateException("Opération non-permise à cette étape de la compilation");
     }
 

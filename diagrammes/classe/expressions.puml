@@ -27,15 +27,15 @@ namespace zoot.arbre.expressions {
     }
 
     abstract class Identifiable {
-        + Identifiable(Entree e, int n)
+        - String identifiant
+        + Identifiable(String identifiant, int n)
         + Type getType()
-        + void verifier()
     }
 
     class Variable {
         - int deplacement
         - int niveauImbrication
-        + Variable(EntreeVariable e, int n)
+        + Variable(String identifiant, int n)
         + void setDeplacement(int deplacement)
         + int getDeplacement()
         + void setNiveauImbrication(int niveauImbrication)
@@ -49,7 +49,7 @@ namespace zoot.arbre.expressions {
         - int tailleDisplay
         - int tailleZoneParametres
         - String etiquette
-        + AppelFonction(EntreeFonction e, int n)
+        + AppelFonction(String identifiant, int n, Expression... parametres)
         + int getTailleZoneParametres()
         + void setTailleDisplay(int tailleDisplay)
         + int getTailleDisplay()
@@ -57,6 +57,7 @@ namespace zoot.arbre.expressions {
         + int getNiveauImbrication()
         + void setEtiquette(String etiquette)
         + String getEtiquette()
+        + Iterator<Expression> getParametres()
         + void verifier()
         + String toMIPS()
     }
@@ -65,10 +66,10 @@ namespace zoot.arbre.expressions {
     Constante -up-|> Expression
     ConstanteEntiere -up-|> Constante
     ConstanteBooleene -right-|> Constante
-    Identifiable *-up- zoot.tds.entrees.Entree
     Identifiable *-up- zoot.tds.symboles.Symbole
     Identifiable -left-|> Expression
     Variable -up-|> Identifiable
     AppelFonction -left-|> Identifiable
+    AppelFonction --"*" Expression : parametres
 }
 @enduml

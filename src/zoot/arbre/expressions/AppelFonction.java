@@ -6,17 +6,27 @@ import zoot.exceptions.EntreeNonTrouveException;
 import zoot.exceptions.FonctionNonDeclarerException;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
+import zoot.tds.TDS;
+import zoot.tds.Type;
 import zoot.tds.entrees.EntreeFonction;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 public class AppelFonction extends Identifiable {
     private int niveauImbrication;
     private int tailleDisplay;
-    private final int tailleZoneParametres;
+    private int tailleZoneParametres;
     private String etiquette;
 
-    public AppelFonction(EntreeFonction e, int n) {
-        super(e, n);
-        tailleZoneParametres = e.getTypeParametres().size() * 4;
+    private final ArrayList<Expression> parametres;
+
+    public AppelFonction(String identifiant, int n, Expression... parametres) {
+        super(identifiant, n);
+        this.parametres = new ArrayList<>(parametres.length);
+
+        Collections.addAll(this.parametres, parametres);
     }
 
     public int getTailleZoneParametres() {
@@ -64,13 +74,31 @@ public class AppelFonction extends Identifiable {
     }
 
     /**
+     * @return les paramètres de l'appel de fonction dans l'ordre
+     */
+    public Iterator<Expression> getParametres() {
+
+        return parametres.iterator();
+    }
+
+    /**
      * {@inheritDoc}
      * Décore la variable pour la génération de code grâce à son symbole.
      */
     @Override
     public void verifier() {
+        ArrayList<Type> typesParametres = new ArrayList<>(parametres.size());
+
+        for (Expression e : parametres) {
+            e.verifier();
+            tailleZoneParametres += e.getType().taille;
+            typesParametres.add(e.getType());
+        }
+
+        EntreeFonction entree = new EntreeFonction(identifiant, typesParametres);
+
         try {
-            super.verifier();
+            symbole = TDS.getInstance().identifier(entree);
             symbole.decorer(this);
         } catch (EntreeNonTrouveException e) {
             GestionnaireExceptionsSemantiques.getInstance()

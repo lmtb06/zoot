@@ -53,6 +53,7 @@ espace = {finDeLigne}  | [ \t\f]
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 "("                    { return symbol(CodesLexicaux.PARENTHESEOUVERTE); }
 ")"                    { return symbol(CodesLexicaux.PARENTHESEFERMEE); }
+","                    { return symbol(CodesLexicaux.VIRGULE); }
 
 {csteB}      	       { return symbol(CodesLexicaux.CSTBOOL, yytext()); }
 {csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }

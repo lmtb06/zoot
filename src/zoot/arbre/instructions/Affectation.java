@@ -26,7 +26,7 @@ public class Affectation extends Instruction {
     public void verifier() {
         variable.verifier();
         expression.verifier();
-        if (variable.getType() != expression.getType())
+        if (GestionnaireExceptionsSemantiques.getInstance().getNbExceptions() == 0 && variable.getType() != expression.getType())
             GestionnaireExceptionsSemantiques.getInstance()
                     .ajouter(new LigneDecorator(noLigne,
                             new TypeIncompatibleException(variable.getType(),
@@ -38,7 +38,6 @@ public class Affectation extends Instruction {
      */
     @Override
     public String toMIPS() {
-        //TODO
         return expression.toMIPS() +
                 MipsGenerator.getInstance()
                         .sauvegarderContenuRegistreDansVariable(Registre.STOCKAGE_RESULTAT.valeur, variable);

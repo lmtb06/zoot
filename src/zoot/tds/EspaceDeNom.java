@@ -4,22 +4,26 @@ import zoot.exceptions.DoubleDeclarationException;
 import zoot.exceptions.EntreeNonTrouveException;
 import zoot.tds.entrees.Entree;
 import zoot.tds.symboles.Symbole;
+import zoot.tds.symboles.SymboleVariable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EspaceDeNom {
-    private int tailleZoneVariables;
+    private final ArrayList<SymboleVariable> symbolesParametres;
+    private int tailleZoneVariables = 0;
     private int noSousEspaceDeNomCourant;
     private final int niveauImbrication;
     private EspaceDeNom parent;
     private final ArrayList<EspaceDeNom> enfants;
     private final HashMap<Entree, Symbole> tableDesSymboles;
+    private int tailleZoneParametres = 0;
 
     public EspaceDeNom(int niveauImbrication) {
         this.niveauImbrication = niveauImbrication;
         enfants = new ArrayList<>();
         tableDesSymboles = new HashMap<>();
+        symbolesParametres = new ArrayList<>();
     }
 
     /**
@@ -66,6 +70,29 @@ public class EspaceDeNom {
 
     public void augmenterTailleZoneVariables(int nbOctets) {
         tailleZoneVariables += nbOctets;
+    }
+
+    public int getTailleZoneParametres() {
+        return tailleZoneParametres;
+    }
+
+    public void augmenterTailleZoneParametres(int nbOctets) {
+        tailleZoneParametres += nbOctets;
+    }
+
+    public void ajouterSymboleParametre(SymboleVariable p) {
+        symbolesParametres.add(p);
+    }
+
+    public void ajouterDeplacementDisplayAuxParametres(int tailleDisplayEnOctets) {
+
+        for (SymboleVariable s : symbolesParametres) {
+            s.setDeplacement(s.getDeplacement() + tailleDisplayEnOctets + 8);
+        }
+
+        for (EspaceDeNom e : enfants) {
+            e.ajouterDeplacementDisplayAuxParametres(tailleDisplayEnOctets);
+        }
     }
 
     /**

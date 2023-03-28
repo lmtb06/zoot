@@ -62,7 +62,7 @@ parser code {:
 /* Terminals (tokens returned by the scanner).  */
 
 terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE,
-PARENTHESEFERMEE, RETOURNE ;
+PARENTHESEFERMEE, RETOURNE, VIRGULE ;
 terminal String    TYPE, CSTENTIERE, CSTBOOL, IDF ;
 
 /* Non terminals used in the grammar section.  */
@@ -72,7 +72,10 @@ non terminal BlocDInstructions LINST, LINSTF;
 non terminal Fonction FONC;
 non terminal Instruction INST, INSTF, RETOURNEI ;
 non terminal Expression EXP ;
-non terminal LDECL, DECL, PARAMETRES, PAR_EFF ;
+non terminal ArrayList<Expression> LEXP;
+non terminal String[] DECL;
+non terminal ArrayList<String[]> LDECL, VARSF, PARAMETRES;
+non terminal ArrayList<Expression> PAR_EFF ;
 
 /* ----------------------------Grammar Section-------------------- */
 
@@ -82,6 +85,24 @@ PROG    ::=     VARIABLES:v LDECL:ld FONCTIONS LFONC:lf DEBUT  LINST:li  FIN
                 {:
                     // Je n'ai pas mis de entreeBloc et sortieBloc pour le main pour simplifier, c'est géré dans
                     // l'initialisation de la TDS
+
+                    // Déclarations
+                    for (String[] declaratinVar : ld) {
+                        Type typeVariable = Type.fromString(declaratinVar[0]);
+
+                        SymboleVariable s = new SymboleVariable(typeVariable);
+                        try{
+                            TDS.getInstance().ajouter(new EntreeVariable(declaratinVar[1]), s);
+                        } catch (DoubleDeclarationException e) {
+                            GestionnaireExceptionsSemantiques.getInstance()
+                                                .ajouter(new LigneDecorator(Integer.valueOf(declaratinVar[2]), e));
+                        }
+
+                        s.setEspaceDeNom(TDS.getInstance().getEspaceDeNomCourant());
+                        s.setDeplacement(-TDS.getInstance().getTailleZoneVariables());
+                        TDS.getInstance().augmenterTailleZoneVariables(typeVariable.taille);
+                    }
+
                     Programme main = new Programme(lf, li, vleft + 1);
                     TDS.getInstance().allerEtatSuivant();
                     RESULT = main ;
@@ -102,38 +123,90 @@ LFONC   ::=     LFONC:bf FONC:f
                 :}
                 ;
 
-PARAMETRES ::=  PARENTHESEOUVERTE PARENTHESEFERMEE
+PARAMETRES ::=  PARENTHESEOUVERTE LDECL:ld PARENTHESEFERMEE
                 {:
-
+                    RESULT = ld;
+                :}
+                |
+                PARENTHESEOUVERTE  PARENTHESEFERMEE
+                {:
+                    RESULT = new ArrayList<>();
                 :}
                 ;
 
-FONC    ::=     TYPE:t IDF:i PARAMETRES DEBUT LINSTF:li  FIN
+VARSF  ::= VARIABLES LDECL:ld DEBUT
+            {:
+                RESULT = ld;
+            :}
+            |
+            VARIABLES DEBUT
+            {:
+                RESULT = new ArrayList<>();
+            :}
+            ;
+
+FONC    ::=     TYPE:t IDF:i PARAMETRES:lp VARSF:ld LINSTF:li  FIN
                 {:
 
-                    Type typeSymbole = Type.ENTIER;
-                    switch (t) {
-                        case "entier" :
-                            typeSymbole = Type.ENTIER;
-                            break;
-                        case "booleen" :
-                            typeSymbole = Type.BOOLEEN;
-                            break;
-                    }
-
-                    EntreeFonction entreeFonction = new EntreeFonction(i, new ArrayList<Type>(0));
-
-
-
                     TDS.getInstance().entreeBloc();
-                    SymboleFonction symboleFonction = new SymboleFonction(typeSymbole, TDS.getInstance().getEspaceDeNomCourant());
-                    // Ajout des déclarations
+                    // TODO Faire un truc plus propre
+                    Type typeFonction = Type.fromString(t);
+                    SymboleFonction symboleFonction = new SymboleFonction(typeFonction);
+                    symboleFonction.setEspaceDeNom(TDS.getInstance().getEspaceDeNomCourant());
+
+
+                    ArrayList<Type> typeParametres = new ArrayList<>(lp.size());
+
+                    // Ajout des déclarations de paramètres
+                    for (String[] declarationParam : lp) {
+                        Type typeParametre = Type.fromString(declarationParam[0]);
+
+                        typeParametres.add(typeParametre);
+
+                        SymboleVariable s = new SymboleVariable(typeParametre);
+                        try{
+                            TDS.getInstance().ajouter(new EntreeVariable(declarationParam[1]), s);
+                        } catch (DoubleDeclarationException e) {
+                            GestionnaireExceptionsSemantiques.getInstance()
+                                                .ajouter(new LigneDecorator(Integer.valueOf(declarationParam[2]), e));
+                        }
+
+                        s.setEspaceDeNom(TDS.getInstance().getEspaceDeNomCourant());
+                        s.setDeplacement(TDS.getInstance().getTailleZoneParametres());
+                        TDS.getInstance().augmenterTailleZoneParametres(typeParametre.taille);
+                        TDS.getInstance().ajouterSymboleParametre(s);
+                    }
+                    // Ajout des déclarations de variables
+                    for (String[] declarationVariable : ld) {
+                        Type typeVariable = Type.fromString(declarationVariable[0]);
+
+                        SymboleVariable s = new SymboleVariable(typeVariable);
+                        try{
+                            TDS.getInstance().ajouter(new EntreeVariable(declarationVariable[1]), s);
+                        } catch (DoubleDeclarationException e) {
+                            GestionnaireExceptionsSemantiques.getInstance()
+                                                .ajouter(new LigneDecorator(Integer.valueOf(declarationVariable[2]), e));
+                        }
+
+                        s.setEspaceDeNom(TDS.getInstance().getEspaceDeNomCourant());
+                        s.setDeplacement(-TDS.getInstance().getTailleZoneVariables());
+                        TDS.getInstance().augmenterTailleZoneVariables(typeVariable.taille);
+                    }
                     TDS.getInstance().sortieBloc();
 
+
+                    EntreeFonction entreeFonction = new EntreeFonction(i, typeParametres);
                     symboleFonction.setEtiquette(entreeFonction.getIdentifiant() + TDS.getInstance().getNiveauImbricationCourant());
-                    TDS.getInstance().ajouter(entreeFonction, symboleFonction);
+
+                    try{
+                        TDS.getInstance().ajouter(entreeFonction, symboleFonction);
+                    } catch (DoubleDeclarationException e) {
+                        GestionnaireExceptionsSemantiques.getInstance()
+                                            .ajouter(new LigneDecorator(ileft + 1, e));
+                    }
 
                     Fonction f = new Fonction(entreeFonction, symboleFonction, tleft + 1);
+
                     f.ajouter(li);
 
                     RESULT = f;
@@ -171,32 +244,22 @@ RETOURNEI   ::= RETOURNE EXP:e POINTVIRGULE
                 :}
                 ;
 
-LDECL   ::=     DECL LDECL
+LDECL   ::=     LDECL:ld DECL:d
+                {:
+                    ld.add(d);
+                    RESULT = ld;
+                :}
         |
-                DECL;
+                DECL:d
+                {:
+                    ArrayList<String[]> ld = new ArrayList<>();
+                    ld.add(d);
+                    RESULT = ld;
+                :};
 
 DECL    ::=     TYPE:t IDF:i POINTVIRGULE
                 {:
-                    Type typeSymbole = Type.ENTIER;
-                    switch (t) {
-                        case "entier" :
-                            typeSymbole = Type.ENTIER;
-                            break;
-                        case "booleen" :
-                            typeSymbole = Type.BOOLEEN;
-                            break;
-                    }
-
-
-                    SymboleVariable s = new SymboleVariable(typeSymbole, TDS.getInstance().getEspaceDeNomCourant());
-                    try{
-                        TDS.getInstance().ajouter(new EntreeVariable(i), s);
-                    } catch (DoubleDeclarationException e) {
-                        GestionnaireExceptionsSemantiques.getInstance()
-                                            .ajouter(new LigneDecorator(ileft + 1, e));
-                    }
-                    s.setDeplacement(-TDS.getInstance().getTailleZoneVariables());
-                    TDS.getInstance().augmenterTailleZoneVariables(4);
+                    RESULT = new String[]{t, i, Integer.toString(tleft + 1)};
                 :};
 
 LINST   ::=     LINST:bi  INST:i
@@ -214,7 +277,7 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
         |
                 IDF:i EGAL EXP:e POINTVIRGULE
                 {:
-                    Variable v = new Variable(new EntreeVariable(i), ileft + 1);
+                    Variable v = new Variable(i, ileft + 1);
                     RESULT = new Affectation(v, e, ileft + 1) ;
                 :}
                 ;
@@ -229,15 +292,38 @@ EXP    ::=     CSTENTIERE:c
         |
                IDF:i
                 {:
-                    RESULT = new Variable(new EntreeVariable(i), ileft + 1) ;
+                    RESULT = new Variable(i, ileft + 1) ;
                 :}
         |
                IDF:i PAR_EFF:p
                {:
-                    EntreeFonction entreeFonction = new EntreeFonction(i, new ArrayList<Type>(0));
-                    RESULT = new AppelFonction(entreeFonction, ileft + 1);
+                    Expression[] tableauParametres = p.toArray(new Expression[p.size()]);
+                    RESULT = new AppelFonction(i, ileft + 1, tableauParametres);
                :}
                 ;
 
-PAR_EFF ::=  PARENTHESEOUVERTE PARENTHESEFERMEE
+LEXP    ::=     LEXP:le VIRGULE EXP:e
+                {:
+                    le.add(e);
+                    RESULT = le;
+                :}
+        |
+                EXP:e
+                {:
+                    ArrayList<Expression> exps = new ArrayList<>();
+                    exps.add(e);
+                    RESULT = exps;
+                :}
+        ;
+
+PAR_EFF ::=     PARENTHESEOUVERTE PARENTHESEFERMEE
+                {:
+                    ArrayList<Expression> exps = new ArrayList<>();
+                    RESULT = exps;
+                :}
+         |
+                PARENTHESEOUVERTE LEXP:le PARENTHESEFERMEE
+                {:
+                    RESULT = le;
+                :}
                 ;

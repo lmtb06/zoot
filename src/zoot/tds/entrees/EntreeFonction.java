@@ -17,7 +17,7 @@ public class EntreeFonction extends Entree {
         typeParametres.forEach(typeParametre -> {
             sb.append(typeParametre.name())
                     .append('_');
-            typeParametres.add(typeParametre);
+            this.typeParametres.add(typeParametre);
         });
         this.identifiant = sb.toString();
     }

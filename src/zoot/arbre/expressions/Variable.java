@@ -6,14 +6,15 @@ import zoot.exceptions.EntreeNonTrouveException;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.VariableNonDeclarerException;
+import zoot.tds.TDS;
 import zoot.tds.entrees.EntreeVariable;
 
 public class Variable extends Identifiable {
     private int deplacement = 0;
     private int niveauImbrication;
 
-    public Variable(EntreeVariable e, int n) {
-        super(e, n);
+    public Variable(String identifiant, int n) {
+        super(identifiant, n);
     }
 
     public int getDeplacement() {
@@ -48,8 +49,9 @@ public class Variable extends Identifiable {
      */
     @Override
     public void verifier() {
+        EntreeVariable entree = new EntreeVariable(identifiant);
         try {
-            super.verifier();
+            symbole = TDS.getInstance().identifier(entree);
             symbole.decorer(this);
         } catch (EntreeNonTrouveException e) {
             GestionnaireExceptionsSemantiques.getInstance()

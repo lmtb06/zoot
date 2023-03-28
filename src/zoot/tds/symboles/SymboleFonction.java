@@ -8,8 +8,8 @@ import zoot.tds.Type;
 public class SymboleFonction extends Symbole {
     private String etiquette = "";
 
-    public SymboleFonction(Type type, EspaceDeNom espaceDeNom) {
-        super(type, espaceDeNom);
+    public SymboleFonction(Type type) {
+        super(type);
     }
 
     /**

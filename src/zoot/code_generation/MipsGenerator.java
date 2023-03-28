@@ -3,8 +3,11 @@ package zoot.code_generation;
 import zoot.arbre.Fonction;
 import zoot.arbre.Programme;
 import zoot.arbre.expressions.AppelFonction;
+import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Variable;
 import zoot.arbre.instructions.Retourne;
+
+import java.util.Iterator;
 
 /**
  * Singleton utilisé pour centraliser la gestion du code MIPS.
@@ -94,9 +97,26 @@ public class MipsGenerator {
         int tailleDisplay = a.getTailleDisplay();
         String etiquette = a.getEtiquette();
         sb.append("# Appel fonction ").append(etiquette).append("\n")
-                .append(reserverOctetsPile(4)) // Resultat
-                // TODO Mettre les parametres
-                .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.ADRESSE_RETOUR.valeur,
+                .append(reserverOctetsPile(a.getType().taille)); // Resultat
+
+        // Empilement des parametres
+        int tailleZoneParametres = a.getTailleZoneParametres();
+        int tailleReserve = 0, i = 0;
+        sb.append("# Reservation zone parametres\n").append(reserverOctetsPile(tailleZoneParametres));
+        for (Iterator<Expression> it = a.getParametres(); it.hasNext(); ) {
+            Expression e = it.next();
+            sb.append("# Empilement du parametre ").append(i).append("\n")
+                    .append(e.toMIPS())
+                    .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_RESULTAT.valeur,
+                            Registre.POINTEUR_PILE.valeur, tailleReserve + e.getType().taille))
+            ;
+            tailleReserve += e.getType().taille;
+            i++;
+        }
+
+        int tailleTypeRetour = a.getType().taille;
+
+        sb.append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.ADRESSE_RETOUR.valeur,
                         Registre.POINTEUR_PILE.valeur, 0)).append(reserverOctetsPile(4)) // empiler adresse retour
                 .append(sauvegarderDisplay(tailleDisplay)) // sauvegarde display
                 .append(mettreAJourCaseDisplay(a.getNiveauImbrication())) // Mise à jour du display
@@ -105,11 +125,12 @@ public class MipsGenerator {
                 .append(libererOctetsPile(tailleDisplay * 4)) // Liberation zone sauvegarde display
                 .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
                         Registre.ADRESSE_RETOUR.valeur, 4)).append(libererOctetsPile(4)) // Restauration adresse retour
+                .append(libererOctetsPile(tailleZoneParametres)) // Liberation de la zone des parametres
                 .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_RESULTAT.valeur,
-                        Registre.POINTEUR_PILE.valeur, 4)) // Mise du resultat dans la pile
+                        Registre.POINTEUR_PILE.valeur, tailleTypeRetour)) // Mise du resultat dans la pile
                 .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
-                        registreDestination, 4)) // Récupération du résultat dans le registre destiné (même si c'est redondant)
-                .append(libererOctetsPile(4));
+                        registreDestination, tailleTypeRetour)) // Récupération du résultat dans le registre destiné (même si c'est redondant)
+                .append(libererOctetsPile(tailleTypeRetour)); // Enlève la valeur de retour du pa
         return sb.toString();
     }
 
@@ -160,11 +181,11 @@ public class MipsGenerator {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < tailleDisplay; i++) {
             // On restaure le display en partant du bas de la pile
-            sb.append("# Restauration case ").append(i).append(" du display\n")
+            sb.append("# Restauration case ").append(tailleDisplay - i - 1).append(" du display\n")
                     .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
                             Registre.STOCKAGE_TEMPORAIRE.valeur, (i * 4) + 4))
                     .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_TEMPORAIRE.valeur,
-                            Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur, ((tailleDisplay - 1) * 4) - (i * 4)));
+                            Registre.POINTEUR_DEBUT_ZONE_DISPLAY.valeur, -((tailleDisplay - i - 1) * 4)));
         }
         return sb.toString();
     }

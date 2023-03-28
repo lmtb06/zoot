@@ -4,6 +4,7 @@ import zoot.tds.EspaceDeNom;
 import zoot.tds.TDS;
 import zoot.tds.entrees.Entree;
 import zoot.tds.symboles.Symbole;
+import zoot.tds.symboles.SymboleVariable;
 
 public class EtatEnCoursAnalyseSyntaxique extends EtatAnalyse {
     public EtatEnCoursAnalyseSyntaxique(TDS tds) {
@@ -22,6 +23,16 @@ public class EtatEnCoursAnalyseSyntaxique extends EtatAnalyse {
      */
     public void augmenterTailleZoneVariables(int nbOctets) {
         tds.getEspaceDeNomCourant().augmenterTailleZoneVariables(nbOctets);
+    }
+
+    @Override
+    public void augmenterTailleZoneParametres(int nbOctets) throws IllegalStateException {
+        tds.getEspaceDeNomCourant().augmenterTailleZoneParametres(nbOctets);
+    }
+
+    @Override
+    public void ajouterSymboleParametre(SymboleVariable p) {
+        tds.getEspaceDeNomCourant().ajouterSymboleParametre(p);
     }
 
     /**
@@ -48,7 +59,9 @@ public class EtatEnCoursAnalyseSyntaxique extends EtatAnalyse {
      */
     public void allerEtatSuivant() {
         tds.setEtatAnalyse(new EtatEnCoursAnalyseSemantique(tds));
-        tds.getEspaceDeNomCourant().resetParcoursSousEspaceDeNom();
-        tds.setNiveauImbricationMax(tds.getEspaceDeNomCourant().getNiveauImbricationMax());
+        EspaceDeNom espaceDeNom = tds.getEspaceDeNomCourant();
+        espaceDeNom.resetParcoursSousEspaceDeNom();
+        tds.setNiveauImbricationMax(espaceDeNom.getNiveauImbricationMax());
+        espaceDeNom.ajouterDeplacementDisplayAuxParametres(tds.getTailleDisplay() * 4);
     }
 }
