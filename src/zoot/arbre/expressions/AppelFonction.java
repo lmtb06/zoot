@@ -17,7 +17,7 @@ import java.util.Iterator;
 public class AppelFonction extends Identifiable {
     private int niveauImbrication;
     private int tailleDisplay;
-    private final int tailleZoneParametres;
+    private int tailleZoneParametres;
     private String etiquette;
 
     private final ArrayList<Expression> parametres;
@@ -25,6 +25,7 @@ public class AppelFonction extends Identifiable {
     public AppelFonction(String identifiant, int n, Expression... parametres) {
         super(identifiant, n);
         this.parametres = new ArrayList<>(parametres.length);
+
         Collections.addAll(this.parametres, parametres);
         tailleZoneParametres = parametres.length;
     }
@@ -91,6 +92,7 @@ public class AppelFonction extends Identifiable {
 
         for (Expression e : parametres) {
             e.verifier();
+            tailleZoneParametres += e.getType().taille;
             typesParametres.add(e.getType());
         }
 
