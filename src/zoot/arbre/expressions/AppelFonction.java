@@ -74,9 +74,10 @@ public class AppelFonction extends Identifiable {
     }
 
     /**
-     * @return les paramètres de l'appel de fonction
+     * @return les paramètres de l'appel de fonction dans l'ordre
      */
     public Iterator<Expression> getParametres() {
+
         return parametres.iterator();
     }
 
@@ -89,6 +90,7 @@ public class AppelFonction extends Identifiable {
         ArrayList<Type> typesParametres = new ArrayList<>(parametres.size());
 
         for (Expression e : parametres) {
+            e.verifier();
             typesParametres.add(e.getType());
         }
 
