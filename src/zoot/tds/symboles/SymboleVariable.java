@@ -1,7 +1,6 @@
 package zoot.tds.symboles;
 
 import zoot.arbre.expressions.Variable;
-import zoot.tds.EspaceDeNom;
 import zoot.tds.Type;
 
 public class SymboleVariable extends Symbole {
@@ -18,6 +17,10 @@ public class SymboleVariable extends Symbole {
      */
     public void setDeplacement(int deplacement) {
         this.deplacement = deplacement;
+    }
+
+    public int getDeplacement() {
+        return deplacement;
     }
 
     /**

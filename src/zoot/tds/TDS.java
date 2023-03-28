@@ -6,6 +6,7 @@ import zoot.tds.entrees.Entree;
 import zoot.tds.etats.EtatAnalyse;
 import zoot.tds.etats.EtatEnCoursAnalyseSyntaxique;
 import zoot.tds.symboles.Symbole;
+import zoot.tds.symboles.SymboleVariable;
 
 public class TDS {
     private final static TDS instance = new TDS();
@@ -81,6 +82,18 @@ public class TDS {
      */
     public void augmenterTailleZoneVariables(int nbOctets) throws IllegalStateException {
         etatCourant.augmenterTailleZoneVariables(nbOctets);
+    }
+
+    public int getTailleZoneParametres() {
+        return etatCourant.getTailleZoneParametres();
+    }
+
+    public void augmenterTailleZoneParametres(int nbOctets) throws IllegalStateException {
+        etatCourant.augmenterTailleZoneParametres(nbOctets);
+    }
+
+    public void ajouterSymboleParametre(SymboleVariable p) throws IllegalStateException {
+        etatCourant.ajouterSymboleParametre(p);
     }
 
     public int getTailleDisplay() throws IllegalStateException {
