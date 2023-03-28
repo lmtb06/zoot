@@ -27,7 +27,6 @@ public class AppelFonction extends Identifiable {
         this.parametres = new ArrayList<>(parametres.length);
 
         Collections.addAll(this.parametres, parametres);
-        tailleZoneParametres = parametres.length;
     }
 
     public int getTailleZoneParametres() {

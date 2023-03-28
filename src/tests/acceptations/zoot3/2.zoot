@@ -1,0 +1,23 @@
+variables
+    entier a;
+fonctions
+    entier f ()
+    variables
+    entier a;
+    debut
+        a = 17;
+        retourne f1(a);
+    fin
+
+    entier f1 (entier x;)
+    variables
+    entier a;
+    debut
+        a = 22;
+        ecrire x;
+        retourne a;
+    fin
+debut
+    ecrire f();
+    ecrire a;
+fin
