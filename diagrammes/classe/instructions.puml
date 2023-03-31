@@ -22,7 +22,7 @@ namespace zoot.arbre.instructions {
         + Retourne(Expression e, int n)
         + void verifier()
         + String toMIPS()
-        + Type getType()
+        + Optional<Type> getType()
         + void sAjouter(ConteneurDInstructions c)
         + void setTailleZoneVariables(int tailleZoneVariables)
         + int getTailleZoneVariables()

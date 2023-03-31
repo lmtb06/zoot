@@ -4,7 +4,7 @@ namespace zoot.arbre.expressions {
     ' Classes
     abstract class Expression {
         # Expression(int n)
-        + Type getType()
+        + Optional<Type> getType()
     }
 
     abstract class Constante {
@@ -15,13 +15,13 @@ namespace zoot.arbre.expressions {
 
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
-        + Type getType()
+        + Optional<Type> getType()
         + String toMIPS()
     }
 
     class ConstanteBooleene {
         + ConstanteBooleene(String texte, int n)
-        + Type getType()
+        + Optional<Type> getType()
         + String toMIPS()
 
     }
@@ -29,7 +29,7 @@ namespace zoot.arbre.expressions {
     abstract class Identifiable {
         - String identifiant
         + Identifiable(String identifiant, int n)
-        + Type getType()
+        + Optional<Type> getType()
     }
 
     class Variable {
