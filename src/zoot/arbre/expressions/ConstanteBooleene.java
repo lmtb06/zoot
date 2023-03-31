@@ -4,6 +4,8 @@ import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
+import java.util.Optional;
+
 public class ConstanteBooleene extends Constante {
 
     public ConstanteBooleene(String texte, int n) {
@@ -28,7 +30,7 @@ public class ConstanteBooleene extends Constante {
      * {@inheritDoc}
      */
     @Override
-    public Type getType() {
-        return Type.BOOLEEN;
+    public Optional<Type> getType() {
+        return Optional.of(Type.BOOLEEN);
     }
 }

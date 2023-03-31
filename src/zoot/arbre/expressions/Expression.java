@@ -3,6 +3,8 @@ package zoot.arbre.expressions;
 import zoot.arbre.ArbreAbstrait;
 import zoot.tds.Type;
 
+import java.util.Optional;
+
 /**
  * Représente une expression dans l'arbre abstrait.
  */
@@ -20,5 +22,5 @@ public abstract class Expression extends ArbreAbstrait {
      *
      * @return le type de l'expression.
      */
-    public abstract Type getType();
+    public abstract Optional<Type> getType();
 }

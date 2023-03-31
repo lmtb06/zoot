@@ -4,6 +4,9 @@ import zoot.arbre.ConteneurDInstructions;
 import zoot.arbre.expressions.Expression;
 import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
+import zoot.tds.Type;
+
+import java.util.Optional;
 
 /**
  * {@inheritDoc}
@@ -40,15 +43,19 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-        //TODO
         StringBuilder sb = new StringBuilder();
         MipsGenerator mg = MipsGenerator.getInstance();
-        sb.append(exp.toMIPS());
-        switch (exp.getType()) {
-            case ENTIER -> sb.append(mg.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur));
-            case BOOLEEN -> sb.append(mg.afficherBooleenRegistre(Registre.STOCKAGE_RESULTAT.valeur));
+        Optional<Type> typeOptional = exp.getType();
+        if (typeOptional.isPresent()) { // Le cas contraire ne devrait pas arriver techniquement vu que toMIPS n'est appelé que si la compilation s'est bien passée
+            Type type = typeOptional.get();
+            sb.append(exp.toMIPS());
+
+            switch (type) {
+                case ENTIER -> sb.append(mg.afficherEntierRegistre(Registre.STOCKAGE_RESULTAT.valeur));
+                case BOOLEEN -> sb.append(mg.afficherBooleenRegistre(Registre.STOCKAGE_RESULTAT.valeur));
+            }
+            sb.append(mg.afficherRetourLigne());
         }
-        sb.append(mg.afficherRetourLigne());
         return sb.toString();
     }
 

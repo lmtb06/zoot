@@ -6,8 +6,10 @@ import zoot.arbre.expressions.AppelFonction;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Variable;
 import zoot.arbre.instructions.Retourne;
+import zoot.tds.Type;
 
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * Singleton utilisé pour centraliser la gestion du code MIPS.
@@ -96,41 +98,47 @@ public class MipsGenerator {
         StringBuilder sb = new StringBuilder();
         int tailleDisplay = a.getTailleDisplay();
         String etiquette = a.getEtiquette();
-        sb.append("# Appel fonction ").append(etiquette).append("\n")
-                .append(reserverOctetsPile(a.getType().taille)); // Resultat
+        Optional<Type> optionalTypeFonction = a.getType();
+        if (optionalTypeFonction.isPresent()) { // Le cas contraire ne devrait pas arriver techniquement vu que cette fonction
+            // est appelée par toMIPS qui n'est appelé que si la compilation s'est bien passée
+            Type typeFonction = optionalTypeFonction.get();
+            sb.append("# Appel fonction ").append(etiquette).append("\n")
+                    .append(reserverOctetsPile(typeFonction.taille)); // Resultat
 
-        // Empilement des parametres
-        int tailleZoneParametres = a.getTailleZoneParametres();
-        int tailleReserve = 0, i = 0;
-        sb.append("# Reservation zone parametres\n").append(reserverOctetsPile(tailleZoneParametres));
-        for (Iterator<Expression> it = a.getParametres(); it.hasNext(); ) {
-            Expression e = it.next();
-            sb.append("# Empilement du parametre ").append(i).append("\n")
-                    .append(e.toMIPS())
+            // Empilement des parametres
+            int tailleZoneParametres = a.getTailleZoneParametres();
+            int tailleReserve = 0, i = 0;
+            sb.append("# Reservation zone parametres\n").append(reserverOctetsPile(tailleZoneParametres));
+            for (Iterator<Expression> it = a.getParametres(); it.hasNext(); ) {
+                Expression e = it.next();
+                sb.append("# Empilement du parametre ").append(i).append("\n")
+                        .append(e.toMIPS())
+                        .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_RESULTAT.valeur,
+                                Registre.POINTEUR_PILE.valeur, tailleReserve + typeFonction.taille))
+                ;
+                tailleReserve += typeFonction.taille;
+                i++;
+            }
+
+            int tailleTypeRetour = typeFonction.taille;
+
+            sb.append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.ADRESSE_RETOUR.valeur,
+                            Registre.POINTEUR_PILE.valeur, 0)).append(reserverOctetsPile(4)) // empiler adresse retour
+                    .append(sauvegarderDisplay(tailleDisplay)) // sauvegarde display
+                    .append(mettreAJourCaseDisplay(a.getNiveauImbrication())) // Mise à jour du display
+                    .append("jal ").append(etiquette).append("\n") // Jump vers la fonction
+                    .append(restaurerDisplay(tailleDisplay))
+                    .append(libererOctetsPile(tailleDisplay * 4)) // Liberation zone sauvegarde display
+                    .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
+                            Registre.ADRESSE_RETOUR.valeur, 4)).append(libererOctetsPile(4)) // Restauration adresse retour
+                    .append(libererOctetsPile(tailleZoneParametres)) // Liberation de la zone des parametres
                     .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_RESULTAT.valeur,
-                            Registre.POINTEUR_PILE.valeur, tailleReserve + e.getType().taille))
-            ;
-            tailleReserve += e.getType().taille;
-            i++;
+                            Registre.POINTEUR_PILE.valeur, tailleTypeRetour)) // Mise du resultat dans la pile
+                    .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
+                            registreDestination, tailleTypeRetour)) // Récupération du résultat dans le registre destiné (même si c'est redondant)
+                    .append(libererOctetsPile(tailleTypeRetour)); // Enlève la valeur de retour du pa
         }
 
-        int tailleTypeRetour = a.getType().taille;
-
-        sb.append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.ADRESSE_RETOUR.valeur,
-                        Registre.POINTEUR_PILE.valeur, 0)).append(reserverOctetsPile(4)) // empiler adresse retour
-                .append(sauvegarderDisplay(tailleDisplay)) // sauvegarde display
-                .append(mettreAJourCaseDisplay(a.getNiveauImbrication())) // Mise à jour du display
-                .append("jal ").append(etiquette).append("\n") // Jump vers la fonction
-                .append(restaurerDisplay(tailleDisplay))
-                .append(libererOctetsPile(tailleDisplay * 4)) // Liberation zone sauvegarde display
-                .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
-                        Registre.ADRESSE_RETOUR.valeur, 4)).append(libererOctetsPile(4)) // Restauration adresse retour
-                .append(libererOctetsPile(tailleZoneParametres)) // Liberation de la zone des parametres
-                .append(sauvegarderContenuRegistreDansAdresseContenuDansRegistre(Registre.STOCKAGE_RESULTAT.valeur,
-                        Registre.POINTEUR_PILE.valeur, tailleTypeRetour)) // Mise du resultat dans la pile
-                .append(chargementContenuAdresseDansRegistreDansRegistre(Registre.POINTEUR_PILE.valeur,
-                        registreDestination, tailleTypeRetour)) // Récupération du résultat dans le registre destiné (même si c'est redondant)
-                .append(libererOctetsPile(tailleTypeRetour)); // Enlève la valeur de retour du pa
         return sb.toString();
     }
 

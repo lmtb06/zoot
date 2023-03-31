@@ -13,6 +13,7 @@ import zoot.tds.entrees.EntreeFonction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class AppelFonction extends Identifiable {
     private int niveauImbrication;
@@ -91,8 +92,12 @@ public class AppelFonction extends Identifiable {
 
         for (Expression e : parametres) {
             e.verifier();
-            tailleZoneParametres += e.getType().taille;
-            typesParametres.add(e.getType());
+            Optional<Type> typeOptional = e.getType();
+            if (typeOptional.isPresent()) {
+                Type type = typeOptional.get();
+                tailleZoneParametres += type.taille;
+                typesParametres.add(type);
+            }
         }
 
         EntreeFonction entree = new EntreeFonction(identifiant, typesParametres);

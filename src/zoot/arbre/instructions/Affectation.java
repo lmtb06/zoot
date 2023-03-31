@@ -8,6 +8,9 @@ import zoot.code_generation.Registre;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.TypeIncompatibleException;
+import zoot.tds.Type;
+
+import java.util.Optional;
 
 public class Affectation extends Instruction {
     private final Variable variable;
@@ -26,11 +29,16 @@ public class Affectation extends Instruction {
     public void verifier() {
         variable.verifier();
         expression.verifier();
-        if (GestionnaireExceptionsSemantiques.getInstance().getNbExceptions() == 0 && variable.getType() != expression.getType())
+        // TODO Revoir la vérification
+        Optional<Type> typeVariableOptional = variable.getType();
+        Optional<Type> typeExpressionOptional = expression.getType();
+
+        if (typeVariableOptional.isPresent() && typeExpressionOptional.isPresent()
+                && typeVariableOptional.get() != typeExpressionOptional.get()) // Déclenche l'exception seulement dans le cas où les deux partie de l'instruction sont valides mais pas du même type
             GestionnaireExceptionsSemantiques.getInstance()
                     .ajouter(new LigneDecorator(noLigne,
-                            new TypeIncompatibleException(variable.getType(),
-                                    expression.getType())));
+                            new TypeIncompatibleException(typeVariableOptional.get(),
+                                    typeExpressionOptional.get())));
     }
 
     /**

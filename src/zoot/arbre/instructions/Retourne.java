@@ -5,6 +5,8 @@ import zoot.arbre.expressions.Expression;
 import zoot.code_generation.MipsGenerator;
 import zoot.tds.Type;
 
+import java.util.Optional;
+
 public class Retourne extends Instruction {
     private int tailleZoneVariables = 0;
     protected Expression exp;
@@ -19,7 +21,7 @@ public class Retourne extends Instruction {
      *
      * @return le {@link Type} de renvoyé par le retourne.
      */
-    public Type getType() {
+    public Optional<Type> getType() {
         return exp.getType();
     }
 

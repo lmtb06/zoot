@@ -10,11 +10,13 @@ import zoot.exceptions.GestionnaireExceptionsSemantiques;
 import zoot.exceptions.LigneDecorator;
 import zoot.exceptions.TypeIncompatibleException;
 import zoot.tds.TDS;
+import zoot.tds.Type;
 import zoot.tds.entrees.EntreeFonction;
 import zoot.tds.symboles.SymboleFonction;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class Fonction extends ArbreAbstrait implements ConteneurDInstructions {
     private final EntreeFonction entreeFonction;
@@ -57,12 +59,15 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions {
         etiquette = symboleFonction.getEtiquette();
 
         for (Retourne r : retournes) {
-            if (symboleFonction.getType() != r.getType()) {
-                GestionnaireExceptionsSemantiques.getInstance()
-                        .ajouter(new LigneDecorator(r.getNoLigne(),
-                                new TypeIncompatibleException(symboleFonction.getType(), r.getType())));
-            } else {
-                r.setTailleZoneVariables(tailleZoneVariables); // On décore les retournes
+            Optional<Type> typeRetourneOptional = r.getType();
+            if (typeRetourneOptional.isPresent()) {
+                if (symboleFonction.getType() != typeRetourneOptional.get()) {
+                    GestionnaireExceptionsSemantiques.getInstance()
+                            .ajouter(new LigneDecorator(r.getNoLigne(),
+                                    new TypeIncompatibleException(symboleFonction.getType(), typeRetourneOptional.get())));
+                } else {
+                    r.setTailleZoneVariables(tailleZoneVariables); // On décore les retournes
+                }
             }
         }
 

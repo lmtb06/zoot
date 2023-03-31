@@ -4,6 +4,8 @@ import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
+import java.util.Optional;
+
 /**
  * Représente une constante entière dans l'arbre abstrait.
  */
@@ -31,7 +33,7 @@ public class ConstanteEntiere extends Constante {
      * {@inheritDoc}
      */
     @Override
-    public Type getType() {
-        return Type.ENTIER;
+    public Optional<Type> getType() {
+        return Optional.of(Type.ENTIER);
     }
 }
