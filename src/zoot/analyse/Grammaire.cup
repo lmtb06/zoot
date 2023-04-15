@@ -295,8 +295,33 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
                     Variable v = new Variable(i, ileft + 1);
                     RESULT = new Affectation(v, e, ileft + 1) ;
                 :}
+        |
+                SI:s EXP:e ALORS:a FINSI:f
+                {:
+                    RESULT = new Condition(e, new BlocDInstructions(aleft + 1), new BlocDInstructions(fleft + 1), sleft+1) ;
+                :}
+        |
+                SI:s EXP:e ALORS LINSTF:li1 FINSI:f
+                {:
+                    RESULT = new Condition(e, li1, new BlocDInstructions(fleft + 1), sleft+1) ;
+                :}
+        |
+                SI:s EXP:e ALORS:a SINON LINSTF:li2 FINSI:f
+                {:
+                    RESULT = new Condition(e, new BlocDInstructions(aleft + 1), li2, sleft+1) ;
+                :}
+        |
+                SI:s EXP:e ALORS LINSTF:li1 SINON LINSTF:li2 FINSI:f
+                {:
+                    RESULT = new Condition(e, li1, li2, sleft+1) ;
+                :}
+        |
+                REPETER:r LINSTF:li1 JUSQUA EXP:e FINREPETER
+                {:
+                    RESULT = new Boucle (e, li1, rleft + 1) ;
+                :}
                 ;
-    
+
 EXP    ::=     CSTENTIERE:c
                 {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
         |
