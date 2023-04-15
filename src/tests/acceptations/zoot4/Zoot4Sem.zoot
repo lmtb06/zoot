@@ -1,0 +1,28 @@
+variables
+    entier e;
+    booleen b;
+fonctions
+    entier f()
+    variables
+    debut
+        retourne 1;
+    fin
+debut
+    si e alors
+    finsi
+
+    repeter
+        ecrire e;
+    jusqua e
+    finrepeter
+
+    ecrire b + 1;
+    ecrire b + -1;
+    ecrire b * e;
+    ecrire b == e;
+    ecrire e != b;
+    ecrire non e;
+    ecrire b < e;
+    ecrire e et e;
+    ecrire e ou e;
+fin

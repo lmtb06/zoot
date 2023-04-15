@@ -1,0 +1,39 @@
+// test des opérateurs
+// Doit afficher :
+// 3
+// 6
+// vrai
+// faux
+// vrai
+// faux
+// vrai
+// 3
+// faux
+
+variables 
+    entier a;
+    entier b;
+fonctions
+	booleen f()
+		variables
+		debut
+		retourne faux;
+		fin
+ 
+debut
+   	a = 1;
+	b = 2;
+	a= b + a ;
+	b= b * a ; 
+	ecrire a ;
+	ecrire b;
+	ecrire ( a < b );
+	ecrire (a==b);
+	ecrire (a!=b);
+	ecrire ( ( a==b ) et (a!= b) ) ;
+	ecrire ( ( a==b ) ou (a!= b) ) ;
+	ecrire ( b + (-a) );
+	ecrire non ( a < b );
+	
+
+fin

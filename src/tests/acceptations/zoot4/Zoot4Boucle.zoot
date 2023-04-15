@@ -1,0 +1,35 @@
+// test de condition dans le main et en fonction
+// Doit afficher :
+// 3
+// 4
+// 5
+// 13
+// 14
+// 15
+
+variables 
+    entier a;
+    entier b;
+    booleen c;	
+fonctions
+	booleen f(entier a; entier b;)
+		variables
+		debut
+			repeter
+				b= b+1;
+				ecrire b;
+			jusqua (b==a)
+			finrepeter
+			retourne vrai;
+		fin
+ 
+debut
+	a=5;
+	b=2; 
+	repeter
+		b= b+1;
+		ecrire b;
+	jusqua (b==a)
+	finrepeter
+	c= f(15, 12);
+fin

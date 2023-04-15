@@ -127,10 +127,18 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions {
     @Override
     public void ajouter(Boucle b) {
         instructions.ajouter(b);
+        for (Iterator<Instruction> it = b.iterator(); it.hasNext(); ) {
+            Instruction i = it.next();
+            retournes.add((Retourne) i);
+        }
     }
 
     @Override
     public void ajouter(Condition c) {
         instructions.ajouter(c);
+        for (Iterator<Instruction> it = c.iterator(); it.hasNext(); ) {
+            Instruction i = it.next();
+            retournes.add((Retourne) i);
+        }
     }
 }

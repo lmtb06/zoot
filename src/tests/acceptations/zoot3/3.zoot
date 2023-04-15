@@ -1,0 +1,15 @@
+variables
+    entier a;
+fonctions
+    entier f (entier x; booleen z;)
+    variables
+    entier a;
+    debut
+        a = 15;
+        ecrire z;
+        retourne x;
+    fin
+debut
+    ecrire f(10, vrai);
+    ecrire a;
+fin
