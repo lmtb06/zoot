@@ -1,0 +1,34 @@
+// test de condition dans le main et en fonction
+// Doit afficher :
+// faux
+// faux
+
+variables 
+    entier a;
+    entier b;
+fonctions
+	booleen f(entier a; entier b;)
+		variables
+		debut
+		si (a<b)
+		alors
+			retourne vrai;
+		sinon 
+			retourne faux;
+		finsi
+		
+		fin
+ 
+debut
+	a=11;
+	b=2; 
+	si (a<b)
+	alors
+		ecrire vrai;
+	sinon  	
+		ecrire faux;
+	finsi
+	ecrire f(a,b);
+	
+
+fin

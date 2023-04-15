@@ -1,0 +1,44 @@
+// Doit afficher
+// 1
+// 11
+// 11
+// 11
+
+variables
+    entier e;
+fonctions
+    entier f()
+    variables
+    debut
+        retourne 1;
+    fin
+    entier f(entier cpt;)
+    variables
+    debut
+        si 0 < cpt alors 
+            retourne f(cpt+-1)+1;
+        sinon
+            retourne f();
+        finsi
+    fin
+    entier f(entier cpt; booleen rec;)
+    variables
+        entier res;
+    debut
+        si rec alors
+            res = f(cpt);
+        sinon
+            res = 1;
+            repeter
+                res = res + 1;
+            jusqua cpt < res
+            finrepeter
+        finsi
+        retourne res;
+    fin
+debut
+    ecrire f();
+    ecrire f(10);
+    ecrire f(10, vrai);
+    ecrire f(10, faux);
+fin

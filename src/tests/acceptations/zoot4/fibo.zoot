@@ -1,0 +1,49 @@
+// Doit afficher :
+// 34
+// 34
+
+variables
+    entier e;
+fonctions
+
+    entier fibo(entier e;)
+    variables
+    debut
+        si e == 0 alors
+            retourne 0;
+        sinon
+            si e == 1 alors
+                retourne 1;
+            sinon
+                retourne (fibo(e + (-1)) + fibo(e + (-2)));
+            finsi
+        finsi
+    fin
+    
+    entier fibo2(entier e;)
+    variables
+        entier suivant;
+        entier i;
+        entier nbr1;
+        entier nbr2;
+    debut
+        i = 0;
+        nbr1 = 0;
+        nbr2 = 1;
+        repeter
+            si (i < 1) ou (i == 1) alors
+                suivant = i;
+            sinon
+                suivant = nbr1 + nbr2;
+                nbr1 = nbr2;
+                nbr2 = suivant;
+            finsi
+            i = i + 1;
+        jusqua non(i < (e + 1))
+        finrepeter
+        retourne suivant;
+    fin
+debut
+    ecrire fibo(9);
+    ecrire fibo2(9);
+fin
