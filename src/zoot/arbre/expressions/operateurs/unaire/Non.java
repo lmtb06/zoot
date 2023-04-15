@@ -1,6 +1,8 @@
 package zoot.arbre.expressions.operateurs.unaire;
 
 import zoot.arbre.expressions.Expression;
+import zoot.code_generation.MipsGenerator;
+import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
 import java.util.List;
@@ -18,6 +20,10 @@ public class Non extends Unaire {
 
     @Override
     public String toMips(List<String> registres) {
-        return null;
+
+        MipsGenerator mg = MipsGenerator.getInstance();
+
+        return expression.toMips(registres)
+                + mg.operationNon(Registre.STOCKAGE_RESULTAT.valeur, Registre.STOCKAGE_RESULTAT.valeur);
     }
 }

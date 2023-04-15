@@ -37,7 +37,12 @@ public class ConstanteBooleene extends Constante {
 
     @Override
     public String toMips(List<String> registres) {
-        // TODO
-        return "";
+        StringBuilder sb = new StringBuilder();
+        MipsGenerator mg = MipsGenerator.getInstance();
+        switch (cste) {
+            case "vrai" -> sb.append(mg.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, "1"));
+            case "faux" -> sb.append(mg.chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, "0"));
+        }
+        return sb.toString();
     }
 }

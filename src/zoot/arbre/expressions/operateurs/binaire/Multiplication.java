@@ -26,6 +26,6 @@ public class Multiplication extends Binaire {
                 + mg.empilerContenuRegistre(Registre.STOCKAGE_RESULTAT.valeur)
                 + droite.toMips(registres)
                 + mg.depilerVersRegistre(Registre.STOCKAGE_TEMPORAIRE.valeur)
-                + mg.multiplication(Registre.STOCKAGE_RESULTAT.valeur, Registre.STOCKAGE_RESULTAT.valeur, Registre.STOCKAGE_TEMPORAIRE.valeur);
+                + mg.multiplication(Registre.STOCKAGE_RESULTAT.valeur, Registre.STOCKAGE_TEMPORAIRE.valeur, Registre.STOCKAGE_RESULTAT.valeur);
     }
 }

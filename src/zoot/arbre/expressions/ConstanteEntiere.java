@@ -40,7 +40,6 @@ public class ConstanteEntiere extends Constante {
 
     @Override
     public String toMips(List<String> registres) {
-        // TODO
-        return "";
+        return MipsGenerator.getInstance().chargementImmediat(Registre.STOCKAGE_RESULTAT.valeur, cste);
     }
 }

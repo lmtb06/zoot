@@ -118,7 +118,6 @@ public class AppelFonction extends Identifiable {
 
     @Override
     public String toMips(List<String> registres) {
-        // TODO
-        return "";
+        return MipsGenerator.getInstance().executerFonctionEtMettreResultatDansRegistre(this, Registre.STOCKAGE_RESULTAT.valeur);
     }
 }
