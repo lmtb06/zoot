@@ -33,6 +33,12 @@ namespace zoot.arbre.instructions {
         + void verifier()
 		+ String toMIPS()
         + void sAjouter(ConteneurDInstructions c)
+        + void ajouter(Ecrire e)
+        + void ajouter(Affectation a)
+        + void ajouter(Retourne e)
+        + void ajouter(ConteneurDInstructions c)
+        + void ajouter(Boucle b)
+        + void ajouter(Condition c)
     }
 
     class Boucle {
@@ -40,6 +46,12 @@ namespace zoot.arbre.instructions {
         + void verifier()
 		+ String toMIPS()
         + void sAjouter(ConteneurDInstructions c)
+        + void ajouter(Ecrire e)
+        + void ajouter(Affectation a)
+        + void ajouter(Retourne e)
+        + void ajouter(ConteneurDInstructions c)
+        + void ajouter(Boucle b)
+        + void ajouter(Condition c)
     }
 
     abstract class Instruction {
@@ -59,9 +71,13 @@ namespace zoot.arbre.instructions {
     Condition -down-|> Instruction
     Condition --"2" zoot.arbre.BlocDInstructions
     Condition --"1" zoot.arbre.expressions.Expression : condition
+    Condition ..|> zoot.arbre.ConteneurDInstructions
+    Condition --"*" Retourne
     Boucle -up-|> Instruction
     Boucle --"1" zoot.arbre.BlocDInstructions
     Boucle --"1" zoot.arbre.expressions.Expression : condition
+    Boucle ..|> zoot.arbre.ConteneurDInstructions
+    Boucle --"*" Retourne
 }
 
 @enduml
