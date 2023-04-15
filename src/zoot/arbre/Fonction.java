@@ -1,9 +1,6 @@
 package zoot.arbre;
 
-import zoot.arbre.instructions.Affectation;
-import zoot.arbre.instructions.Ecrire;
-import zoot.arbre.instructions.Instruction;
-import zoot.arbre.instructions.Retourne;
+import zoot.arbre.instructions.*;
 import zoot.code_generation.MipsGenerator;
 import zoot.exceptions.FonctionSansRetourneException;
 import zoot.exceptions.GestionnaireExceptionsSemantiques;
@@ -125,5 +122,15 @@ public class Fonction extends ArbreAbstrait implements ConteneurDInstructions {
             Instruction i = it.next();
             i.sAjouter(this);
         }
+    }
+
+    @Override
+    public void ajouter(Boucle b) {
+        instructions.ajouter(b);
+    }
+
+    @Override
+    public void ajouter(Condition c) {
+        instructions.ajouter(c);
     }
 }

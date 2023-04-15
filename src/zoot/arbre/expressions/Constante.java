@@ -36,4 +36,8 @@ public abstract class Constante extends Expression {
         return cste;
     }
 
+    @Override
+    public int getNombreDePlaces() {
+        return 1;
+    }
 }

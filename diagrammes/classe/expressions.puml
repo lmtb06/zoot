@@ -5,24 +5,29 @@ namespace zoot.arbre.expressions {
     abstract class Expression {
         # Expression(int n)
         + Optional<Type> getType()
+        + abstract int getNombreDePlaces()
+        + abstract String toMips(List<String> registres)
     }
 
     abstract class Constante {
         # String cste
         # Constante(String texte, int n)
         + String toString()
+        + int getNombreDePlaces()
     }
 
     class ConstanteEntiere {
         + ConstanteEntiere(String texte, int n)
         + Optional<Type> getType()
         + String toMIPS()
+        + String toMips(List<String> registres)
     }
 
     class ConstanteBooleene {
         + ConstanteBooleene(String texte, int n)
         + Optional<Type> getType()
         + String toMIPS()
+        + String toMips(List<String> registres)
 
     }
 
@@ -30,6 +35,7 @@ namespace zoot.arbre.expressions {
         - String identifiant
         + Identifiable(String identifiant, int n)
         + Optional<Type> getType()
+        + int getNombreDePlaces()
     }
 
     class Variable {
@@ -42,6 +48,7 @@ namespace zoot.arbre.expressions {
         + int getNiveauImbrication()
         + void verifier()
         + String toMIPS()
+        + String toMips(List<String> registres)
     }
 
     class AppelFonction {
@@ -60,7 +67,85 @@ namespace zoot.arbre.expressions {
         + Iterator<Expression> getParametres()
         + void verifier()
         + String toMIPS()
+        + String toMips(List<String> registres)
     }
+
+    namespace operateurs {
+        namespace binaire {
+            abstract Binaire {
+                + Binaire(Expression gauche, Expression droite, int n)
+                + int getNombreDePlaces()
+                + void verifier()
+                + String toMIPS()
+            }
+
+            class Somme {
+                + Somme(Expression gauche, Expression droite, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+
+            class Multiplication {
+                + Multiplication(Expression gauche, Expression droite, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+
+            class InferieurA {
+                + InferieurA(Expression gauche, Expression droite, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+
+            class EquivautA {
+                + EquivautA(Expression gauche, Expression droite, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+
+            class DifferentDe {
+                + DifferentDe(Expression gauche, Expression droite, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+
+            class Et {
+                + Et(Expression gauche, Expression droite, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+
+            class Ou {
+                + Ou(Expression gauche, Expression droite, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+        }
+
+        namespace unaire {
+            abstract Unaire {
+                + Unaire(Expression expression, int n)
+                + int getNombreDePlaces()
+                + abstract String toMips(List<String> registres)
+                + String toMIPS()
+                + void verifier()
+            }
+
+            class Moins {
+                + Moins(Expression expression, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+
+            class Non {
+                + Non(Expression expression, int n)
+                + String toMips(List<String> registres)
+                + Optional<Type> getType()
+            }
+        }
+
+    }
+
     ' Relations entre les classes
     Expression -up-|> zoot.arbre.ArbreAbstrait
     Constante -up-|> Expression
@@ -71,5 +156,19 @@ namespace zoot.arbre.expressions {
     Variable -up-|> Identifiable
     AppelFonction -left-|> Identifiable
     AppelFonction --"*" Expression : parametres
+    Binaire -right-|> Expression
+    Somme -up-|> Binaire
+    Multiplication -up-|> Binaire
+    DifferentDe -up-|> Binaire
+    Et -up-|> Binaire
+    EquivautA -down-|> Binaire
+    Ou -down-|> Binaire
+    InferieurA -down-|> Binaire
+    Binaire --"2" Expression : expressions
+    Unaire --"1" Expression
+
+    Unaire --|> Expression
+    Non -down-|> Unaire
+    Moins -down-|> Unaire
 }
 @enduml

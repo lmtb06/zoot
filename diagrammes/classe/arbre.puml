@@ -29,6 +29,8 @@ namespace zoot.arbre {
     + void ajouter(Affectation a)
     + void ajouter(Retourne e)
     + void ajouter(ConteneurDInstructions c)
+    + void ajouter(Boucle b)
+    + ajouter(Condition c)
   }
 
   class BlocDInstructions {
@@ -37,6 +39,8 @@ namespace zoot.arbre {
     + void ajouter(Ecrire e)
     + void ajouter(Affectation a)
     + void ajouter(Retourne r)
+    + void ajouter(Boucle b)
+    + ajouter(Condition c)
     + void verifier()
     + String toMIPS()
     + String toString()
@@ -50,6 +54,8 @@ namespace zoot.arbre {
     + void ajouter(Affectation a)
     + void ajouter(Retourne r)
     + void ajouter(ConteneurDInstructions c)
+    + void ajouter(Boucle b)
+    + ajouter(Condition c)
     + String getEtiquette()
     + int getTailleZoneVariables()
     + void verifier()

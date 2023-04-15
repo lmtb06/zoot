@@ -4,6 +4,7 @@ import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,5 +36,11 @@ public class ConstanteEntiere extends Constante {
     @Override
     public Optional<Type> getType() {
         return Optional.of(Type.ENTIER);
+    }
+
+    @Override
+    public String toMips(List<String> registres) {
+        // TODO
+        return "";
     }
 }

@@ -28,6 +28,20 @@ namespace zoot.arbre.instructions {
         + int getTailleZoneVariables()
     }
 
+    class Condition {
+        + Condition (Expression condition, BlocDInstructions blocConditionVerifiee, BlocDInstructions blocConditionNonVerifiee, int n)
+        + void verifier()
+		+ String toMIPS()
+        + void sAjouter(ConteneurDInstructions c)
+    }
+
+    class Boucle {
+        + Boucle (Expression condition, BlocDInstructions instructionsBoucle, int n)
+        + void verifier()
+		+ String toMIPS()
+        + void sAjouter(ConteneurDInstructions c)
+    }
+
     abstract class Instruction {
         # Instruction(int n)
         + abstract void sAjouter(ConteneurDInstructions c)
@@ -42,6 +56,12 @@ namespace zoot.arbre.instructions {
     Affectation *-down- zoot.arbre.expressions.Expression
     Retourne *-- zoot.arbre.expressions.Expression
     Retourne --|> Instruction
+    Condition -down-|> Instruction
+    Condition --"2" zoot.arbre.BlocDInstructions
+    Condition --"1" zoot.arbre.expressions.Expression : condition
+    Boucle -up-|> Instruction
+    Boucle --"1" zoot.arbre.BlocDInstructions
+    Boucle --"1" zoot.arbre.expressions.Expression : condition
 }
 
 @enduml

@@ -57,6 +57,18 @@ namespace zoot.exceptions {
         + FonctionSansRetourneException(Fonction f)
     }
 
+    class TypeIncompatibleAvecBinaireException {
+        + TypeIncompatibleAvecBinaireException(Type typeOperateur, Type typeGauche, Type typeDroite)
+    }
+
+    class TypeConditionException {
+        + TypeConditionConditionException (Type typeObtenu)
+    }
+
+    class TypeConditionBoucleException {
+        + TypeConditionBoucleException (Type typeObtenu)
+    }
+
     class LigneDecorator {
         - int ligne
         + LigneDecorator(int ligne, AnalyseSemantiqueException)
@@ -79,5 +91,8 @@ namespace zoot.exceptions {
     FonctionSansRetourneException -up-|> AnalyseSemantiqueException
     LigneDecorator --|> AnalyseSemantiqueDecorator
     GestionnaireExceptionsSemantiques -down-"*" AnalyseSemantiqueException
+    TypeIncompatibleAvecBinaireException -down-|> AnalyseSemantiqueException
+    TypeConditionBoucleException --|> AnalyseSemantiqueException
+    TypeConditionConditionException --|> AnalyseSemantiqueException
 }
 @enduml
