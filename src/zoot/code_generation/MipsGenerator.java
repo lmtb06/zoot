@@ -70,7 +70,7 @@ public class MipsGenerator {
     }
 
     public String somme(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
-        return "add " + registreDestination + ", " + registreOperandeGauche + ", " + registreOperandeDroite + "\n";
+        return "addu " + registreDestination + ", " + registreOperandeGauche + ", " + registreOperandeDroite + "\n";
     }
 
     public String multiplication(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
@@ -86,28 +86,28 @@ public class MipsGenerator {
         return "and " + registreDestination + ", " + registreOperandeGauche + ", " + registreOperandeDroite + "\n";
     }
 
-    public String OperationEquivaut(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
+    public String operationEquivaut(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
         // On fait un xor du registre gauche et droite (si equivalent xor des deux == 0) et on verifie que le resultat < 1 (non signé)
         return "xor " + registreDestination + ", " + registreOperandeGauche + ", " + registreOperandeDroite + "\n" +
                 "sltiu " + registreDestination + ", " + registreDestination + ", " + "1\n";
     }
 
-    public String OperationDifferentDe(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
+    public String operationDifferentDe(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
         // On verifie que les deux ne sont pas equivalent (si non result = 0) et on verifie que le resultat < 1
-        return OperationEquivaut(registreDestination, registreOperandeGauche, registreOperandeDroite) +
+        return operationEquivaut(registreDestination, registreOperandeGauche, registreOperandeDroite) +
                 "sltiu " + registreDestination + ", " + registreDestination + ", " + "1\n";
     }
 
-    public String OperationInferieurA(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
+    public String operationInferieurA(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
         return "slt " + registreDestination + ", " + registreOperandeGauche + ", " + registreOperandeDroite + "\n";
     }
 
-    public String OperationNon(String registreDestination, String registreOperande) {
+    public String operationNon(String registreDestination, String registreOperande) {
         return "xori " + registreDestination + ", " + registreOperande + ", 1\n"; // Ou exclusif avec 1
     }
 
-    public String OperationEt(String registreDestination, String registreOperandeGauche, String registreOperandeDroite) {
-        return "slt " + registreDestination + ", " + registreOperandeGauche + ", " + registreOperandeDroite + "\n";
+    public String operationMoins(String registreDestination, String registreOperande) {
+        return "neg " + registreDestination + ", " + registreOperande + "\n";
     }
 
     public String sauvegarderContenuRegistreDansAdresseContenuDansRegistre(String registreSource, String registreDestination, int deplacement) {

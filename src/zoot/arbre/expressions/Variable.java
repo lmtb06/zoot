@@ -72,7 +72,7 @@ public class Variable extends Identifiable {
 
     @Override
     public String toMips(List<String> registres) {
-        // TODO
-        return "";
+        return MipsGenerator.getInstance()
+                .chargerContenuVariableDansRegistre(this, Registre.STOCKAGE_RESULTAT.valeur);
     }
 }
