@@ -9,6 +9,8 @@ import zoot.exceptions.VariableNonDeclarerException;
 import zoot.tds.TDS;
 import zoot.tds.entrees.EntreeVariable;
 
+import java.util.List;
+
 public class Variable extends Identifiable {
     private int deplacement = 0;
     private int niveauImbrication;
@@ -66,5 +68,11 @@ public class Variable extends Identifiable {
     public String toMIPS() {
         return MipsGenerator.getInstance()
                 .chargerContenuVariableDansRegistre(this, Registre.STOCKAGE_RESULTAT.valeur);
+    }
+
+    @Override
+    public String toMips(List<String> registres) {
+        // TODO
+        return "";
     }
 }

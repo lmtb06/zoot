@@ -23,6 +23,14 @@ namespace zoot.code_generation {
         + String copieRegistreRegistre(String registreSource, String registreDestination)
         + String chargementContenuAdresseDansRegistreDansRegistre(String registreSource, String registreDestination, int deplacement)
         + String sauvegarderContenuRegistreDansAdresseContenuDansRegistre(String registreSource, String registreDestination, int deplacement)
+        + String somme(String registreDestination, String registreOperandeGauche, String registreOperandeDroite)
+        + String multiplication(String registreDestination, String registreOperandeGauche, String registreOperandeDroite)
+        + String operationOR(String registreDestination, String registreOperandeGauche, String registreOperandeDroite)
+        + String operationAND(String registreDestination, String registreOperandeGauche, String registreOperandeDroite)
+        + String OperationEquivaut(String registreDestination, String registreOperandeGauche, String registreOperandeDroite)
+        + String OperationDifferentDe(String registreDestination, String registreOperandeGauche, String registreOperandeDroite)
+        + String OperationInferieurA(String registreDestination, String registreOperandeGauche, String registreOperandeDroite)
+        + String OperationNon(String registreDestination, String registreOperande)
         .. Gestion des variables ..
         + String chargerContenuVariableDansRegistre(Variable variableSource, String registreDestination)
         + String sauvegarderContenuRegistreDansVariable(String registreSource, Variable variableDestination)
@@ -36,6 +44,8 @@ namespace zoot.code_generation {
         .. Gestion de la pile ..
         + String reserverOctetsPile(int nbOctets)
         + String libererOctetsPile(int nbOctets)
+        + String empilerContenuRegistre(String registre)
+        + String depilerVersRegistre(String registre)
         .. Gestion de l'affichage ..
         + String afficherCaractere(String valeur)
         + String afficherEntierRegistre(String registre)

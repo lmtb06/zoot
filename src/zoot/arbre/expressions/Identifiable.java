@@ -26,4 +26,9 @@ public abstract class Identifiable extends Expression {
 
         return type;
     }
+
+    @Override
+    public int getNombreDePlaces() {
+        return 1;
+    }
 }

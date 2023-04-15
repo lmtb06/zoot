@@ -4,6 +4,7 @@ import zoot.code_generation.MipsGenerator;
 import zoot.code_generation.Registre;
 import zoot.tds.Type;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ConstanteBooleene extends Constante {
@@ -32,5 +33,11 @@ public class ConstanteBooleene extends Constante {
     @Override
     public Optional<Type> getType() {
         return Optional.of(Type.BOOLEEN);
+    }
+
+    @Override
+    public String toMips(List<String> registres) {
+        // TODO
+        return "";
     }
 }

@@ -1,9 +1,6 @@
 package zoot.arbre;
 
-import zoot.arbre.instructions.Affectation;
-import zoot.arbre.instructions.Ecrire;
-import zoot.arbre.instructions.Instruction;
-import zoot.arbre.instructions.Retourne;
+import zoot.arbre.instructions.*;
 
 import java.util.Iterator;
 
@@ -43,4 +40,8 @@ public interface ConteneurDInstructions {
      * @param c l'autre conteneur
      */
     void ajouter(ConteneurDInstructions c);
+
+    void ajouter(Boucle b);
+
+    void ajouter(Condition c);
 }

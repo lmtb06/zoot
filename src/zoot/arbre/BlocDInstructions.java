@@ -1,9 +1,6 @@
 package zoot.arbre;
 
-import zoot.arbre.instructions.Affectation;
-import zoot.arbre.instructions.Ecrire;
-import zoot.arbre.instructions.Instruction;
-import zoot.arbre.instructions.Retourne;
+import zoot.arbre.instructions.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -112,5 +109,15 @@ public class BlocDInstructions extends ArbreAbstrait implements ConteneurDInstru
             Instruction i = it.next();
             i.sAjouter(this);
         }
+    }
+
+    @Override
+    public void ajouter(Boucle b) {
+        instructions.add(b);
+    }
+
+    @Override
+    public void ajouter(Condition c) {
+        instructions.add(c);
     }
 }

@@ -10,10 +10,7 @@ import zoot.tds.TDS;
 import zoot.tds.Type;
 import zoot.tds.entrees.EntreeFonction;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
 
 public class AppelFonction extends Identifiable {
     private int niveauImbrication;
@@ -117,5 +114,11 @@ public class AppelFonction extends Identifiable {
     @Override
     public String toMIPS() {
         return MipsGenerator.getInstance().executerFonctionEtMettreResultatDansRegistre(this, Registre.STOCKAGE_RESULTAT.valeur);
+    }
+
+    @Override
+    public String toMips(List<String> registres) {
+        // TODO
+        return "";
     }
 }

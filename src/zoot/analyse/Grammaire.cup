@@ -4,6 +4,8 @@ import java.util.*;
 import zoot.analyse.* ;
 import zoot.arbre.* ;
 import zoot.arbre.expressions.* ;
+import zoot.arbre.expressions.operateurs.binaire.* ;
+import zoot.arbre.expressions.operateurs.unaire.* ;
 import zoot.arbre.instructions.* ;
 import zoot.code_generation.* ;
 import zoot.exceptions.*;
@@ -61,8 +63,10 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN, POINTVIRGULE, ECRIRE, EGAL, PARENTHESEOUVERTE,
-PARENTHESEFERMEE, RETOURNE, VIRGULE ;
+terminal Symbol    VARIABLES, FONCTIONS, DEBUT, FIN,
+ECRIRE, RETOURNE, REPETER, JUSQUA, FINREPETER, SI, ALORS, SINON, FINSI,
+EGAL, POINTVIRGULE, PARENTHESEOUVERTE, PARENTHESEFERMEE, VIRGULE, NON, MOINS, PLUS, FOIS, INFERIEURA, EQUIVAUTA, DIFFERENTDE,
+ET, OU;
 terminal String    TYPE, CSTENTIERE, CSTBOOL, IDF ;
 
 /* Non terminals used in the grammar section.  */
@@ -76,6 +80,17 @@ non terminal ArrayList<Expression> LEXP;
 non terminal String[] DECL;
 non terminal ArrayList<String[]> LDECL, VARSF, PARAMETRES;
 non terminal ArrayList<Expression> PAR_EFF ;
+
+precedence left OU;
+precedence left ET;
+precedence left DIFFERENTDE;
+precedence left EQUIVAUTA;
+precedence left INFERIEURA;
+precedence left PLUS;
+precedence left FOIS;
+precedence left MOINS;
+precedence left NON;
+precedence nonassoc PARENTHESEOUVERTE, PARENTHESEFERMEE;
 
 /* ----------------------------Grammar Section-------------------- */
 
@@ -300,7 +315,58 @@ EXP    ::=     CSTENTIERE:c
                     Expression[] tableauParametres = p.toArray(new Expression[p.size()]);
                     RESULT = new AppelFonction(i, ileft + 1, tableauParametres);
                :}
+        |
+                NON EXP:exp
+                {:
+                    RESULT = new Non(exp, expleft + 1) ;
+               :}
+       |
+               MOINS EXP:exp
+               {:
+                   RESULT = new Moins(exp, expleft + 1) ;
+              :}
+        |
+               EXP:e1 PLUS EXP:e2
+               {:
+                   RESULT = new Somme(e1, e2, e1left + 1) ;
+              :}
+       |
+              EXP:e1 FOIS EXP:e2
+              {:
+                  RESULT = new Multiplication(e1, e2, e1left + 1) ;
+             :}
+       |
+             EXP:e1 INFERIEURA EXP:e2
+             {:
+                 RESULT = new InferieurA(e1, e2, e1left + 1) ;
+            :}
+       |
+            EXP:e1 EQUIVAUTA EXP:e2
+            {:
+                RESULT = new EquivautA(e1, e2, e1left + 1) ;
+           :}
+       |
+           EXP:e1 DIFFERENTDE EXP:e2
+           {:
+               RESULT = new DifferentDe(e1, e2, e1left + 1) ;
+          :}
+       |
+          EXP:e1 ET EXP:e2
+          {:
+              RESULT = new Et(e1, e2, e1left + 1) ;
+         :}
+       |
+         EXP:e1 OU EXP:e2
+         {:
+             RESULT = new Ou(e1, e2, e1left + 1) ;
+        :}
+       |
+        PARENTHESEOUVERTE EXP:e1 PARENTHESEFERMEE
+        {:
+            RESULT = e1 ;
+       :}
                 ;
+
 
 LEXP    ::=     LEXP:le VIRGULE EXP:e
                 {:
